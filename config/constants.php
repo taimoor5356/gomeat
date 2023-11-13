@@ -1,5 +1,5 @@
 <?php
-
+// setup constants
 return [
     'jazzcash' => [
         'MERCHANT_ID' => 'MC61409',

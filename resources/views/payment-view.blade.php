@@ -296,8 +296,7 @@
                             </div>
                         </div>
                     @endif
-
-
+                    <!-- Paymob -->
                     @php($config=\App\CentralLogics\Helpers::get_business_settings('paymob_accept'))
                     @if($config['status'])
                         <div class="col-md-6 mb-4" style="cursor: pointer">

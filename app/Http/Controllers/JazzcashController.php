@@ -133,6 +133,8 @@ class JazzcashController extends Controller
         print_r($postData);
         echo '</pre>';
 
+        echo "You will be redirected";
+
         return view('jazzcash-checkout');
     }
 }

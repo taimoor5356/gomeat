@@ -16,6 +16,7 @@
         @endforeach
     </form>
 </body>
+<!-- Javascript -->
 <script type="text/javascript">
     function closethisapp() {
         document.forms['redirectpost'].submit();

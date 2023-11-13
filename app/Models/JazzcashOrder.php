@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class JazzcashOrder extends Model
 {
     use HasFactory;
-
+    // mass assignment
     protected $guarded = ['id'];
 }

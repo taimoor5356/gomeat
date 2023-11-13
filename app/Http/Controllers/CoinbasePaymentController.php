@@ -30,7 +30,6 @@ class CoinbasePaymentController extends Controller
         // return $customer->f_name;
 
         // $order_id = session('order_id');
-        // return $order_id;
 
 
         if($customer)
@@ -52,7 +51,6 @@ class CoinbasePaymentController extends Controller
 
                 $tran = Str::random(6) . '-' . rand(1, 1000);
                 session()->put('transaction_ref', $tran);
-
                 $response = Http::withHeaders([
                     'X-CC-Api-Key' => '2faca458-a3ef-4ff3-a708-95c795f34a10',
                     'X-CC-Version' => '2018-03-22',
