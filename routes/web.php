@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JazzcashController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -83,6 +84,17 @@ return redirect('/admin/auth/login');
 
 Route::get('payment-success', 'PaymentController@success')->name('payment-success');
 Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// JazzCash payment
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('/jazzcash-checkout/{product_id}', [JazzcashController::class, 'show'])->name('jazzcash.show');
+Route::post('/checkout-jazzcash', [JazzcashController::class, 'checkOut'])->name('jazzcash.checkout');
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// JazzCash payment
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('coinbase-payment-success/{order_id}/{customer_id}', 'PaymentController@coinbase_success')->name('coinbase-payment-success');
 Route::get('coinbase-payment-fail/{order_id}/{customer_id}', 'PaymentController@coinbase_fail')->name('coinbase-payment-fail');
