@@ -239,6 +239,7 @@
                                 <th style="width: 20%">{{translate('messages.category')}}</th>
                                 <th style="width: 15%">{{translate('messages.store')}}</th>
                                 <th>{{translate('messages.price')}}</th>
+                                <th>Weight</th>
                                 <th>Sales Tax %</th>
                                 <th>Order Count</th>
                               
@@ -249,7 +250,7 @@
 
                             <tbody id="set-rows">
                             @foreach($items as $key=>$item)
-                                <tr>
+                                <tr class="@if($item->currency == 'Rs') bg-success text-white @endif">
                                     <td>{{$key+$items->firstItem()}}</td>
                                     <td>
                                         <a class="media align-items-center" href="{{route('admin.item.view',[$item['id']])}}">
@@ -266,7 +267,8 @@
                                     <td>
                                     {{Str::limit($item->store?$item->store->name:translate('messages.store deleted!'), 20, '...')}}
                                     </td>
-                                    <td>{{\App\CentralLogics\Helpers::format_currency($item['price'])}}</td>
+                                    <td>{{$item->currency}}{{round($item->price, 2)}}</td>
+                                    <td>{{$item->weight}} @isset($item->unit){{$item->unit->unit}}@endisset</td>
                                     <td>{{$item['sales_tax']}}</td>
                                     <td>{{$item['order_count']}}</td>
                                    

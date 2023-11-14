@@ -103,7 +103,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4 col-6">
+                        <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.price')}}</label>
                                 <input type="number" value="{{$product['price']}}" min="0" max="999999999999.99" name="price"
@@ -111,8 +111,18 @@
                                        placeholder="Ex : 100" required>
                             </div>
                         </div>
+                        <div class="col-md-3 col-6">
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">Currency</label>
+                                <select name="currency" class="form-control js-select2-custom">
+                                    <option value="" selected disabled>Select Currency</option>
+                                    <option value="$" @isset($product) @if($product['currency'] == '$') selected @endif @endisset>($) Dollar</option>
+                                    <option value="Rs" @isset($product) @if($product['currency'] == 'Rs') selected @endif @endisset>(Rs) Rupees</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        <div class="col-md-4 col-6">
+                        <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
                                 <select name="discount_type" class="form-control js-select2-custom">
@@ -125,7 +135,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6">
+                        <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}}</label>
                                 <input type="number" min="0" value="{{$product['discount']}}" max="100000"
@@ -145,6 +155,17 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">Weight</label>
+                                <input type="number" value="{{$product['weight']}}"
+                                       name="weight" class="form-control"
+                                       placeholder="Ex : 100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-6" id="veg_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.item_type')}}</label>
@@ -154,9 +175,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlSelect1">{{translate('messages.category')}}<span

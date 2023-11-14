@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6" id="unit_input">
+                        <div class="col-4" id="unit_input">
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
                                 <select name="unit" class="form-control js-select2-custom">
@@ -133,7 +133,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">Weight</label>
+                                <input type="number" value="0" name="weight" class="form-control"
+                                       placeholder="Ex : 100" >
+                            </div>
+                        </div>
+                        <div class="col-4">
                             <div class="form-group" id="veg_input">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.item_type')}}</label>
                                 <select name="veg" class="form-control js-select2-custom" required>
