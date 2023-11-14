@@ -1841,4 +1841,6 @@ Stack trace:
 #51 /home/ondezmgh/public html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(111): Illuminate\\Foundation\\Http\\Kernel- sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #52 /home/ondezmgh/public html/index.php(55): Illuminate\\Foundation\\Http\\Kernel- handle(Object(Illuminate\\Http\\Request))
 #53 {main}',
+  'selcetion_type' => 'Selcetion type',
+  'Delete' => 'Delete',
 );

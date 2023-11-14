@@ -98,17 +98,17 @@
                         <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Currency</label>
-                                <select name="currency" class="form-control js-select2-custom">
+                                <select name="currency" class="form-control">
                                     <option value="" selected disabled>Select Currency</option>
-                                    <option value="$">($) Dollar</option>
-                                    <option value="Rs">(Rs) Rupees</option>
+                                    <option value="$">USD</option>
+                                    <option value="Rs">PKR</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
-                                <select name="discount_type" class="form-control js-select2-custom">
+                                <select name="discount_type" class="form-control">
                                     <option value="percent">{{translate('messages.percent')}}</option>
                                     <option value="amount">{{translate('messages.amount')}}</option>
                                 </select>
@@ -126,7 +126,7 @@
                         <div class="col-4" id="unit_input">
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
-                                <select name="unit" class="form-control js-select2-custom">
+                                <select name="unit" class="form-control">
                                     @foreach (\App\Models\Unit::all() as $unit)
                                         <option value="{{$unit->id}}">{{$unit->unit}}</option>
                                     @endforeach
@@ -143,7 +143,7 @@
                         <div class="col-4">
                             <div class="form-group" id="veg_input">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.item_type')}}</label>
-                                <select name="veg" class="form-control js-select2-custom" required>
+                                <select name="veg" class="form-control" required>
                                     <option value="0">{{translate('messages.non_veg')}}</option>
                                     <option value="1">{{translate('messages.veg')}}</option>
                                 </select>

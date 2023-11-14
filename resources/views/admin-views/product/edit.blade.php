@@ -114,7 +114,7 @@
                         <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Currency</label>
-                                <select name="currency" class="form-control js-select2-custom">
+                                <select name="currency" class="form-control">
                                     <option value="" selected disabled>Select Currency</option>
                                     <option value="$" @isset($product) @if($product['currency'] == '$') selected @endif @endisset>($) Dollar</option>
                                     <option value="Rs" @isset($product) @if($product['currency'] == 'Rs') selected @endif @endisset>(Rs) Rupees</option>
@@ -125,7 +125,7 @@
                         <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
-                                <select name="discount_type" class="form-control js-select2-custom">
+                                <select name="discount_type" class="form-control">
                                     <option value="percent" {{$product['discount_type']=='percent'?'selected':''}}>
                                         {{translate('messages.percent')}}
                                     </option>
@@ -148,7 +148,7 @@
                         <div class="col-6" id="unit_input">
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
-                                <select name="unit" class="form-control js-select2-custom">
+                                <select name="unit" class="form-control">
                                     @foreach (\App\Models\Unit::all() as $unit)
                                         <option value="{{$unit->id}}" {{$unit->id == $product->unit_id? 'selected':''}}>{{$unit->unit}}</option>
                                     @endforeach
@@ -169,7 +169,7 @@
                         <div class="col-6" id="veg_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.item_type')}}</label>
-                                <select name="veg" class="form-control js-select2-custom">
+                                <select name="veg" class="form-control">
                                     <option value="0" {{$product['veg']==0?'selected':''}}>{{translate('messages.non_veg')}}</option>
                                     <option value="1" {{$product['veg']==1?'selected':''}}>{{translate('messages.veg')}}</option>
                                 </select>
