@@ -15,8 +15,10 @@ class UpdateDatabaseColumns extends Seeder
     public function run()
     {
         // Add currency
-        DB::table('items')->where('currency', '')->update([
+        DB::table('items')->where('currency', '!=', 'Rs')->update([
             'currency' => '$'
         ]);
+
+        dd("Done");
     }
 }
