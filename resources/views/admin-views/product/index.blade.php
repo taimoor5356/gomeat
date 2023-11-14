@@ -133,7 +133,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-4" id="weight_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Weight</label>
                                 <input type="number" value="0" name="weight" class="form-control"
@@ -695,9 +695,11 @@
                     if(module_data.veg_non_veg)
                     {
                         $('#veg_input').show();
+                        $('#weight_input').hide(); 
                     }
                     else{
-                        $('#veg_input').hide();
+                        $('#veg_input').hide(); 
+                        $('#weight_input').show();
                     }
                     if(module_data.unit)
                     {

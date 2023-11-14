@@ -155,7 +155,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" id="weight_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Weight</label>
                                 <input type="number" value="{{$product['weight']}}"
@@ -639,9 +639,11 @@
             if(module_data.veg_non_veg)
             {
                 $('#veg_input').show();
+                $('#weight_input').hide(); 
             }
             else{
                 $('#veg_input').hide();
+                $('#weight_input').show();
             }
 
             if(module_data.unit)

@@ -46,7 +46,7 @@ class ItemController extends Controller
             'image' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
             'currency' => 'required',
-            'weight' => 'required|numeric|between:.01,999999999999.99',
+            // 'weight' => 'required|numeric|between:.01,999999999999.99',
             'discount' => 'required|numeric|min:0',
             'store_id' => 'required',
             'module_id' => 'required',
@@ -210,7 +210,7 @@ class ItemController extends Controller
         $item->variations = json_encode([]);
         $item->price = $request->price;
         $item->currency = $request->currency;
-        $item->weight = $request->weight;
+        $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = Helpers::upload('product/', 'png', $request->file('image'));
         $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
         $item->available_time_ends = $request->available_time_ends ?? '23:59:59';
@@ -333,7 +333,7 @@ class ItemController extends Controller
             'category_id' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
             'currency' => 'required',
-            'weight' => 'required|numeric|between:.01,999999999999.99',
+            // 'weight' => 'required|numeric|between:.01,999999999999.99',
             'store_id' => 'required',
             'description' => 'array',
             'module_id' => 'required',
@@ -440,7 +440,7 @@ class ItemController extends Controller
         $item->variations = json_encode([]);
         $item->price = $request->price;
         $item->currency = $request->currency;
-        $item->weight = $request->weight;
+        $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
         $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
         $item->available_time_ends = $request->available_time_ends ?? '23:59:59';
