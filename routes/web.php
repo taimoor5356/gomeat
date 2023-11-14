@@ -88,7 +88,7 @@ Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // JazzCash payment
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-//
+
 Route::get('/jazzcash-checkout/{product_id}', [JazzcashController::class, 'show'])->name('jazzcash.show');
 Route::post('/checkout-jazzcash', [JazzcashController::class, 'checkOut'])->name('jazzcash.checkout');
 

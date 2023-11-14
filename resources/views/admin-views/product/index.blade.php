@@ -61,6 +61,8 @@
                         </div>
                     </div>
                     @endif
+                    <br>
+                    <hr>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -86,14 +88,24 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4 col-6">
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.price')}}</label>
                                 <input type="number" min="0" max="999999999999.99" step="0.01" value="1" name="price" class="form-control"
                                        placeholder="Ex : 100" required>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-6">
+                        <div class="col-sm-3 col-6">
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">Currency</label>
+                                <select name="currency" class="form-control js-select2-custom">
+                                    <option value="" selected disabled>Select Currency</option>
+                                    <option value="$">($) Dollar</option>
+                                    <option value="Rs">(Rs) Rupees</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
                                 <select name="discount_type" class="form-control js-select2-custom">
@@ -102,7 +114,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-6">
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}}</label>
                                 <input type="number" min="0" max="9999999999999999999999" value="0" name="discount" class="form-control"
