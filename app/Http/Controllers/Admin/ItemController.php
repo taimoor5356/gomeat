@@ -32,13 +32,6 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->all();
-
-        // dd(json_encode($request->all()));
-        // dd($request->all());
-        // dd($request['attribute_id']);
-        // dd($request->attribute_id);
-        // dd($request->options);
         $validator = Validator::make($request->all(), [
             'name.0' => 'required',
             'name.*' => 'max:191',
@@ -208,7 +201,7 @@ class ItemController extends Controller
         // dd($item);
 
         $item->variations = json_encode([]);
-        $item->price = $request->price;
+        // $item->price = $request->price;
         $item->currency = $request->currency;
         $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = Helpers::upload('product/', 'png', $request->file('image'));
@@ -226,7 +219,29 @@ class ItemController extends Controller
         $item->veg = $request->veg;
         $item->module_id = $request->module_id;
         $item->stock = $request->current_stock ?? 100000;
-        $item->sales_tax = $request->sales_tax ?? 0;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Accounts Starts
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        $item->price = $request->price; // total amount after tax calculation
+        $salesTax = !empty($request->sales_tax) ? $request->sales_tax : 0.00;
+        $item->sales_tax = $salesTax; // percentage
+        $salesTaxAmount = 0;
+        if (empty($request->sales_tax)) {
+            $sales_Tax = 16; // percentage
+            $salesTaxAmount = ($request->price * $sales_Tax) / 100; // total tax amount after tax calculation
+        } else {
+            $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
+        }
+        $item->total_sales_tax_amount = $salesTaxAmount; // sales tax amount
+        $item->product_price = $request->price - $salesTaxAmount; // product price
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Accounts Ends
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         // $item->gm_commission = $request->gm_commission ?? 0;
         $item->images = $images;
         // dd($item);
@@ -438,7 +453,7 @@ class ItemController extends Controller
         }
 
         $item->variations = json_encode([]);
-        $item->price = $request->price;
+        // $item->price = $request->price;
         $item->currency = $request->currency;
         $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
@@ -452,11 +467,34 @@ class ItemController extends Controller
         $item->add_ons = $request->has('addon_ids') ? json_encode($request->addon_ids) : json_encode([]);
         $item->store_id = $request->store_id;
         $item->module_id= $request->module_id;
-        $item->sales_tax = $request->sales_tax ?? 0;
+        // $item->sales_tax = $request->sales_tax ?? 0;
         // $item->gm_commission = $request->gm_commission ?? 0;
         $item->stock = $request->current_stock ?? 100000;
         $item->veg = $request->veg;
         $item->images = $images;
+
+        
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Accounts Starts
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        $item->price = $request->price; // total amount after tax calculation
+        $salesTax = !empty($request->sales_tax) ? $request->sales_tax : 0.00;
+        $item->sales_tax = $salesTax; // percentage
+        $salesTaxAmount = 0;
+        if (empty($request->sales_tax)) {
+            $sales_Tax = 16; // percentage
+            $salesTaxAmount = ($request->price * $sales_Tax) / 100; // total tax amount after tax calculation
+        } else {
+            $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
+        }
+        $item->total_sales_tax_amount = $salesTaxAmount; // sales tax amount
+        $item->product_price = $request->price - $salesTaxAmount; // product price
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Accounts Ends
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         
         try
