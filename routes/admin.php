@@ -164,9 +164,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::group(['middleware' => ['module:store']], function () {
                 Route::get('update-application/{id}/{status}', 'VendorController@update_application')->name('application');
-                Route::get('add', 'VendorController@index')->name('add');
+                Route::get('add/{country?}', 'VendorController@index')->name('add');
                 Route::get('clone', 'VendorController@indexClone')->name('clone');
-                Route::post('store', 'VendorController@store')->name('store');
+                Route::post('store/{country?}', 'VendorController@store')->name('store');
                 Route::post('store-clone', 'VendorController@storeClone')->name('store-clone');
                 Route::get('edit/{id}', 'VendorController@edit')->name('edit');
                 Route::post('update/{store}', 'VendorController@update')->name('update');

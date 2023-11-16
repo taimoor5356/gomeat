@@ -22,10 +22,10 @@
         <div class="page-header" style="border-bottom:0;padding-bottom:0;">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0 d-flex justify-content-between">
-                    <h1 class="page-header-title"><i class="tio-add-circle-outlined"></i> {{translate('messages.add')}} {{translate('messages.new')}} {{translate('messages.store')}} (For US)</h1>
+                    <h1 class="page-header-title"><i class="tio-add-circle-outlined"></i> {{translate('messages.add')}} {{translate('messages.new')}} {{translate('messages.store')}} (For PAK)</h1>
                     <h1>
-                        <a href="{{url('/admin/vendor/add/pk')}}" class="btn btn-primary">
-                            Add New PAK Store
+                        <a href="{{url('/admin/vendor/add')}}" class="btn btn-primary">
+                            Add New US Store
                         </a>
                     </h1>
                 </div>
@@ -34,25 +34,115 @@
         <!-- End Page Header -->
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.vendor.store')}}" method="post" enctype="multipart/form-data" class="js-validate" id="vendor_form">
+                <form action="{{route('admin.vendor.store', ['pk'])}}" method="post" enctype="multipart/form-data" class="js-validate" id="vendor_form">
                     @csrf
 
                     <small class="nav-subtitle text-secondary border-bottom">{{translate('messages.store')}} {{translate('messages.info')}}</small>
                     <br>
                     <div class="row">
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label class="input-label" for="name">{{translate('messages.store')}} {{translate('messages.name')}}</label>
-                                <input type="text" name="name" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.name')}}" value="{{old('name')}}" required>
+                        <div class="col-md-12 col-12">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="input-label" for="name">{{translate('messages.store')}} {{translate('messages.name')}}</label>
+                                    <input type="text" name="name" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.name')}}" value="{{old('name')}}" required>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="input-label" for="legal_business_name">Legal Business Name</label>
+                                    <input type="text" name="legal_business_name" class="form-control" placeholder="Enter Legal Business Name" value="{{old('legal_business_name')}}">
+                                </div>
+                                <div class="form-group col-4">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="input-label" for="sales_tax_amount">Sales Tax Amount</label>
+                                        <div class="">
+                                            Sales Tax Authority
+                                            <input type="checkbox" name="sales_tax_authority_status" id="sales_tax_authority_status" value="active">
+                                        </div>
+                                    </div>
+                                    <input type="number" id="sales_tax_amount" name="sales_tax_amount" disabled class="form-control" placeholder="Enter Sales Tax Amount" value="{{old('sales_tax_amount')}}">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="input-label" for="address">{{translate('messages.store')}} {{translate('messages.address')}}</label>
-                                <textarea type="text" name="address" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.address')}}" required >{{old('address')}}</textarea>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="input-label" for="ntn_number">Enter NTN number</label>
+                                        <div class="">
+                                            FBR Registration
+                                            <input type="checkbox" name="fbr_registration_status" id="fbr_registration_status" value="active">
+                                        </div>
+                                    </div>
+                                    <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
+                                </div>
+                                <div class="form-group col-4">
+                                    <div class="form-group">
+                                        <label class="input-label" for="strn_number">Enter STRN</label>
+                                        <input type="number" id="strn_number" name="strn_number" class="form-control" placeholder="Enter STRN" value="{{old('strn_number')}}">
+                                    </div>
+                                </div>
+                                <div class="form-group col-4">
+                                    <div class="form-group">
+                                        <label class="input-label" for="gm_commission">GoMeat Commission % <small class="text-danger">(Inclusive of Tax)</small></label>
+                                        <input type="number" name="gm_commission" class="form-control" placeholder="e.g 10.00" min="0" step=".01" value="{{old('gm_commission')}}">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="input-label" for="gm_commission">GoMeat Commission %</label>
-                                <input type="number" name="gm_commission" class="form-control" placeholder="e.g 10.00" min="0" step=".01" required value="{{old('gm_commission')}}">
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="input-label" for="address">{{translate('messages.store')}} {{translate('messages.address')}}</label>
+                                    <textarea type="text" name="address" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.address')}}" required >{{old('address')}}</textarea>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="input-label">{{translate('messages.store')}} {{translate('messages.logo')}}<small style="color: red"> ( {{translate('messages.ratio')}} 1:1 )</small></label>
+                                    <div class="custom-file">
+                                        <input type="file" name="logo" id="customFileEg1" class="custom-file-input"
+                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required>
+                                        <label class="custom-file-label" for="logo">{{translate('messages.choose')}} {{translate('messages.file')}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group col-12 m-0 p-0">
+                                        <label class="input-label">{{translate('messages.module')}}</label>
+                                        <select name="module_id" required
+                                                class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}">
+                                                <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
+                                            @foreach(\App\Models\Module::notParcel()->get() as $module)
+                                                <option value="{{$module->id}}">{{$module->module_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
+                                    </div>
+                                    
+                                    <div class="form-group col-12 m-0 p-0">
+                                        <label class="input-label" for="choice_zones">{{translate('messages.zone')}}<span
+                                                class="input-label-secondary" title="{{translate('messages.select_zone_for_map')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.select_zone_for_map')}}"></span></label>
+                                        <select name="zone_id" id="choice_zones" required
+                                                class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.zone')}}">
+                                                <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.zone')}}</option>
+                                            @foreach(\App\Models\Zone::active()->get() as $zone)
+                                                @if(isset(auth('admin')->user()->zone_id))
+                                                    @if(auth('admin')->user()->zone_id == $zone->id)
+                                                        <option value="{{$zone->id}}">{{$zone->name}}</option>
+                                                    @endif
+                                                @else
+                                                <option value="{{$zone->id}}">{{$zone->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-6 d-flex justify-content-end" style="">
+                                    <div class="form-group" style="margin-bottom:0%;">                       
+                                        <center>
+                                            <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer"
+                                                src="{{asset('public/assets/admin/img/400x400/img2.jpg')}}" alt="{{translate('store_logo')}}"/>
+                                        </center>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                             {{--
                                 <!-- <div class="form-group">
                                 <label class="input-label" for="minimum_order">Minimum Order Amount</label>
@@ -74,54 +164,9 @@
                             </div> -->
                             --}}
 
-                            <div class="form-group">
-                                <label class="input-label">{{translate('messages.store')}} {{translate('messages.logo')}}<small style="color: red"> ( {{translate('messages.ratio')}} 1:1 )</small></label>
-                                <div class="custom-file">
-                                    <input type="file" name="logo" id="customFileEg1" class="custom-file-input"
-                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required>
-                                    <label class="custom-file-label" for="logo">{{translate('messages.choose')}} {{translate('messages.file')}}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12" style="margin-top: auto;margin-bottom: auto;">
-                            <div class="form-group" style="margin-bottom:0%;">                       
-                                <center>
-                                    <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer"
-                                        src="{{asset('public/assets/admin/img/400x400/img2.jpg')}}" alt="{{translate('store_logo')}}"/>
-                                </center>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            <div class="form-group">
-                                <label class="input-label">{{translate('messages.module')}}</label>
-                                <select name="module_id" required
-                                        class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}">
-                                        <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
-                                    @foreach(\App\Models\Module::notParcel()->get() as $module)
-                                        <option value="{{$module->id}}">{{$module->module_name}}</option>
-                                    @endforeach
-                                </select>
-                                <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
-                            </div>
-                            <div class="form-group">
-                                <label class="input-label" for="choice_zones">{{translate('messages.zone')}}<span
-                                        class="input-label-secondary" title="{{translate('messages.select_zone_for_map')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.select_zone_for_map')}}"></span></label>
-                                <select name="zone_id" id="choice_zones" required
-                                        class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.zone')}}">
-                                        <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.zone')}}</option>
-                                    @foreach(\App\Models\Zone::active()->get() as $zone)
-                                        @if(isset(auth('admin')->user()->zone_id))
-                                            @if(auth('admin')->user()->zone_id == $zone->id)
-                                                <option value="{{$zone->id}}">{{$zone->name}}</option>
-                                            @endif
-                                        @else
-                                        <option value="{{$zone->id}}">{{$zone->name}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label class="input-label" for="latitude">{{translate('messages.latitude')}}<span
                                         class="input-label-secondary" title="{{translate('messages.store_lat_lng_warning')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.store_lat_lng_warning')}}"></span></label>
@@ -146,7 +191,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8 col-12">
+                        <div class="col-md-8 col-12 mt-4">
                             <input id="pac-input" class="controls rounded" style="height: 3em;width:fit-content;"
                                 title="{{ translate('messages.search_your_location_here') }}" type="text"
                                 placeholder="{{ translate('messages.search_here') }}" />
@@ -188,6 +233,25 @@
                                 <label class="input-label" for="phone">{{translate('messages.phone')}}</label>
                                 <input type="text" name="phone" class="form-control" placeholder="Ex : 017********"
                                 value="{{old('phone')}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <small class="nav-subtitle text-secondary border-bottom">BANK INFO</small>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <div class="form-group">
+                                <label class="input-label" for="bank_name">Bank Name</label>
+                                <input type="text" name="bank_name" class="form-control" placeholder="Enter Bank Name"
+                                value="{{old('bank_name')}}">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="form-group">
+                                <label class="input-label" for="iban_number">IBAN</label>
+                                <input type="text" name="iban_number" class="form-control" placeholder="Enter IBAN Number"
+                                value="{{old('iban_number')}}">
                             </div>
                         </div>
                     </div>
@@ -258,6 +322,25 @@
 @push('script_2')
     <script>
       $(document).on('ready', function () {
+
+        $(document).on('change', '#sales_tax_authority_status', function () {
+            let _this = $(this);
+            if (_this.is(':checked')) {
+                $('#sales_tax_amount').prop('disabled', false);
+            } else {
+                $('#sales_tax_amount').prop('disabled', true);
+            }
+        });
+
+        $(document).on('change', '#fbr_registration_status', function () {
+            let _this = $(this);
+            if (_this.is(':checked')) {
+                $('#ntn_number').prop('disabled', false);
+            } else {
+                $('#ntn_number').prop('disabled', true);
+            }
+        });
+
         @if (isset(auth('admin')->user()->zone_id))
             $('#choice_zones').trigger('change');
         @endif

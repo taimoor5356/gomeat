@@ -70,7 +70,7 @@
                                     <td>
                                     {{Str::limit($food->category?$food->category->name:translate('messages.category_deleted'),20,'...')}}
                                     </td>
-                                    <td>{{\App\CentralLogics\Helpers::format_currency($food['price'])}}</td>
+                                    <td>{{$food->currency}}{{round($food->price, 2)}}</td>
                                     <td>{{$food['sales_tax']}}</td>
                                     <td>{{$food['gm_commission']}}</td>
                                     <td>

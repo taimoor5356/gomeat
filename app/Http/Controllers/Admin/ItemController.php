@@ -223,19 +223,33 @@ class ItemController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Starts
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+        $item->country = !empty($request->country) ? $request->country : 'us';
         $item->price = $request->price; // total amount after tax calculation
-        $salesTax = !empty($request->sales_tax) ? $request->sales_tax : 0.00;
-        $item->sales_tax = $salesTax; // percentage
-        $salesTaxAmount = 0;
-        if (empty($request->sales_tax)) {
-            $sales_Tax = 16; // percentage
-            $salesTaxAmount = ($request->price * $sales_Tax) / 100; // total tax amount after tax calculation
+        if (!empty($request->sales_tax)) {
+            $item->sales_tax = $request->sales_tax; // percentage
+            $salesTaxPercent = $request->sales_tax;
+            $taxFactor = $request->sales_tax / (100 + $salesTaxPercent);
+            $taxAmount = $request->price * $taxFactor;
+            $amountExOfTax = $request->price - $taxAmount;
+            $item->total_sales_tax_amount = $taxAmount;
+            $item->product_price = $amountExOfTax;
         } else {
-            $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
+            if (!empty($request->country)) {
+                if ($request->country == 'pk') {
+                    $item->sales_tax = 16; // percentage
+                    $salesTaxPercent = 16;
+                    $taxFactor = $salesTaxPercent / (100 + $salesTaxPercent);
+                    $taxAmount = $request->price * $taxFactor;
+                    $amountExOfTax = $request->price - $taxAmount;
+                    $item->total_sales_tax_amount = $taxAmount;
+                    $item->product_price = $amountExOfTax;
+                } else {
+                    $item->product_price = $request->price;
+                }
+            } else {
+                $item->product_price = $request->price;
+            }
         }
-        $item->total_sales_tax_amount = $salesTaxAmount; // sales tax amount
-        $item->product_price = $request->price - $salesTaxAmount; // product price
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Ends
@@ -472,20 +486,18 @@ class ItemController extends Controller
         $item->stock = $request->current_stock ?? 100000;
         $item->veg = $request->veg;
         $item->images = $images;
-
-        
+        $item->price = $request->price; // total amount after tax calculation
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Starts
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        $item->price = $request->price; // total amount after tax calculation
         $salesTax = !empty($request->sales_tax) ? $request->sales_tax : 0.00;
         $item->sales_tax = $salesTax; // percentage
         $salesTaxAmount = 0;
+
         if (empty($request->sales_tax)) {
             $sales_Tax = 16; // percentage
-            $salesTaxAmount = ($request->price * $sales_Tax) / 100; // total tax amount after tax calculation
+            $salesTaxAmount = ($request->price * $sales_Tax) / (100 + $request->sales_tax); // total tax amount after tax calculation
         } else {
             $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
         }
@@ -495,7 +507,6 @@ class ItemController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Ends
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
         
         try
         {

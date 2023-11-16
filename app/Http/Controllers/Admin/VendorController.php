@@ -28,16 +28,20 @@ use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 class VendorController extends Controller
 {
-    public function index()
+    public function index($country = null)
     {
-        return view('admin-views.vendor.index');
+        if (!empty($country)) {
+            return view('admin-views.vendor.index_pk');
+        } else {
+            return view('admin-views.vendor.index');
+        }
     }
     public function indexClone()
     {
         return view('admin-views.vendor.clone');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $country = null)
     {
         $validator = Validator::make($request->all(), [
             'f_name' => 'required|max:100',
@@ -103,6 +107,22 @@ class VendorController extends Controller
         // $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->delivery_time = $request->module_id==1?'02-03 hours':'60-90 minutes';
         $store->module_id = $request->module_id;
+        
+        //////////////////////////////////////////////////////////////////////
+        // For Pakistani Zone
+        //////////////////////////////////////////////////////////////////////
+        if (!empty($country)) {
+            if ($country == 'pk') {
+                $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
+                $store->sales_tax_authority_status = !empty($request->sales_tax_authority_status) ? 'active' : '' ;
+                $store->sales_tax_amount = !empty($request->sales_tax_amount) ? $request->sales_tax_amount : '' ;
+                $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : '' ;
+                $store->ntn_number = !empty($request->ntn_number) ? $request->ntn_number : '' ;
+                $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
+            }
+        }
+
+
         $store->save();
         $store->module->increment('stores_count');
         if(config('module.'.$store->module->module_type)['always_open'])
