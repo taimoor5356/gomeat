@@ -249,9 +249,9 @@
                         </div>
                         <div class="col-md-4 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="iban_number">IBAN</label>
-                                <input type="text" name="iban_number" class="form-control" placeholder="Enter IBAN Number"
-                                value="{{old('iban_number')}}">
+                                <label class="input-label" for="bank_iban">IBAN</label>
+                                <input type="text" name="bank_iban" class="form-control" placeholder="Enter IBAN Number"
+                                value="{{old('bank_iban')}}">
                             </div>
                         </div>
                     </div>

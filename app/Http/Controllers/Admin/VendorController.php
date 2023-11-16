@@ -121,7 +121,8 @@ class VendorController extends Controller
                 $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
             }
         }
-
+        $store->bank_name = !empty($request->bank_name)? $request->bank_name : '';
+        $store->bank_iban = !empty($request->bank_iban)? $request->bank_iban : '';
 
         $store->save();
         $store->module->increment('stores_count');
