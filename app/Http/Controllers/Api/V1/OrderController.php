@@ -697,12 +697,6 @@ class OrderController extends Controller
                 // return redirect($resp['hosted_url']);
             }
 
-
-            if ($request->payment_method == 'paypal') {
-                return redirect()->route('pay-pal')->with('order_id', $order->id);
-            }
-
-
             return response()->json([
                 'message' => translate('messages.order_placed_successfully'),
                 'order_id' => $order->id,
