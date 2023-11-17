@@ -32,11 +32,6 @@ class PaymentController extends Controller
                 'phone' => $customer['phone'],
             ];
             session()->put('data', $data);
-            if ($request->payment_method == 'paypal') {
-                return redirect('/api/v1/pay-with-paypal/'.$order->id);
-            } else if ($request->payment_method == 'stripe') {
-                return 'stripe';
-            }
             return view('payment-view');
         }
 
