@@ -19,6 +19,9 @@ Route::get('/test-url', function () {
     // testing
     return 'here';
 });
+Route::get('/checkme', function () {
+    return redirect('/admin');
+})->name('checkme');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('custom-token-add', 'HomeController@add_token')->name('custom-token-add');

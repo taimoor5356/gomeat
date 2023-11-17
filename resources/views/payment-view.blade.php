@@ -141,7 +141,7 @@
 
                                     <script type="text/javascript">
                                         // Create an instance of the Stripe object with your publishable API key
-                                        var stripe = Stripe('{{$config['published_key']}}');
+                                        var stripe = Stripe('{{$config["published_key"]}}');
                                         var checkoutButton = document.getElementById("checkout-button");
                                         checkoutButton.addEventListener("click", function () {
                                             fetch("{{route('pay-stripe')}}", {

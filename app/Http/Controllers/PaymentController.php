@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Exception\RequestException;
 
 class PaymentController extends Controller
 {
@@ -13,9 +17,9 @@ class PaymentController extends Controller
         if ($request->has('callback')) {
             Order::where(['id' => $request->order_id])->update(['callback' => $request['callback']]);
         }
-
         session()->put('customer_id', $request['customer_id']);
         session()->put('order_id', $request->order_id);
+        session()->put('payment_method', $request->payment_method);
 
         $customer = User::find($request['customer_id']);
 
@@ -28,6 +32,11 @@ class PaymentController extends Controller
                 'phone' => $customer['phone'],
             ];
             session()->put('data', $data);
+            if ($request->payment_method == 'paypal') {
+                return redirect('/api/v1/pay-with-paypal/'.$order->id);
+            } else if ($request->payment_method == 'stripe') {
+                return 'stripe';
+            }
             return view('payment-view');
         }
 

@@ -36,9 +36,12 @@ class PaypalPaymentController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
-    public function payWithpaypal(Request $request)
+    public function payWithpaypal(Request $request, $orderId = null)
     {
         $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
+        if (empty(session('order_id'))) {
+            $order = Order::with(['details'])->where(['id' => $orderId])->first();
+        }
         // $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
         $tr_ref = Str::random(6) . '-' . rand(1, 1000);
         
@@ -78,6 +81,7 @@ class PaypalPaymentController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
+            // dd($payment);
 
         // return $payment;
         try {
@@ -93,7 +97,6 @@ class PaypalPaymentController extends Controller
                     break;
                 }
             }
-
             DB::table('orders')
                 ->where('id', $order->id)
                 ->update([

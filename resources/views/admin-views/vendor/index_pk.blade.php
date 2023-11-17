@@ -43,6 +43,17 @@
                         <div class="col-md-12 col-12">
                             <div class="row">
                                 <div class="form-group col-4">
+                                    <label class="input-label">{{translate('messages.module')}}</label>
+                                    <select name="module_id" required
+                                            class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}">
+                                            <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
+                                        @foreach(\App\Models\Module::notParcel()->get() as $module)
+                                            <option value="{{$module->id}}">{{$module->module_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
+                                </div>
+                                <div class="form-group col-4">
                                     <label class="input-label" for="name">{{translate('messages.store')}} {{translate('messages.name')}}</label>
                                     <input type="text" name="name" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.name')}}" value="{{old('name')}}" required>
                                 </div>
@@ -50,21 +61,21 @@
                                     <label class="input-label" for="legal_business_name">Legal Business Name</label>
                                     <input type="text" name="legal_business_name" class="form-control" placeholder="Enter Legal Business Name" value="{{old('legal_business_name')}}">
                                 </div>
-                                <div class="form-group col-4">
-                                    <div class="d-flex justify-content-between">
-                                        <label class="input-label" for="sales_tax_amount">Sales Tax Amount</label>
-                                        <div class="">
-                                            Sales Tax Authority
-                                            <input type="checkbox" name="sales_tax_authority_status" id="sales_tax_authority_status" value="active">
-                                        </div>
-                                    </div>
-                                    <input type="number" id="sales_tax_amount" name="sales_tax_amount" disabled class="form-control" placeholder="Enter Sales Tax Amount" value="{{old('sales_tax_amount')}}">
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-12 col-12">
                             <div class="row">
-                                <div class="form-group col-4">
+                                <div class="form-group col-3">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="input-label" for="sales_tax_amount">Sales Tax %</label>
+                                        <div class="">
+                                            Filer
+                                            <input type="checkbox" name="sales_tax_authority_status" id="sales_tax_authority_status" value="active">
+                                        </div>
+                                    </div>
+                                    <input type="number" id="sales_tax_amount" name="sales_tax_amount" disabled class="form-control" placeholder="Enter Sales Tax % (If Filer)" value="{{old('sales_tax_amount')}}">
+                                </div>
+                                <div class="form-group col-3">
                                     <div class="d-flex justify-content-between">
                                         <label class="input-label" for="ntn_number">Enter NTN number</label>
                                         <div class="">
@@ -74,13 +85,13 @@
                                     </div>
                                     <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
                                 </div>
-                                <div class="form-group col-4">
+                                <div class="form-group col-3">
                                     <div class="form-group">
                                         <label class="input-label" for="strn_number">Enter STRN</label>
                                         <input type="number" id="strn_number" name="strn_number" class="form-control" placeholder="Enter STRN" value="{{old('strn_number')}}">
                                     </div>
                                 </div>
-                                <div class="form-group col-4">
+                                <div class="form-group col-3">
                                     <div class="form-group">
                                         <label class="input-label" for="gm_commission">GoMeat Commission % <small class="text-danger">(Inclusive of Tax)</small></label>
                                         <input type="number" name="gm_commission" class="form-control" placeholder="e.g 10.00" min="0" step=".01" value="{{old('gm_commission')}}">
@@ -103,17 +114,6 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="form-group col-12 m-0 p-0">
-                                        <label class="input-label">{{translate('messages.module')}}</label>
-                                        <select name="module_id" required
-                                                class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}">
-                                                <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
-                                            @foreach(\App\Models\Module::notParcel()->get() as $module)
-                                                <option value="{{$module->id}}">{{$module->module_name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
-                                    </div>
                                     
                                     <div class="form-group col-12 m-0 p-0">
                                         <label class="input-label" for="choice_zones">{{translate('messages.zone')}}<span

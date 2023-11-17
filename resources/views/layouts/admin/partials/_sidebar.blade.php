@@ -342,10 +342,19 @@
                         </a>
                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display: {{ Request::is('admin/vendor*') && !Request::is('admin/vendor/withdraw_list') ? 'block' : 'none' }}">
                             <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/vendor/add') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.vendor.add', ['pk']) }}" title="{{ translate('messages.register') }} {{ translate('messages.store') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('messages.add') }} {{ translate('messages.store') }} (PAK)
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/vendor/add') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.vendor.add') }}" title="{{ translate('messages.register') }} {{ translate('messages.store') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                        {{ translate('messages.add') }} {{ translate('messages.store') }}
+                                        {{ translate('messages.add') }} {{ translate('messages.store') }} (USA)
                                     </span>
                                 </a>
                             </li>
