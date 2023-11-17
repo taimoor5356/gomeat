@@ -15,14 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test-url', function () {
-    // testing
-    return 'here';
-});
-Route::get('/checkme', function () {
-    return redirect('/admin');
-})->name('checkme');
-
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('custom-token-add', 'HomeController@add_token')->name('custom-token-add');
 Route::get('gomt-transaction-status/{txn}', 'HomeController@gomt_transaction_status')->name('gomt-transaction-status');

@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/checkme', function () {
-    return 'here';
-});
-
 Route::get('pay-with-paypal/{order_id?}', 'PaypalPaymentController@payWithpaypal')->name('pay-with-paypal');
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
 
