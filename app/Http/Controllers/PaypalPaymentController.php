@@ -36,13 +36,23 @@ class PaypalPaymentController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
-    public function payWithpaypal(Request $request, $orderId = null)
+    public function getPaypalToken(Request $request)
+    {
+        if ($request->payment_method == 'paypal') {
+            $paypalToken = $this->payWithpaypal($request->all());
+            return response()->json([
+                'token' => $paypalToken
+            ]);
+        }
+        return response()->json($request->all());
+    }
+
+    public function payWithpaypal($getValues = null)
     {
         $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
         if (empty(session('order_id'))) {
-            $order = Order::with(['details'])->where(['id' => $orderId])->first();
+            $order = Order::with(['details'])->where(['id' => $getValues['order_id']])->first();
         }
-        // $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
         $tr_ref = Str::random(6) . '-' . rand(1, 1000);
         
         $payer = new Payer();
@@ -81,12 +91,14 @@ class PaypalPaymentController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
-            // dd($payment);
 
         // return $payment;
         try {
             $payment->create($this->_api_context);
 
+            if ($getValues['payment_method'] == 'paypal') {
+                return $payment->getToken();
+            }
             // dd($payment);
             // return $payment;
 
