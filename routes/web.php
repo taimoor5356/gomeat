@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\JazzcashController;
+use App\Models\Country;
 use Illuminate\Support\Facades\Route;
-
+use OpenSpout\Common\Entity\Row;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,170 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/insert-data', function (){
+    $countries = [
+        [
+            'name' => 'Afghanistan',
+            'short_name' => 'AF',
+            'currency_name' => 'Afghan Afghani',
+            'currency_symbol' => '؋',
+        ],
+        [
+            'name' => 'Albania',
+            'short_name' => 'AL',
+            'currency_name' => 'Albanian lek',
+            'currency_symbol' => 'L',
+        ],
+        [
+            'name' => 'Algeria',
+            'short_name' => 'DZ',
+            'currency_name' => 'Algerian dinar',
+            'currency_symbol' => 'د.ج',
+        ],
+        [
+            'name' => 'Argentina',
+            'short_name' => 'AR',
+            'currency_name' => 'Argentine peso',
+            'currency_symbol' => '$',
+        ],
+        [
+            'name' => 'Australia',
+            'short_name' => 'AU',
+            'currency_name' => 'Australian dollar',
+            'currency_symbol' => '$',
+        ],
+        [
+            'name' => 'Brazil',
+            'short_name' => 'BR',
+            'currency_name' => 'Brazilian real',
+            'currency_symbol' => 'R$',
+        ],
+        [
+            'name' => 'Canada',
+            'short_name' => 'CA',
+            'currency_name' => 'Canadian dollar',
+            'currency_symbol' => '$',
+        ],
+        [
+            'name' => 'China',
+            'short_name' => 'CN',
+            'currency_name' => 'Chinese yuan',
+            'currency_symbol' => '¥',
+        ],
+        [
+            'name' => 'Egypt',
+            'short_name' => 'EG',
+            'currency_name' => 'Egyptian pound',
+            'currency_symbol' => '£',
+        ],
+        [
+            'name' => 'England',
+            'short_name' => 'GB',
+            'currency_name' => 'British pound',
+            'currency_symbol' => '£',
+        ],
+        [
+            'name' => 'France',
+            'short_name' => 'FR',
+            'currency_name' => 'Euro',
+            'currency_symbol' => '€',
+        ],
+        [
+            'name' => 'Germany',
+            'short_name' => 'DE',
+            'currency_name' => 'Euro',
+            'currency_symbol' => '€',
+        ],
+        [
+            'name' => 'India',
+            'short_name' => 'IN',
+            'currency_name' => 'Indian Rupee',
+            'currency_symbol' => '₹',
+        ],
+        [
+            'name' => 'Indonesia',
+            'short_name' => 'ID',
+            'currency_name' => 'Indonesian Rupiah',
+            'currency_symbol' => 'Rp',
+        ],
+        [
+            'name' => 'Italy',
+            'short_name' => 'IT',
+            'currency_name' => 'Euro',
+            'currency_symbol' => '€',
+        ],
+        [
+            'name' => 'Japan',
+            'short_name' => 'JP',
+            'currency_name' => 'Japanese yen',
+            'currency_symbol' => '¥',
+        ],
+        [
+            'name' => 'Mexico',
+            'short_name' => 'MX',
+            'currency_name' => 'Mexican peso',
+            'currency_symbol' => '$',
+        ],
+        [
+            'name' => 'Netherlands',
+            'short_name' => 'NL',
+            'currency_name' => 'Euro',
+            'currency_symbol' => '€',
+        ],
+        [
+            'name' => 'Pakistan',
+            'short_name' => 'PK',
+            'currency_name' => 'Pakistani Rupee',
+            'currency_symbol' => '₨',
+        ],
+        [
+            'name' => 'Russia',
+            'short_name' => 'RU',
+            'currency_name' => 'Russian ruble',
+            'currency_symbol' => '₽',
+        ],
+        [
+            'name' => 'Saudi Arabia',
+            'short_name' => 'SA',
+            'currency_name' => 'Saudi Riyal',
+            'currency_symbol' => '﷼',
+        ],
+        [
+            'name' => 'South Africa',
+            'short_name' => 'ZA',
+            'currency_name' => 'South African Rand',
+            'currency_symbol' => 'R',
+        ],
+        [
+            'name' => 'Spain',
+            'short_name' => 'ES',
+            'currency_name' => 'Euro',
+            'currency_symbol' => '€',
+        ],
+        [
+            'name' => 'United Kingdom',
+            'short_name' => 'GB',
+            'currency_name' => 'British pound',
+            'currency_symbol' => '£',
+        ],
+        [
+            'name' => 'United States',
+            'short_name' => 'US',
+            'currency_name' => 'United States Dollar',
+            'currency_symbol' => '$',
+        ],
+    ];
+    foreach ($countries as $key => $country) { 
+        Country::create([
+            'name' => $country['name'],
+            'short_name' => $country['short_name'],
+            'currency_name' => $country['currency_name'],
+            'currency_symbol' => $country['currency_symbol'],
+            'gst' => '0'
+        ]);
+    }
+    return 'done';
+});
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('custom-token-add', 'HomeController@add_token')->name('custom-token-add');
 Route::get('gomt-transaction-status/{txn}', 'HomeController@gomt_transaction_status')->name('gomt-transaction-status');

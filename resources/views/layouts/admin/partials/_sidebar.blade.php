@@ -67,7 +67,14 @@
                                     </span>
                                 </a>
                             </li>
-
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{route('admin.countries.index')}}" title="Countries Module">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        Countries Module
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @endif

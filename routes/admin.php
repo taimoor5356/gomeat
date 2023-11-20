@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,6 +32,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('module/status/{id}/{status}', 'ModuleController@status')->middleware('module:module')->name('module.status');
         Route::get('module/type', 'ModuleController@type')->middleware('module:module')->name('module.type');
         Route::resource('module', 'ModuleController')->middleware('module:module');
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Countries Module Routes
+        
+        Route::get('countries', [CountryController::class, 'index'])->name('countries.index');
+        Route::get('countries/create', [CountryController::class, 'create'])->name('countries.add-new');
+        Route::post('countries/store', [CountryController::class, 'store'])->name('countries.store');
+        Route::post('countries/{id}/update', [CountryController::class, 'update'])->name('countries.update');
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::resource('unit', 'UnitController')->middleware('module:unit');
 

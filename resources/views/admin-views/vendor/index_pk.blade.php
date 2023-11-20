@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-md-12 col-12">
                             <div class="row">
-                                <div class="form-group col-4">
+                                <div class="form-group col-6">
                                     <label class="input-label">{{translate('messages.module')}}</label>
                                     <select name="module_id" required
                                             class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}">
@@ -52,6 +52,16 @@
                                         @endforeach
                                     </select>
                                     <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="input-label">Select Country</label>
+                                    <select name="country_id" required id="country_id"
+                                            class="form-control js-select2-custom"  data-placeholder="Select Country">
+                                            <option value="" selected disabled>Select Country</option>
+                                        @foreach(\App\Models\Country::get() as $country)
+                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group col-4">
                                     <label class="input-label" for="name">{{translate('messages.store')}} {{translate('messages.name')}}</label>
@@ -339,6 +349,11 @@
             } else {
                 $('#ntn_number').prop('disabled', true);
             }
+        });
+
+        $(document).on('change', '#country_id', function () {
+            var _this = $(this);
+            
         });
 
         @if (isset(auth('admin')->user()->zone_id))
