@@ -32,7 +32,7 @@
     <div class="row" style="margin-top: 20px">
         <div class="col-md-12">
             <div class="card border-0 shadow-none">
-                <div class="card-header px-0 d-block py-4">
+                <div class="card-header border-0 shadow-0 px-0 d-block py-4">
                     <div class="row">
                         <div class="col-4">
                             <select name="country_id" id="country_id" class="form-control m-0 p-0">
@@ -109,10 +109,10 @@
                                     <label for="currency_symbol">Currency Symbol</label>
                                     <input name="currency_symbol" type="text" class="form-control" id="currency_symbol" placeholder="Enter Currency Symbol">
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="gst">GST</label>
                                     <input name="gst" type="text" class="form-control" id="gst" placeholder="Enter GST">
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <hr>
@@ -209,8 +209,10 @@
                     name: 'action',
                     orderable: false, // Make sure 'action' column is not sortable
                     searchable: false, // Make sure 'action' column is not searchable
-                    render: function(data, type, full, meta) {
-                        return '<button class="btn btn-info edit-btn">Edit</button>';
+                    render: function(data, type, row, meta) {
+                        var showUrl = "{{route('admin.countries.show', [':id'])}}";
+                        showUrl = showUrl.replace(':id', row.country_id);
+                        return '<button class="mr-1 btn btn-info edit-btn">Edit</button><a href="' + showUrl + '" class="btn btn-info view-btn">View</a>';
                     },
                 }
             ],
@@ -230,9 +232,7 @@
             // Populate the modal with data
             var url = "{{route('admin.countries.update', [':id'])}}";
             url = url.replace(':id', data.country_id);
-            $('#editCountryModal').find('.editModalBody').html(
-                `
-                <form action="` + url + `" method="POST">
+            var _html = `<form action="` + url + `" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-12">
@@ -253,20 +253,35 @@
                                 <input name="currency_symbol" type="text" class="form-control" id="currency_symbol" placeholder="Enter Currency Symbol" value="` + data.currency_symbol + `">
                             </div>
                             <div class="form-group">
-                                <label for="gst">GST</label>
-                                <input name="gst" type="text" class="form-control" id="gst" placeholder="Enter GST" value="` + data.gst + `">
+                            <div class="d-flex justify-content-between">
+                                <label for="states">States</label>
                             </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Save changes</button>
-                        </div>
-                    </div>
-                </form>`
-            );
+                            <div class="states-dropdown">
+                                <select class="form-control" id="states">
+                                    <option disabled selected>All States</option>`;
+            data.states.forEach(state => {
+                _html += `<option>` + state.name + `</option>`;
+            });
+            _html += `
+            </select>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save changes</button>
+    </div>
+</div>
+</form>`;
+
+            $('#editCountryModal').find('.editModalBody').html(_html);
+        });
+
+        $(document).on('click', '.add-new-country-state', function () {
+            var _this = $(this);
         });
     });
 </script>

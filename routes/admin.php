@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CountryHasStateController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,9 +37,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         // Countries Module Routes
         
         Route::get('countries', [CountryController::class, 'index'])->name('countries.index');
+        Route::get('countries/{id}/show', [CountryController::class, 'show'])->name('countries.show');
+        Route::get('countries/{id}/states', [CountryController::class, 'states'])->name('countries.states');
         Route::get('countries/create', [CountryController::class, 'create'])->name('countries.add-new');
         Route::post('countries/store', [CountryController::class, 'store'])->name('countries.store');
         Route::post('countries/{id}/update', [CountryController::class, 'update'])->name('countries.update');
+        Route::post('countries/state/{id}/update', [CountryHasStateController::class, 'update'])->name('countries.state.update');
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

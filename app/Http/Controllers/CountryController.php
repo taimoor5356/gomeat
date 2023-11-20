@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\CountryHasState;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -31,6 +32,7 @@ class CountryController extends Controller
             $searchValue = $search_arr['value'];
 
             $query = Country::query();
+            $query = $query->with(['states']);
 
             if ($request->country_id) {
                 $query->where('id', $request->country_id);
@@ -58,6 +60,7 @@ class CountryController extends Controller
 
             foreach ($data as $key => $country) {
                 $arrData[] = [
+                    'states' => $country->states,
                     'country_id' => $country->id,
                     'name' => $country->name,
                     'short_name' => $country->short_name,
@@ -110,9 +113,82 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
         //
+        $country = Country::with('states')->where('id', $id)->first();
+        return view('admin-views.country.show', compact('country'));
+    }
+
+    
+    public function states(Request $request, $id)
+    {
+        //
+        if ($request->ajax()) {
+            $draw = $request->get('draw');
+            $start = $request->get("start");
+            $rowperpage = $request->get("length");
+            $columnIndex_arr = $request->get('order');
+            $columnName_arr = $request->get('columns');
+            $order_arr = $request->get('order');
+            $search_arr = $request->get('search');
+            $columnIndex = $columnIndex_arr[0]['column'];
+            $columnName = $columnName_arr[$columnIndex]['data'];
+            $columnSortOrder = $order_arr[0]['dir'];
+            $searchValue = $search_arr['value'];
+
+            $country = Country::with(['states'])->where('id', $id)->first();
+
+            if (isset($country)) {
+                $states = CountryHasState::query();
+
+                $states = $states->where('country_id', $country->id);
+    
+                if (!empty($searchValue)) {
+                    $states->where('name', 'like', '%' . $searchValue . '%');
+                }
+    
+                $totalRecords = $states->count();
+                // SORTING
+                if (!empty($columnName)) {
+                    if ($columnName == 'name') {
+                        $states->orderBy('name', $columnSortOrder);
+                    } else {
+                        $states = $states->orderBy($columnName, $columnSortOrder);
+                    }
+                }
+                $states = $states->skip($start)
+                    ->take($rowperpage);
+    
+                $data = $states->get();
+    
+                $arrData = [];
+    
+                foreach ($data as $key => $state) {
+                    $arrData[] = [
+                        'state_id' => $state->id,
+                        'name' => $state->name,
+                        'store_online_payment' => $state->store_online_payment,
+                        'store_cash_payment' => $state->store_cash_payment,
+                        'restaurant_online_payment' => $state->restaurant_online_payment,
+                        'restaurant_cash_payment' => $state->restaurant_cash_payment,
+                        'action' => ''
+                    ];
+                }
+    
+                return DataTables::of($arrData)
+                    ->addIndexColumn()
+                    ->with([
+                        "draw" => intval($draw),
+                        'recordsTotal' => $totalRecords,
+                        'recordsFiltered' => $totalRecords,
+                        "data" => $arrData
+                    ])
+                    ->make(true);
+            }
+        }
+        $country = Country::with('states')->where('id', $id)->first();
+        return view('admin-views.country.show', compact('country'));
     }
 
     /**
