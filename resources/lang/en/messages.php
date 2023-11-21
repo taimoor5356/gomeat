@@ -1843,4 +1843,10 @@ Stack trace:
 #53 {main}',
   'selcetion_type' => 'Selcetion type',
   'Delete' => 'Delete',
+  '
+                    messages.please_only_input_png_or_jpg_type_file ' => '
+                    messages.please only input png or jpg type file ',
+  '
+                    messages.file_size_too_big ' => '
+                    messages.file size too big ',
 );
