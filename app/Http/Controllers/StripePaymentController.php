@@ -12,15 +12,29 @@ use Illuminate\Support\Str;
 use Stripe\Charge;
 use Stripe\Stripe;
 use App\Models\BusinessSetting;
+use Illuminate\Http\Request;
 use PHPUnit\Exception;
 
 
 class StripePaymentController extends Controller
 {
-    public function payment_process_3d()
+
+    public function getStripeToken(Request $request)
+    {
+        if ($request->payment_method == 'stripe') {
+            $stripeToken = $this->payment_process_3d($request->all());
+            return $stripeToken;
+        }
+        return response()->json($request->all());
+    }
+
+    public function payment_process_3d($request = null)
     {
         $tran = Str::random(6) . '-' . rand(1, 1000);
         $order_id = session('order_id');
+        if (is_null($order_id)) {
+            $order_id = $request['order_id'];
+        }
         session()->put('transaction_ref', $tran);
         $order = Order::with(['details'])->where(['id' => $order_id])->first();
         $config = Helpers::get_business_settings('stripe');
@@ -54,6 +68,15 @@ class StripePaymentController extends Controller
             'success_url' => $YOUR_DOMAIN . '/pay-stripe/success',
             'cancel_url' => url()->previous(),
         ]);
+
+        if (!empty($request['payment_method'])) {
+            if ($request['payment_method'] == 'stripe') {
+                return response()->json([
+                    'session_id' => $checkout_session->id,
+                    'session_url' => $checkout_session->url
+                ]);
+            }
+        }
         // sleep(1);
 
         return response()->json(['id' => $checkout_session->id]);
