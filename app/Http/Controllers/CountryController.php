@@ -117,6 +117,9 @@ class CountryController extends Controller
     {
         //
         $country = Country::with('states')->where('id', $id)->first();
+        if ($request->ajax()) {
+            return response()->json($country);
+        }
         return view('admin-views.country.show', compact('country'));
     }
 

@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('countries/store', [CountryController::class, 'store'])->name('countries.store');
         Route::post('countries/{id}/update', [CountryController::class, 'update'])->name('countries.update');
         Route::post('countries/state/{id}/update', [CountryHasStateController::class, 'update'])->name('countries.state.update');
+        Route::get('countries/states/{id}/show', [CountryHasStateController::class, 'show'])->name('country.state.show');
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

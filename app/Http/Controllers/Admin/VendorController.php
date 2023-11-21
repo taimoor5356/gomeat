@@ -18,6 +18,8 @@ use App\Models\WithdrawRequest;
 use App\CentralLogics\StoreLogic;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
+use App\Models\CountryHasState;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Mail;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -114,11 +116,22 @@ class VendorController extends Controller
         if (!empty($country)) {
             if ($country == 'pk') {
                 $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
-                $store->sales_tax_authority_status = !empty($request->sales_tax_authority_status) ? 'active' : '' ;
-                $store->sales_tax_amount = !empty($request->sales_tax_amount) ? $request->sales_tax_amount : '' ;
-                $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : '' ;
+                $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : 'in_active' ;
                 $store->ntn_number = !empty($request->ntn_number) ? $request->ntn_number : '' ;
                 $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
+
+                // Country and State Data
+                $store->country_id = $request->country_id;
+                $store->state_id = $request->state_id;
+                $store->store_online_payment = $request->store_online_payment;
+                $store->store_cash_payment = $request->store_cash_payment;
+                $store->filer_status = !empty($request->filer_status) ? 'active' : 'in_active';
+                $store->restaurant_online_payment = $request->restaurant_online_payment;
+                $store->restaurant_cash_payment = $request->restaurant_cash_payment;
+                $country = Country::find($request->country_id);
+                $state = CountryHasState::find($request->state_id);
+                $store->country_info = json_encode($country);
+                $store->state_info = json_encode($state);
             }
         }
         $store->bank_name = !empty($request->bank_name)? $request->bank_name : '';

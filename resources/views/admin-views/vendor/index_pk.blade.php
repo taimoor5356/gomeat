@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-12 col-12">
                         <div class="row">
-                            <div class="form-group col-6">
+                            <div class="form-group col-4">
                                 <label class="input-label">{{translate('messages.module')}}</label>
                                 <select name="module_id" required class="form-control js-select2-custom" data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_id">
                                     <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
@@ -54,7 +54,7 @@
                                 </select>
                                 <small class="text-danger">{{translate('messages.module_change_warning')}}</small>
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-4">
                                 <label class="input-label">Select Country</label>
                                 <select name="country_id" required id="country_id" class="form-control js-select2-custom" data-placeholder="Select Country">
                                     <option value="" selected disabled>Select Country</option>
@@ -64,12 +64,36 @@
                                 </select>
                             </div>
                             <div class="form-group col-4">
+                                <label class="input-label">Select State</label>
+                                <select name="state_id" required id="state_id" class="form-control js-select2-custom" data-placeholder="Select State">
+                                    <option>Select State</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-3">
                                 <label class="input-label" for="name">{{translate('messages.store')}} {{translate('messages.name')}}</label>
                                 <input type="text" name="name" class="form-control" placeholder="{{translate('messages.store')}} {{translate('messages.name')}}" value="{{old('name')}}" required>
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label class="input-label" for="legal_business_name">Legal Business Name</label>
                                 <input type="text" name="legal_business_name" class="form-control" placeholder="Enter Legal Business Name" value="{{old('legal_business_name')}}">
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="d-flex justify-content-between">
+                                    <label class="input-label" for="ntn_number">Enter NTN number</label>
+                                    <div class="">
+                                        FBR Registration
+                                        <input type="checkbox" name="fbr_registration_status" id="fbr_registration_status" value="active">
+                                    </div>
+                                </div>
+                                <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="form-group">
+                                    <label class="input-label" for="strn_number">Enter STRN</label>
+                                    <input type="number" id="strn_number" name="strn_number" class="form-control" placeholder="Enter STRN" value="{{old('strn_number')}}">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,26 +104,10 @@
                                         <label class="input-label" for="sales_tax_amount">Sales Tax %</label>
                                         <div class="">
                                             Filer
-                                            <input type="checkbox" name="sales_tax_authority_status" id="sales_tax_authority_status" value="active">
+                                            <input type="checkbox" name="filer_status" id="filer_status" value="active">
                                         </div>
                                     </div>
                                     <input type="number" id="sales_tax_amount" name="sales_tax_amount" disabled class="form-control" placeholder="Enter Sales Tax % (If Filer)" value="{{old('sales_tax_amount')}}">
-                                </div>
-                                <div class="form-group col-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label class="input-label" for="ntn_number">Enter NTN number</label>
-                                        <div class="">
-                                            FBR Registration
-                                            <input type="checkbox" name="fbr_registration_status" id="fbr_registration_status" value="active">
-                                        </div>
-                                    </div>
-                                    <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
-                                </div>
-                                <div class="form-group col-3">
-                                    <div class="form-group">
-                                        <label class="input-label" for="strn_number">Enter STRN</label>
-                                        <input type="number" id="strn_number" name="strn_number" class="form-control" placeholder="Enter STRN" value="{{old('strn_number')}}">
-                                    </div>
                                 </div> -->
 
                             <!-- Store -->
@@ -126,22 +134,23 @@
                                         <label class="input-label" for="sales_tax_amount">Restaurant Online Payment %</label>
                                         <div class="">
                                             Filer
-                                            <input type="checkbox" name="sales_tax_authority_status" id="sales_tax_authority_status" value="active">
+                                            <input type="checkbox" name="filer_status" id="filer_status" value="active">
                                         </div>
                                     </div>
-                                    <input type="number" id="restaurant_online_payment" name="restaurant_online_payment" class="form-control" disabled placeholder="" value="0">
+                                    <input type="number" id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
                                 </div>
                             </div>
 
                             <div class="form-group col-6">
                                 <div class="form-group">
                                     <label class="input-label" for="sales_tax_amount">Restaurant Cash Payment %</label>
-                                    <input type="number" id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control" disabled placeholder="" value="0">
+                                    <input type="number" id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
                                 </div>
                             </div>
                             <!-- Restaurant -->
-
-                            <div class="form-group col-3">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-4">
                                 <div class="form-group">
                                     <label class="input-label" for="gm_commission">GoMeat Commission % <small class="text-danger">(Inclusive of Tax)</small></label>
                                     <input type="number" name="gm_commission" class="form-control" placeholder="e.g 10.00" min="0" step=".01" value="{{old('gm_commission')}}">
@@ -227,11 +236,12 @@
                 <input type="text" name="radius" class="form-control" placeholder="Ex : 20" id="radius" value="{{old('radius')}}" required>
             </div>
         </div>
-
-        <div class="col-md-8 col-12 mt-4">
-            <input id="pac-input" class="controls rounded" style="height: 3em;width:fit-content;" title="{{ translate('messages.search_your_location_here') }}" type="text" placeholder="{{ translate('messages.search_here') }}" />
-            <div id="map"></div>
-        </div>
+        <div class="col-md-8 col-12">
+                            <input id="pac-input" class="controls rounded" style="height: 3em;width:fit-content;"
+                                title="{{ translate('messages.search_your_location_here') }}" type="text"
+                                placeholder="{{ translate('messages.search_here') }}" />
+                            <div id="map"></div>
+                        </div>
     </div>
     <div class="form-group">
         <label for="name">{{translate('messages.upload')}} {{translate('messages.cover')}} {{translate('messages.photo')}} <span class="text-danger">({{translate('messages.ratio')}} 2:1)</span></label>
@@ -345,41 +355,73 @@
 @push('script_2')
 <script>
     $(document).on('ready', function() {
-
-        $(document).on('change', '#module_id', function() {
-            var _this = $(this);
-            if (_this.val() == '1') {
-                $('.store-data').removeClass('d-none');
-                $('.restaurant-data').addClass('d-none');
-            } else if (_this.val() == '2') {
-                $('.store-data').addClass('d-none');
-                $('.restaurant-data').removeClass('d-none');
-            }
-        });
-
-        $(document).on('change', '#sales_tax_authority_status', function() {
-            let _this = $(this);
-            if (_this.is(':checked')) {
-                $('#restaurant_online_payment').prop('disabled', false);
-                $('#restaurant_cash_payment').prop('disabled', false);
-            } else {
-                $('#restaurant_online_payment').prop('disabled', true);
-                $('#restaurant_cash_payment').prop('disabled', true);
-            }
-        });
-
-        $(document).on('change', '#fbr_registration_status', function() {
-            let _this = $(this);
-            if (_this.is(':checked')) {
+        $(document).on('click', '#fbr_registration_status', function () {
+            if ($(this).is(':checked')) {
                 $('#ntn_number').prop('disabled', false);
             } else {
                 $('#ntn_number').prop('disabled', true);
             }
         });
+        $(document).on('change', '#module_id', function () {
+            $('#store_cash_payment').val(0);
+            $('#store_online_payment').val(0);
+            $('#restaurant_cash_payment').val(0);
+            $('#restaurant_online_payment').val(0);
+            if ($(this).val() == 1) {
+                $('.restaurant-data').addClass('d-none');
+                $('.store-data').removeClass('d-none');
+            } else if ($(this).val() == 2) {
+                $('.restaurant-data').removeClass('d-none');
+                $('.store-data').addClass('d-none');
+            }
+        });
 
-        $(document).on('change', '#country_id', function() {
+        $(document).on('change', '#filer_status', function () {
+            let _this = $(this);
+            if (_this.is(':checked')) {
+                $('.restaurant_cash_amount_field').prop('disabled', false);
+            } else {
+                $('.restaurant_cash_amount_field').prop('disabled', true);
+            }
+        });
+
+        $(document).on('change', '#country_id', function () {
+            $('#store_cash_payment').val(0);
+            $('#store_online_payment').val(0);
+            $('#restaurant_cash_payment').val(0);
+            $('#restaurant_online_payment').val(0);
             var _this = $(this);
+            var url = "{{route('admin.countries.show', [':id'])}}";
+            url = url.replace(':id', _this.val());
+            $.ajax({
+                url: url,
+                success:function(response) {
+                    var states = response.states;
+                    var _html = "";
+                    states.forEach(state => {
+                        _html += `<option>Select State</option><option value="`+state.id+`">`+state.name+`</option>`;
+                    });
+                    $('#state_id').html(_html);
+                }
+            });
+        });
 
+        $(document).on('change', '#state_id', function () {
+            var _this = $(this);
+            var url = "{{route('admin.country.state.show', [':id'])}}";
+            url = url.replace(':id', _this.val());
+            $.ajax({
+                url: url,
+                success:function(state) {
+                    if ($('#module_id').val() == 1) {
+                    $('#store_cash_payment').val(state.store_cash_payment);
+                    $('#store_online_payment').val(state.store_online_payment);
+                    } else {
+                        $('#restaurant_cash_payment').val(state.restaurant_cash_payment);
+                        $('#restaurant_online_payment').val(state.restaurant_online_payment);
+                    }
+                }
+            });
         });
 
         @if(isset(auth('admin')->user()->zone_id))
@@ -470,41 +512,29 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&libraries=places&callback=initMap&v=3.45.8"></script>
-<script>
-    @php($default_location = \App\Models\BusinessSetting::where('key', 'default_location')->first())
-    @php($default_location = $default_location->value ? json_decode($default_location->value, true) : 0)
-    let myLatlng = {
-        lat: {
-            {
-                $default_location ? $default_location['lat'] : '23.757989'
-            }
-        },
-        lng: {
-            {
-                $default_location ? $default_location['lng'] : '90.360587'
-            }
-        }
-    };
-    let map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 13,
-        center: myLatlng,
-    });
-    var zonePolygon = null;
-    let infoWindow = new google.maps.InfoWindow({
-        content: "Click the map to get Lat/Lng!",
-        position: myLatlng,
-    });
-    var bounds = new google.maps.LatLngBounds();
-
-    function initMap() {
-        // Create the initial InfoWindow.
-        infoWindow.open(map);
-        //get current location block
-        infoWindow = new google.maps.InfoWindow();
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
+<script> 
+        @php($default_location=\App\Models\BusinessSetting::where('key','default_location')->first())
+        @php($default_location=$default_location->value?json_decode($default_location->value, true):0)
+        let myLatlng = { lat: {{$default_location?$default_location['lat']:'23.757989'}}, lng: {{$default_location?$default_location['lng']:'90.360587'}} };
+        let map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: myLatlng,
+            });
+        var zonePolygon = null;
+        let infoWindow = new google.maps.InfoWindow({
+                content: "Click the map to get Lat/Lng!",
+                position: myLatlng,
+            });
+        var bounds = new google.maps.LatLngBounds();
+        function initMap() {           
+            // Create the initial InfoWindow.
+            infoWindow.open(map);
+             //get current location block
+             infoWindow = new google.maps.InfoWindow();
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
                     myLatlng = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
@@ -516,121 +546,121 @@
                 },
                 () => {
                     handleLocationError(true, infoWindow, map.getCenter());
-                }
-            );
-        } else {
+                    }
+                );
+            } else {
             // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-        //-----end block------
-        const input = document.getElementById("pac-input");
-        const searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-        let markers = [];
-        searchBox.addListener("places_changed", () => {
-            const places = searchBox.getPlaces();
-
-            if (places.length == 0) {
-                return;
+                handleLocationError(false, infoWindow, map.getCenter());
             }
-            // Clear out the old markers.
-            markers.forEach((marker) => {
-                marker.setMap(null);
-            });
-            markers = [];
-            // For each place, get the icon, name and location.
-            const bounds = new google.maps.LatLngBounds();
-            places.forEach((place) => {
-                document.getElementById('latitude').value = place.geometry.location.lat();
-                document.getElementById('longitude').value = place.geometry.location.lng();
-                if (!place.geometry || !place.geometry.location) {
-                    console.log("Returned place contains no geometry");
-                    return;
+            //-----end block------
+            const input = document.getElementById("pac-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+            let markers = [];
+            searchBox.addListener("places_changed", () => {
+                const places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                return;
                 }
-                const icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25),
-                };
-                // Create a marker for each place.
-                markers.push(
-                    new google.maps.Marker({
+                // Clear out the old markers.
+                markers.forEach((marker) => {
+                marker.setMap(null);
+                });
+                markers = [];
+                // For each place, get the icon, name and location.
+                const bounds = new google.maps.LatLngBounds();
+                places.forEach((place) => {
+                    document.getElementById('latitude').value = place.geometry.location.lat();
+                    document.getElementById('longitude').value = place.geometry.location.lng();
+                    if (!place.geometry || !place.geometry.location) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+                    const icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25),
+                    };
+                    // Create a marker for each place.
+                    markers.push(
+                        new google.maps.Marker({
                         map,
                         icon,
                         title: place.name,
                         position: place.geometry.location,
-                    })
-                );
+                        })
+                    );
 
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
+                    if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
             });
-            map.fitBounds(bounds);
-        });
-    }
-    initMap();
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(
-            browserHasGeolocation ?
-            "Error: The Geolocation service failed." :
-            "Error: Your browser doesn't support geolocation."
-        );
-        infoWindow.open(map);
-    }
-    $('#choice_zones').on('change', function() {
-        var id = $(this).val();
-        $.get({
-            url: '{{url(' / ')}}/admin/zone/get-coordinates/' + id,
-            dataType: 'json',
-            success: function(data) {
-                if (zonePolygon) {
-                    zonePolygon.setMap(null);
-                }
-                zonePolygon = new google.maps.Polygon({
-                    paths: data.coordinates,
-                    strokeColor: "#FF0000",
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: 'white',
-                    fillOpacity: 0,
-                });
-                zonePolygon.setMap(map);
-                zonePolygon.getPaths().forEach(function(path) {
-                    path.forEach(function(latlng) {
-                        bounds.extend(latlng);
-                        map.fitBounds(bounds);
+        }
+        initMap();
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(
+                browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation."
+            );
+            infoWindow.open(map);
+        }
+        $('#choice_zones').on('change', function(){
+            var id = $(this).val();
+            $.get({
+                url: '{{url('/')}}/admin/zone/get-coordinates/'+id,
+                dataType: 'json',
+                success: function (data) {
+                    if(zonePolygon)
+                    {
+                        zonePolygon.setMap(null);
+                    }
+                    zonePolygon = new google.maps.Polygon({
+                        paths: data.coordinates,
+                        strokeColor: "#FF0000",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: 'white',
+                        fillOpacity: 0,
                     });
-                });
-                map.setCenter(data.center);
-                google.maps.event.addListener(zonePolygon, 'click', function(mapsMouseEvent) {
-                    infoWindow.close();
-                    // Create a new InfoWindow.
-                    infoWindow = new google.maps.InfoWindow({
+                    zonePolygon.setMap(map);
+                    zonePolygon.getPaths().forEach(function(path) {
+                        path.forEach(function(latlng) {
+                            bounds.extend(latlng);
+                            map.fitBounds(bounds);
+                        });
+                    });
+                    map.setCenter(data.center);
+                    google.maps.event.addListener(zonePolygon, 'click', function (mapsMouseEvent) {
+                        infoWindow.close();
+                        // Create a new InfoWindow.
+                        infoWindow = new google.maps.InfoWindow({
                         position: mapsMouseEvent.latLng,
                         content: JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2),
-                    });
-                    var coordinates = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
-                    var coordinates = JSON.parse(coordinates);
+                        });
+                        var coordinates = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
+                        var coordinates = JSON.parse(coordinates);
 
-                    document.getElementById('latitude').value = coordinates['lat'];
-                    document.getElementById('longitude').value = coordinates['lng'];
-                    infoWindow.open(map);
-                });
-            },
+                        document.getElementById('latitude').value = coordinates['lat'];
+                        document.getElementById('longitude').value = coordinates['lng'];
+                        infoWindow.open(map);
+                    });    
+                },
+            });
         });
-    });
-    $("#vendor_form").on('keydown', function(e) {
-        if (e.keyCode === 13) {
-            e.preventDefault();
-        }
-    })
-</script>
+        $("#vendor_form").on('keydown', function(e){
+            if (e.keyCode === 13) {
+                e.preventDefault();
+            }
+        })
+    </script>
 @endpush

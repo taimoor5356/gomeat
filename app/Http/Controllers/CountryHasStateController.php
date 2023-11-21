@@ -44,9 +44,13 @@ class CountryHasStateController extends Controller
      * @param  \App\Models\CountryHasState  $countryHasState
      * @return \Illuminate\Http\Response
      */
-    public function show(CountryHasState $countryHasState)
+    public function show($id)
     {
         //
+        $state = CountryHasState::where('id', $id)->first();
+        if (isset($state)) {
+            return response()->json($state);
+        }
     }
 
     /**
