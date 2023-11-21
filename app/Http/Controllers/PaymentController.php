@@ -55,6 +55,7 @@ class PaymentController extends Controller
         }
         return response()->json(['message' => 'Payment failed'], 403);
     }
+
     public function coinbase_success($order_id,$customer_id)
     {
         $order = Order::where(['id' => $order_id, 'user_id'=>$customer_id])->first();
@@ -78,5 +79,22 @@ class PaymentController extends Controller
         return redirect('https://orders.gomeat.io/order-successful?id='.$order_id);
         // return redirect('https://orders.gomeat.io/order-successful?id='.session('order_id'));
         // return response()->json(['message' => 'Payment failed'], 403);
+    }
+
+    public function getPaymentTokens(Request $request)
+    {
+        if ($request->payment_method == 'stripe') {
+            $stripePayment = app(StripePaymentController::class);
+            $stripeURL = $stripePayment->payment_process_3d($request->all());
+            return response()->json([
+                'url' => $stripeURL
+            ]);
+        } else if ($request->payment_method == 'paypal') {
+            $paypalPayment = app(PaypalPaymentController::class);
+            $paypalToken = $paypalPayment->payWithpaypal($request->all());
+            return response()->json([
+                'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$paypalToken
+            ]);
+        }
     }
 }

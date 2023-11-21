@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('pay-with-paypal/{order_id?}', 'PaypalPaymentController@payWithpaypal')->name('pay-with-paypal');
 Route::post('get-paypal-token', 'PaypalPaymentController@getPaypalToken');
-Route::post('get-stripe-token', 'StripePaymentController@getStripeToken');
+Route::post('get-payment-tokens', 'PaymentController@getPaymentTokens');
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
 
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {

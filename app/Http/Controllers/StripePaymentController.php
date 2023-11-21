@@ -21,11 +21,8 @@ class StripePaymentController extends Controller
 
     public function getStripeToken(Request $request)
     {
-        if ($request->payment_method == 'stripe') {
-            $stripeToken = $this->payment_process_3d($request->all());
-            return $stripeToken;
-        }
-        return response()->json($request->all());
+        $stripeURL = $this->payment_process_3d($request->all());
+        return $stripeURL;
     }
 
     public function payment_process_3d($request = null)
@@ -71,10 +68,7 @@ class StripePaymentController extends Controller
 
         if (!empty($request['payment_method'])) {
             if ($request['payment_method'] == 'stripe') {
-                return response()->json([
-                    'session_id' => $checkout_session->id,
-                    'session_url' => $checkout_session->url
-                ]);
+                return $checkout_session->url;
             }
         }
         // sleep(1);

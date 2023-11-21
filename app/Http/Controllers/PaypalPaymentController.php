@@ -40,11 +40,8 @@ class PaypalPaymentController extends Controller
     {
         if ($request->payment_method == 'paypal') {
             $paypalToken = $this->payWithpaypal($request->all());
-            return response()->json([
-                'token' => $paypalToken
-            ]);
+            return $paypalToken;
         }
-        return response()->json($request->all());
     }
 
     public function payWithpaypal($getValues = null)
