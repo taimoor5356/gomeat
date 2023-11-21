@@ -38,7 +38,8 @@ class StripePaymentController extends Controller
         Stripe::setApiKey($config['api_key']);
         header('Content-Type: application/json');
 
-        $YOUR_DOMAIN = 'https://dashboard.gomeat.io'; //url('/');
+        // $YOUR_DOMAIN = 'https://dashboard.gomeat.io'; //url('/');
+        $YOUR_DOMAIN = env('APP_URL'); //url('/');
 
         $products = [];
         foreach ($order->details as $detail) {

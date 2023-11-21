@@ -69,8 +69,8 @@ class CoinbasePaymentController extends Controller
                             'customer_id' =>  $customer->id,
                             'customer_name' =>  $customer->f_name.' '.$customer->l_name
                         ],
-                        'redirect_url' =>  'https://dashboard.gomeat.io/pay-coinbase/success/'.$order->id.'/'.$tran,
-                        'cancel_url' => 'https://dashboard.gomeat.io/pay-coinbase/fail/'.$order->id,
+                        'redirect_url' =>  env('APP_ENV').'/pay-coinbase/success/'.$order->id.'/'.$tran,
+                        'cancel_url' => env('APP_ENV').'/pay-coinbase/fail/'.$order->id,
                 ]);
         
                 $resp = json_decode($response->getBody(),true);

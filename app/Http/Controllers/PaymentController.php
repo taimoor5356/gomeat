@@ -93,7 +93,8 @@ class PaymentController extends Controller
             $paypalPayment = app(PaypalPaymentController::class);
             $paypalToken = $paypalPayment->payWithpaypal($request->all());
             return response()->json([
-                'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$paypalToken
+                'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$paypalToken,
+                'alert' => 'Remember we are using the live paypal credentials'
             ]);
         }
     }

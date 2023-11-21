@@ -661,10 +661,10 @@ class OrderController extends Controller
                             'customer_id' =>  $customer->id,
                             'customer_name' =>  $customer->f_name.' '.$customer->l_name
                         ],
-                        // 'redirect_url' =>  'https://dashboard.gomeat.io/pay-coinbase/success',//?order_id='.$request->order_id.'&transaction_ref='.$tran,
-                        'redirect_url' =>  'https://dashboard.gomeat.io/pay-coinbase/success/'.$order->id.'/'.$tran.'/'.$request['platform'].'/'.$customer->id,
-                        // 'cancel_url' => 'https://dashboard.gomeat.io/pay-coinbase/fail',//?order_id='.$request->order_id,
-                        'cancel_url' => 'https://dashboard.gomeat.io/pay-coinbase/fail/'.$order->id.'/'.$request['platform'].'/'.$customer->id,
+                        // 'redirect_url' =>  env('APP_ENV').'/pay-coinbase/success',//?order_id='.$request->order_id.'&transaction_ref='.$tran,
+                        'redirect_url' =>  env('APP_ENV').'/pay-coinbase/success/'.$order->id.'/'.$tran.'/'.$request['platform'].'/'.$customer->id,
+                        // 'cancel_url' => env('APP_ENV').'/pay-coinbase/fail',//?order_id='.$request->order_id,
+                        'cancel_url' => env('APP_ENV').'/pay-coinbase/fail/'.$order->id.'/'.$request['platform'].'/'.$customer->id,
                 ]);
 
                 // return $response->getBody();
