@@ -777,32 +777,32 @@ class CustomerAuthController extends Controller
         {
             $otp = rand(1000, 9999);
             
-            $response = SMS_module::send($request['phone'],'1111');
-            // if($response != 'success')
-            // {
+            $response = SMS_module::send($request['phone'],$otp);
+            if($response != 'success')
+            {
+                // DB::table('phone_verifications')->updateOrInsert(['phone' => $request['phone']],
+                // [
+                // 'token' => '1111',
+                // 'created_at' => now(),
+                // 'updated_at' => now(),
+                // ]);
+                $errors = [];
+                array_push($errors, ['code' => 'otp', 'message' => trans('messages.faield_to_send_sms')]);
+                return response()->json([
+                    'errors' => $errors
+                ], 405);
+                // return response()->json(['otp' => '1111','twillio-api-response'=>'success'], 200);
+            }
+            else
+            {
                 DB::table('phone_verifications')->updateOrInsert(['phone' => $request['phone']],
                 [
-                'token' => '1111',
+                'token' => $otp,
                 'created_at' => now(),
                 'updated_at' => now(),
                 ]);
-                // $errors = [];
-                // array_push($errors, ['code' => 'otp', 'message' => trans('messages.faield_to_send_sms')]);
-                // return response()->json([
-                //     'errors' => $errors
-                // ], 405);
-                return response()->json(['otp' => '1111','twillio-api-response'=>'success'], 200);
-            // }
-            // else
-            // {
-            //     DB::table('phone_verifications')->updateOrInsert(['phone' => $request['phone']],
-            //     [
-            //     'token' => $otp,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            //     ]);
-            //     return response()->json(['otp' => $otp,'twillio-api-response'=>$response], 200);
-            // }
+                return response()->json(['otp' => $otp,'twillio-api-response'=>$response], 200);
+            }
         }
     }
 }
