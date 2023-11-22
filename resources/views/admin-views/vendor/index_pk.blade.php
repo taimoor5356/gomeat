@@ -87,12 +87,12 @@
                                         <input type="checkbox" name="fbr_registration_status" id="fbr_registration_status" value="active">
                                     </div>
                                 </div>
-                                <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
+                                <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control strn_ntn_number" placeholder="Enter NTN number" value="{{old('ntn_number')}}">
                             </div>
                             <div class="form-group col-3">
                                 <div class="form-group">
                                     <label class="input-label" for="strn_number">Enter STRN</label>
-                                    <input type="number" id="strn_number" name="strn_number" class="form-control" placeholder="Enter STRN" value="{{old('strn_number')}}">
+                                    <input type="number" id="strn_number" name="strn_number" class="form-control strn_ntn_number" disabled placeholder="Enter STRN" value="{{old('strn_number')}}">
                                 </div>
                             </div>
                         </div>
@@ -236,12 +236,12 @@
                 <input type="text" name="radius" class="form-control" placeholder="Ex : 20" id="radius" value="{{old('radius')}}" required>
             </div>
         </div>
-        <div class="col-md-8 col-12">
-                            <input id="pac-input" class="controls rounded" style="height: 3em;width:fit-content;"
-                                title="{{ translate('messages.search_your_location_here') }}" type="text"
-                                placeholder="{{ translate('messages.search_here') }}" />
-                            <div id="map"></div>
-                        </div>
+        <div class="col-md-8 col-12 mt-5">
+            <input id="pac-input" class="controls rounded" style="height: 3em;width:fit-content;"
+                title="{{ translate('messages.search_your_location_here') }}" type="text"
+                placeholder="{{ translate('messages.search_here') }}" />
+            <div id="map"></div>
+        </div>
     </div>
     <div class="form-group">
         <label for="name">{{translate('messages.upload')}} {{translate('messages.cover')}} {{translate('messages.photo')}} <span class="text-danger">({{translate('messages.ratio')}} 2:1)</span></label>
@@ -280,6 +280,12 @@
     <small class="nav-subtitle text-secondary border-bottom">BANK INFO</small>
     <br>
     <div class="row">
+        <div class="col-md-4 col-12">
+            <div class="form-group">
+                <label class="input-label" for="account_title">Account Title</label>
+                <input type="text" name="account_title" class="form-control" placeholder="Enter Account Title" value="{{old('account_title')}}">
+            </div>
+        </div>
         <div class="col-md-4 col-12">
             <div class="form-group">
                 <label class="input-label" for="bank_name">Bank Name</label>
@@ -355,13 +361,15 @@
 @push('script_2')
 <script>
     $(document).on('ready', function() {
+
         $(document).on('click', '#fbr_registration_status', function () {
             if ($(this).is(':checked')) {
-                $('#ntn_number').prop('disabled', false);
+                $('.strn_ntn_number').prop('disabled', false);
             } else {
-                $('#ntn_number').prop('disabled', true);
+                $('.strn_ntn_number').prop('disabled', true);
             }
         });
+        
         $(document).on('change', '#module_id', function () {
             $('#store_cash_payment').val(0);
             $('#store_online_payment').val(0);
