@@ -54,48 +54,69 @@ class PaymobController extends Controller
         return json_decode($output);
     }
 
-    public function credit()
+    public function credit($requestData = null)
     {
         $currency_code = Helpers::currency_code();
-        if ($currency_code != "EGP") {
-            Toastr::error(translate('messages.paymob_supports_EGP_currency'));
+        $currency_code = 'PKR';
+        if ($currency_code != "PKR") {
+            Toastr::error('Paymob supports Rs currency only');
             return back();
         }
 
         $config = Helpers::get_business_settings('paymob_accept');
         try {
             $token = $this->getToken();
-            $order = $this->createOrder($token);
-            $paymentToken = $this->getPaymentToken($order, $token);
+            if (!is_null($requestData)) {
+                $order = $this->createOrder($token, $requestData['order_id']);
+            } else {
+                $order = $this->createOrder($token);
+            }
+            $paymentToken = $this->getPaymentToken($order, $token, $requestData['order_id']);
+            if (!is_null($requestData)) {
+                return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+            }
         }catch (\Exception $exception){
             Toastr::error(translate('messages.country_permission_denied_or_misconfiguration'));
             return back();
         }
-        return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
+        if (!is_null($requestData)) {
+            return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+        }
+        // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
+        return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
     }
 
     public function getToken()
     {
         $config = Helpers::get_business_settings('paymob_accept');
         $response = $this->cURL(
-            'https://accept.paymobsolutions.com/api/auth/tokens',
+            // 'https://accept.paymobsolutions.com/api/auth/tokens',
+            'https://pakistan.paymob.com/api/auth/tokens',
             ['api_key' => $config['api_key']]
         );
 
         return $response->token;
     }
 
-    public function createOrder($token)
+    public function createOrder($token, $orderId = null)
     {
         $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
-
+        if (!is_null($orderId)) {
+            // if (empty(session('order_id'))) {
+                $order = Order::with(['details'])->where(['id' => $orderId])->first();
+            // }
+        }
         $items = [];
         foreach ($order->details as $detail) {
             array_push($items, [
-                'name' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
-                'amount_cents' => round($detail['price'],2) * 100,
-                'description' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
-                'quantity' => $detail['quantity']
+                // 'name' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
+                // 'amount_cents' => round($detail['price'],2) * 100,
+                // 'description' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
+                // 'quantity' => $detail['quantity']
+                "name" => "ASC1515",
+                "amount_cents" => "500000",
+                "description" => "Smart Watch",
+                "quantity" => "1"
             ]);
         }
 
@@ -103,21 +124,26 @@ class PaymobController extends Controller
             "auth_token" => $token,
             "delivery_needed" => "false",
             "amount_cents" => round($order->order_amount,2) * 100,
-            "currency" => "EGP",
+            "currency" => "PKR",
             "items" => $items,
 
         ];
         $response = $this->cURL(
-            'https://accept.paymob.com/api/ecommerce/orders',
+            // 'https://accept.paymob.com/api/ecommerce/orders',
+            'https://pakistan.paymob.com/api/ecommerce/orders',
             $data
         );
 
         return $response;
     }
 
-    public function getPaymentToken($order, $token)
+    public function getPaymentToken($order, $token, $orderId = null)
     {
         $ord = Order::with(['details'])->where(['id' => session('order_id')])->first();
+        
+        if (!empty($orderId)) {
+            $ord = Order::with(['details'])->where(['id' => $orderId])->first();
+        }
 
         $value = $ord->order_amount;
         $config = Helpers::get_business_settings('paymob_accept');
@@ -142,12 +168,13 @@ class PaymobController extends Controller
             "expiration" => 3600,
             "order_id" => $order->id,
             "billing_data" => $billingData,
-            "currency" => "EGP",
+            "currency" => "PKR",
             "integration_id" => $config['integration_id']
         ];
 
         $response = $this->cURL(
-            'https://accept.paymob.com/api/acceptance/payment_keys',
+            // 'https://accept.paymob.com/api/acceptance/payment_keys',
+            'https://pakistan.paymob.com/api/acceptance/payment_keys',
             $data
         );
 

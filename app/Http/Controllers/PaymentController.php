@@ -96,6 +96,12 @@ class PaymentController extends Controller
                 'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$paypalToken,
                 'alert' => 'Remember we are using the live paypal credentials'
             ]);
+        } else if ($request->payment_method == 'card_payment') {
+            $paymobPayment = app(PaymobController::class);
+            $paymobURL = $paymobPayment->credit($request->all());
+            return response()->json([
+                'url' => $paymobURL
+            ]);
         }
     }
 }
