@@ -38,6 +38,8 @@ class ProductLogic
                     $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
                     $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
                 }
+            } else {
+                $items[$key]['cod_tax'] = 0.00;
             }
         }
         return [
