@@ -18,7 +18,7 @@ class ProductLogic
 
     public static function get_latest_products($limit, $offset, $store_id, $category_id, $type)
     {
-        $paginator = Item::active()->type($type)
+        $paginator = Item::with('store.state')->active()->type($type)
         ->when($category_id != 0, function($q)use($category_id){
             $q->whereHas('category',function($q)use($category_id){
                 return $q->whereId($category_id)->orWhere('parent_id', $category_id);
@@ -28,12 +28,24 @@ class ProductLogic
         //     $query->module(config('module.current_module_data')['id']);
         // })
         ->where('store_id', $store_id)->latest()->paginate($limit, ['*'], 'page', $offset);
-
+        $items = $paginator->items();
+        foreach ($items as $key => $item) {
+            if (isset($item->store->state)) {
+                if ($item->store->module_id == 1) {
+                    $items[$key]['sales_tax'] = $item->store->state->store_online_payment;
+                    $items[$key]['cod_tax'] = $item->store->state->store_cash_payment;
+                } else {
+                    $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
+                    $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
+                }
+            }
+        }
+        dd($items);
         return [
             'total_size' => $paginator->total(),
             'limit' => $limit,
             'offset' => $offset,
-            'products' => $paginator->items()
+            'products' => $items
         ];
     }
 
