@@ -38,7 +38,7 @@ class ItemController extends Controller
             'category_id' => 'required',
             'image' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
-            'currency' => 'required',
+            // 'currency' => 'required',
             // 'weight' => 'required|numeric|between:.01,999999999999.99',
             'discount' => 'required|numeric|min:0',
             'store_id' => 'required',
@@ -202,7 +202,24 @@ class ItemController extends Controller
 
         $item->variations = json_encode([]);
         // $item->price = $request->price;
-        $item->currency = $request->currency;
+        // $storeData = Store::find($request->store_id);
+        // $onlinePayment = 0;
+        // $cashPayment = 0;
+        // if (isset($storeData)) {
+        //     if ($request->module_id == 1) {
+        //         $getState = json_decode($storeData->state_info);
+        //         $onlinePayment = $getState->store_online_payment;
+        //         $cashPayment = $getState->store_cash_payment;
+        //     } else if ($request->module_id == 2) {
+        //         $getState = json_decode($storeData->state_info);
+        //         dd($getState);
+        //         $onlinePayment = $getState->restaurant_online_payment;
+        //         $cashPayment = $getState->restaurant_cash_payment;
+        //     }
+        // }
+        // dd($onlinePayment, 'online payment', $cashPayment, 'cash payment');
+        // dd('stop');
+        // $item->currency = $request->currency;
         $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = Helpers::upload('product/', 'png', $request->file('image'));
         $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
@@ -225,31 +242,31 @@ class ItemController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $item->country = !empty($request->country) ? $request->country : 'us';
         $item->price = $request->price; // total amount after tax calculation
-        if (!empty($request->sales_tax)) {
-            $item->sales_tax = $request->sales_tax; // percentage
-            $salesTaxPercent = $request->sales_tax;
-            $taxFactor = $request->sales_tax / (100 + $salesTaxPercent);
-            $taxAmount = $request->price * $taxFactor;
-            $amountExOfTax = $request->price - $taxAmount;
-            $item->total_sales_tax_amount = $taxAmount;
-            $item->product_price = $amountExOfTax;
-        } else {
-            if (!empty($request->country)) {
-                if ($request->country == 'pk') {
-                    $item->sales_tax = 16; // percentage
-                    $salesTaxPercent = 16;
-                    $taxFactor = $salesTaxPercent / (100 + $salesTaxPercent);
-                    $taxAmount = $request->price * $taxFactor;
-                    $amountExOfTax = $request->price - $taxAmount;
-                    $item->total_sales_tax_amount = $taxAmount;
-                    $item->product_price = $amountExOfTax;
-                } else {
-                    $item->product_price = $request->price;
-                }
-            } else {
-                $item->product_price = $request->price;
-            }
-        }
+        // if (!empty($request->sales_tax)) {
+        //     $item->sales_tax = $request->sales_tax; // percentage
+        //     $salesTaxPercent = $request->sales_tax;
+        //     $taxFactor = $request->sales_tax / (100 + $salesTaxPercent);
+        //     $taxAmount = $request->price * $taxFactor;
+        //     $amountExOfTax = $request->price - $taxAmount;
+        //     $item->total_sales_tax_amount = $taxAmount;
+        //     $item->product_price = $amountExOfTax;
+        // } else {
+        //     if (!empty($request->country)) {
+        //         if ($request->country == 'pk') {
+        //             $item->sales_tax = 16; // percentage
+        //             $salesTaxPercent = 16;
+        //             $taxFactor = $salesTaxPercent / (100 + $salesTaxPercent);
+        //             $taxAmount = $request->price * $taxFactor;
+        //             $amountExOfTax = $request->price - $taxAmount;
+        //             $item->total_sales_tax_amount = $taxAmount;
+        //             $item->product_price = $amountExOfTax;
+        //         } else {
+        //             $item->product_price = $request->price;
+        //         }
+        //     } else {
+        //         $item->product_price = $request->price;
+        //     }
+        // }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Ends

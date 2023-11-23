@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="input-label" for="country">Select Store Region<span
                                         class="input-label-secondary"></span></label>
@@ -96,7 +96,7 @@
                                     <option value="us">United States</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
@@ -107,13 +107,13 @@
                                        placeholder="Ex : 100" required>
                             </div>
                         </div>
-                        <div class="col-sm-4" id="sales_tax">
+                        <!-- <div class="col-sm-4" id="sales_tax">
                             <div class="form-group">
                                 <label class="input-label" for="sales_tax">Sales Tax %</label>                                
                                 <input type="number" class="form-control" name="sales_tax" id="quantity" placeholder="e.g 10.0">
                             </div>
-                        </div>
-                        <div class="col-sm-4 col-6">
+                        </div> -->
+                        <!-- <div class="col-sm-4 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Currency</label>
                                 <select name="currency" class="form-control">
@@ -122,7 +122,7 @@
                                     <option value="Rs">PKR</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
