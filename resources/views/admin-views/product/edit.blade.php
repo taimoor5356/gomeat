@@ -111,7 +111,7 @@
                                        placeholder="Ex : 100" required>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <!-- <div class="col-md-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Currency</label>
                                 <select name="currency" class="form-control">
@@ -120,7 +120,7 @@
                                     <option value="Rs" @isset($product) @if($product['currency'] == 'Rs') selected @endif @endisset>(Rs) Rupees</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-3 col-6">
                             <div class="form-group">
@@ -302,12 +302,12 @@
                     </div>--}}
 
                     <div class="row mt-2">
-                        <div class="col-sm-6" id="sales_tax">
+                        <!-- <div class="col-sm-6" id="sales_tax">
                             <div class="form-group">
                                 <label class="input-label" for="sales_tax">Sales Tax %</label>                                
                                 <input type="number" class="form-control" name="sales_tax" value="{{$product->sales_tax}}" id="quantity">
                             </div>
-                        </div>
+                        </div> -->
                         {{-- <div class="col-sm-6" id="gm_commission">
                             <div class="form-group">
                                 <label class="input-label" for="gm_commission">GoMeat Commission %</label>                                
