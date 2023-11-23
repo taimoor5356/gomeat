@@ -16,7 +16,7 @@ class ProductLogic
         ->where('id', $id)->first();
     }
 
-    public static function get_latest_products($limit, $offset, $store_id, $category_id, $type)
+    public static function get_latest_products($limit, $offset, $store_id, $category_id, $type, $request)
     {
         $paginator = Item::with('store.state')->active()->type($type)
         ->when($category_id != 0, function($q)use($category_id){
@@ -29,21 +29,14 @@ class ProductLogic
         // })
         ->where('store_id', $store_id)->latest()->paginate($limit, ['*'], 'page', $offset);
         $items = $paginator->items();
-        foreach ($items as $key => $item) {
-            if (isset($item->store->state)) {
-                if ($item->store->state->country->short_name == "PK") {
-                    if ($item->store->module_id == 1) {
-                        $items[$key]['sales_tax'] = $item->store->state->store_online_payment;
-                        $items[$key]['cod_tax'] = $item->store->state->store_cash_payment;
-                    } else {
-                        $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
-                        $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
-                    }
+        if (($request->header('country') == 'PK') && ($request->header('moduleId') == 2)) {
+            foreach ($items as $key => $item) {
+                if (isset($item->store->state)) {
+                    $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
+                    $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
                 } else {
                     $items[$key]['cod_tax'] = 0.00;
                 }
-            } else {
-                $items[$key]['cod_tax'] = 0.00;
             }
         }
         return [
