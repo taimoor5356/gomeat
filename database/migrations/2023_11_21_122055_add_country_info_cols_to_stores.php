@@ -17,13 +17,7 @@ class AddCountryInfoColsToStores extends Migration
             //
             $table->string('country_id')->nullable();
             $table->string('state_id')->nullable();
-            $table->string('store_online_payment')->nullable();
-            $table->string('store_cash_payment')->nullable();
             $table->string('filer_status')->nullable();
-            $table->string('restaurant_online_payment')->nullable();
-            $table->string('restaurant_cash_payment')->nullable();
-            $table->json('country_info')->nullable();
-            $table->json('state_info')->nullable();
         });
     }
 

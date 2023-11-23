@@ -240,8 +240,9 @@ class ItemController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Starts
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $item->country = !empty($request->country) ? $request->country : 'us';
+        // $item->country = !empty($request->country) ? $request->country : '';
         $item->price = $request->price; // total amount after tax calculation
+        $item->sales_tax = !empty($request->sales_tax) ? $request->sales_tax : '0.00'; // percentage
         // if (!empty($request->sales_tax)) {
         //     $item->sales_tax = $request->sales_tax; // percentage
         //     $salesTaxPercent = $request->sales_tax;
@@ -273,7 +274,7 @@ class ItemController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        // $item->gm_commission = $request->gm_commission ?? 0;
+        $item->gm_commission = $request->gm_commission ?? 0;
         $item->images = $images;
         // dd($item);
         try
@@ -753,7 +754,7 @@ class ItemController extends Controller
             })
             ->type($type)
             // ->latest()->paginate(config('default_pagination'));
-            ->latest()->paginate(10);
+            ->latest()->paginate(10); // make 20
         $store = $store_id != 'all' ? Store::findOrFail($store_id) : null;
         $category = $category_id != 'all' ? Category::findOrFail($category_id) : null;
         // $module = $module_id != 'all' ? Module::findOrFail($module_id) : null;

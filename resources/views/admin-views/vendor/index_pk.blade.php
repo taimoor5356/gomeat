@@ -371,16 +371,16 @@
         });
         
         $(document).on('change', '#module_id', function () {
-            $('#store_cash_payment').val(0);
-            $('#store_online_payment').val(0);
-            $('#restaurant_cash_payment').val(0);
-            $('#restaurant_online_payment').val(0);
+            // $('#store_cash_payment').val(0);
+            // $('#store_online_payment').val(0);
+            // $('#restaurant_cash_payment').val(0);
+            // $('#restaurant_online_payment').val(0);
             if ($(this).val() == 1) {
-                $('.restaurant-data').addClass('d-none');
-                $('.store-data').removeClass('d-none');
+                // $('.restaurant-data').addClass('d-none');
+                // $('.store-data').removeClass('d-none');
             } else if ($(this).val() == 2) {
-                $('.restaurant-data').removeClass('d-none');
-                $('.store-data').addClass('d-none');
+                // $('.restaurant-data').removeClass('d-none');
+                // $('.store-data').addClass('d-none');
             }
         });
 
@@ -405,9 +405,9 @@
                 url: url,
                 success:function(response) {
                     var states = response.states;
-                    var _html = "";
+                    var _html = "<option>Select State</option>";
                     states.forEach(state => {
-                        _html += `<option>Select State</option><option value="`+state.id+`">`+state.name+`</option>`;
+                        _html += `<option value="`+state.id+`">`+state.name+`</option>`;
                     });
                     $('#state_id').html(_html);
                 }

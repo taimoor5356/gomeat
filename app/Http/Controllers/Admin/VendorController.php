@@ -91,6 +91,7 @@ class VendorController extends Controller
         $vendor->save();
 
         $store = new Store;
+        $store->module_id = $request->module_id;
         $store->name = $request->name;
         $store->phone = $request->phone;
         $store->email = $request->email;
@@ -108,40 +109,31 @@ class VendorController extends Controller
         $store->gm_commission = $request->gm_commission;
         // $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->delivery_time = $request->module_id==1?'02-03 hours':'60-90 minutes';
-        $store->module_id = $request->module_id;
         
         //////////////////////////////////////////////////////////////////////
         // For Pakistani Zone
         //////////////////////////////////////////////////////////////////////
-        if (!empty($country)) {
-            if ($country == 'pk') {
-                $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
-                $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : 'in_active' ;
+        // if (!empty($country)) {
+        //     if ($country == 'pk') {
+        $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
+        $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : 'in_active' ;
 
-                // Country and State Data
-                $store->country_id = $request->country_id;
-                $store->state_id = $request->state_id;
-                if (!empty($request->fbr_registration_status)) {
-                    $store->fbr_registration_status = !empty($request->fbr_registration_status) ? $request->fbr_registration_status : '' ;
-                    $store->ntn_number = !empty($request->ntn_number) ? $request->ntn_number : '' ;
-                    $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
-                }
-                if ($request->module_id == 1) {
-                    $store->store_online_payment = $request->store_online_payment;
-                    $store->store_cash_payment = $request->store_cash_payment;
-                } else if ($request->module_id == 2) {
-                    if (!empty($request->filer_status)) {
-                        $store->filer_status = !empty($request->filer_status) ? 'active' : 'in_active';
-                        $store->restaurant_online_payment = $request->restaurant_online_payment;
-                        $store->restaurant_cash_payment = $request->restaurant_cash_payment;
-                    }
-                }
-                $country = Country::find($request->country_id);
-                $state = CountryHasState::find($request->state_id);
-                $store->country_info = json_encode($country);
-                $store->state_info = json_encode($state);
+        // Country and State Data
+        $store->country_id = !empty($request->country_id) ? $request->country_id : '';
+        $store->state_id = !empty($request->state_id) ? $request->state_id : '';
+        if (!empty($request->fbr_registration_status)) {
+            $store->fbr_registration_status = !empty($request->fbr_registration_status) ? $request->fbr_registration_status : '' ;
+            $store->ntn_number = !empty($request->ntn_number) ? $request->ntn_number : '' ;
+            $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
+        }
+        if ($request->module_id == 1) {
+        } else if ($request->module_id == 2) {
+            if (!empty($request->filer_status)) {
+                $store->filer_status = !empty($request->filer_status) ? 'active' : 'in_active';
             }
         }
+        //     }
+        // }
         $store->account_title = !empty($request->account_title) ? $request->account_title : '';
         $store->bank_name = !empty($request->bank_name) ? $request->bank_name : '';
         $store->bank_iban = !empty($request->bank_iban) ? $request->bank_iban : '';

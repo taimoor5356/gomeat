@@ -16,8 +16,6 @@ class AddColsToStores extends Migration
         Schema::table('stores', function (Blueprint $table) {
             //
             $table->string('legal_business_name')->nullable();
-            $table->string('sales_tax_authority_status')->nullable();
-            $table->string('sales_tax_amount')->nullable();
             $table->string('fbr_registration_status')->nullable();
             $table->string('ntn_number')->nullable();
             $table->string('strn_number')->nullable();

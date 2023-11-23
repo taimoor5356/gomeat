@@ -64,7 +64,7 @@
                     <br>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="input-label">{{translate('messages.module')}}</label>
                                 <select name="module_id" required class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" onchange="modulChange(this.value)">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="input-label" for="store_id">{{translate('messages.store')}}<span
                                         class="input-label-secondary"></span></label>
@@ -100,19 +100,19 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4 col-6">
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.price')}}</label>
                                 <input type="number" min="0" max="999999999999.99" step="0.01" value="1" name="price" class="form-control"
                                        placeholder="Ex : 100" required>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-4" id="sales_tax">
+                        <div class="col-sm-3" id="sales_tax">
                             <div class="form-group">
                                 <label class="input-label" for="sales_tax">Sales Tax %</label>                                
                                 <input type="number" class="form-control" name="sales_tax" id="quantity" placeholder="e.g 10.0">
                             </div>
-                        </div> -->
+                        </div>
                         <!-- <div class="col-sm-4 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Currency</label>
@@ -123,7 +123,7 @@
                                 </select>
                             </div>
                         </div> -->
-                        <div class="col-sm-6 col-6">
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}} {{translate('messages.type')}}</label>
                                 <select name="discount_type" class="form-control">
@@ -132,7 +132,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-6">
+                        <div class="col-sm-3 col-6">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}}</label>
                                 <input type="number" min="0" max="9999999999999999999999" value="0" name="discount" class="form-control"

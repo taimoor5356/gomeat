@@ -15,6 +15,7 @@ class AddBankColsToStores extends Migration
     {
         Schema::table('stores', function (Blueprint $table) {
             //
+            $table->string('account_title')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('bank_iban')->nullable();
         });

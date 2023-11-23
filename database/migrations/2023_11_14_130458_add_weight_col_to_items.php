@@ -16,7 +16,6 @@ class AddWeightColToItems extends Migration
         Schema::table('items', function (Blueprint $table) {
             //
             $table->string('weight')->nullable();
-            $table->string('currency')->nullable();
         });
     }
 
