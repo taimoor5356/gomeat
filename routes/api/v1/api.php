@@ -168,7 +168,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     });
 
     Route::group(['prefix' => 'config'], function () {
-        Route::get('/', 'ConfigController@configuration');
+        Route::get('/{country_code?}', 'ConfigController@configuration');
         // Route::get('/temp', 'ConfigController@configuration_temp');
         Route::get('/get-zone-id', 'ConfigController@get_zone');
         Route::get('place-api-autocomplete', 'ConfigController@place_api_autocomplete');
