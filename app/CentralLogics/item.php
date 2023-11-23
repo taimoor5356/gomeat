@@ -40,7 +40,6 @@ class ProductLogic
                 }
             }
         }
-        dd($items);
         return [
             'total_size' => $paginator->total(),
             'limit' => $limit,
