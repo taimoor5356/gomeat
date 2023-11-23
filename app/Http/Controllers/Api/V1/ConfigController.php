@@ -25,16 +25,18 @@ class ConfigController extends Controller
         $this->map_api_key = $map_api_key_server;
     }
 
-    public function configuration($country_code = null)
+    public function configuration(Request $request)
     {
         $key = ['currency_code','cash_on_delivery','digital_payment','default_location','free_delivery_over','business_name','logo','address','phone','email_address','country','currency_symbol_position','app_minimum_version_android','app_url_android','app_minimum_version_ios','app_url_ios','customer_verification','schedule_order','order_delivery_verification','per_km_shipping_charge','minimum_shipping_charge','show_dm_earning','canceled_by_deliveryman','canceled_by_store','timeformat','toggle_veg_non_veg','toggle_dm_registration','toggle_store_registration','schedule_order_slot_duration','parcel_per_km_shipping_charge','parcel_minimum_shipping_charge','web_app_landing_page_settings','footer_text','landing_page_links','loyalty_point_exchange_rate', 'loyalty_point_item_purchase_point', 'loyalty_point_status', 'loyalty_point_minimum_point', 'wallet_status', 'dm_tips_status', 'ref_earning_status','ref_earning_exchange_rate','go_partner_minimum_version_android','go_partner_minimum_version_ios','go_partner_app_url_android','go_partner_app_url_ios','gomt_discount','android_google','android_facebook','ios_google','ios_facebook','ios_apple','web_facebook','web_google','new_feature','web_apple','otp_verification'];
         
         $settings =  array_column(BusinessSetting::whereIn('key',$key)->get()->toArray(), 'value', 'key');
         $currency_symbol = Currency::where(['currency_code' => Helpers::currency_code()])->first()->currency_symbol;
-        if (!empty($country_code)) {
-            $checkCurrency = Currency::where(['country_code' => $country_code])->first();
+        $countryName = $settings['country'];
+        if (!empty($request['country_code'])) {
+            $checkCurrency = Currency::where(['country_code' => $request['country_code']])->first();
             if (isset($checkCurrency)) {
                 $currency_symbol = $checkCurrency->currency_symbol;
+                $countryName = $request['country_code'];
             }
         }
         $cod = json_decode($settings['cash_on_delivery'], true);
@@ -93,7 +95,7 @@ class ConfigController extends Controller
                 'parcel_category_image_url' => asset('storage/app/public/parcel_category'),
                 'landing_page_image_url' => asset('public/assets/landing/image')
             ],
-            'country' => $settings['country'],
+            'country' => $countryName,
             'default_location'=> [ 'lat'=> $default_location?$default_location['lat']:'23.757989', 'lng'=> $default_location?$default_location['lng']:'90.360587' ],
             'currency_symbol' => $currency_symbol,
             'currency_symbol_direction' => $settings['currency_symbol_position'],
