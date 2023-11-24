@@ -181,7 +181,7 @@ class PaymobController extends Controller
 
     public function callback(Request $request)
     {
-        return response()->json(['testing']);
+        // return response()->json(['testing']);
         $config = Helpers::get_business_settings('paymob_accept');
         $data = $request->all();
         ksort($data);
