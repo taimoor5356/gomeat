@@ -105,18 +105,14 @@ class PaymobController extends Controller
         }
         $items = [];
         foreach ($order->details as $detail) {
+            $itemDetail = json_decode($detail->item_details);
             array_push($items, [
-                // 'name' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
-                // 'amount_cents' => round($detail['price'],2) * 100,
-                // 'description' => $detail->campaign?$detail->campaign->title:$detail->food['name'],
-                // 'quantity' => $detail['quantity']
-                "name" => "ASC1515",
-                "amount_cents" => "500000",
-                "description" => "Smart Watch",
-                "quantity" => "1"
+                'name' => isset($detail) ? $itemDetail->name : '',
+                'amount_cents' => round($detail['price'],2) * 100,
+                'description' => isset($detail) ? $itemDetail->description : '',
+                'quantity' => $detail['quantity']
             ]);
         }
-
         $data = [
             "auth_token" => $token,
             "delivery_needed" => "false",
@@ -185,6 +181,7 @@ class PaymobController extends Controller
 
     public function callback(Request $request)
     {
+        return response()->json(['testing']);
         $config = Helpers::get_business_settings('paymob_accept');
         $data = $request->all();
         ksort($data);
