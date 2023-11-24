@@ -63,7 +63,7 @@ class StripePaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . 'pay-stripe/success?order_id='.$order->id,
+            'success_url' => $YOUR_DOMAIN . 'pay-stripe/success?order_id='.$order->id.'&transaction_reference='.$tran,
             'cancel_url' => url()->previous(),
         ]);
 
@@ -86,7 +86,11 @@ class StripePaymentController extends Controller
         }
         $order->order_status='confirmed';
         $order->payment_method='stripe';
-        $order->transaction_reference=session('transaction_ref');
+        $transactionReference = session('transaction_ref');
+        if (empty($transactionReference)) {
+            $transactionReference = $request['transaction_reference'];
+        }
+        $order->transaction_reference=$transactionReference;
         $order->payment_status='paid';
         $order->confirmed=now();
         // return $order; 
