@@ -63,7 +63,7 @@ class StripePaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . 'pay-stripe/success',
+            'success_url' => $YOUR_DOMAIN . 'pay-stripe/success?order_id'.$order->id,
             'cancel_url' => url()->previous(),
         ]);
 
@@ -77,10 +77,13 @@ class StripePaymentController extends Controller
         return response()->json(['id' => $checkout_session->id]);
     }
 
-    public function success()
+    public function success(Request $request)
     {
         // sleep(10);
         $order = Order::find(session('order_id'));
+        if (!isset($order)) {
+            $order = Order::find($request['order_id']);
+        }
         $order->order_status='confirmed';
         $order->payment_method='stripe';
         $order->transaction_reference=session('transaction_ref');
