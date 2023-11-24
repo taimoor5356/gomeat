@@ -114,14 +114,14 @@
                             <div class="form-group col-6">
                                 <div class="form-group">
                                     <label class="input-label" for="store_online_payment">Store Online Payment</label>
-                                    <input type="number" id="store_online_payment" name="store_online_payment" class="form-control" placeholder="" value="{{old('store_online_payment')}}">
+                                    <input type="number" disabled id="store_online_payment" name="store_online_payment" class="form-control" placeholder="" value="{{old('store_online_payment')}}">
                                 </div>
                             </div>
 
                             <div class="form-group col-6">
                                 <div class="form-group">
                                     <label class="input-label" for="store_cash_payment">Store Cash Payment</label>
-                                    <input type="number" id="store_cash_payment" name="store_cash_payment" class="form-control" placeholder="" value="{{old('store_cash_payment')}}">
+                                    <input type="number" disabled id="store_cash_payment" name="store_cash_payment" class="form-control" placeholder="" value="{{old('store_cash_payment')}}">
                                 </div>
                             </div>
                             <!-- Store -->
@@ -137,14 +137,14 @@
                                             <input type="checkbox" name="filer_status" id="filer_status" value="active">
                                         </div>
                                     </div>
-                                    <input type="number" id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
+                                    <input type="number" disabled id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
                                 </div>
                             </div>
 
                             <div class="form-group col-6">
                                 <div class="form-group">
                                     <label class="input-label" for="sales_tax_amount">Restaurant Cash Payment %</label>
-                                    <input type="number" id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
+                                    <input type="number" disabled id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="0">
                                 </div>
                             </div>
                             <!-- Restaurant -->
@@ -371,25 +371,25 @@
         });
         
         $(document).on('change', '#module_id', function () {
-            // $('#store_cash_payment').val(0);
-            // $('#store_online_payment').val(0);
-            // $('#restaurant_cash_payment').val(0);
-            // $('#restaurant_online_payment').val(0);
+            $('#store_cash_payment').val(0);
+            $('#store_online_payment').val(0);
+            $('#restaurant_cash_payment').val(0);
+            $('#restaurant_online_payment').val(0);
             if ($(this).val() == 1) {
-                // $('.restaurant-data').addClass('d-none');
-                // $('.store-data').removeClass('d-none');
+                $('.restaurant-data').addClass('d-none');
+                $('.store-data').removeClass('d-none');
             } else if ($(this).val() == 2) {
-                // $('.restaurant-data').removeClass('d-none');
-                // $('.store-data').addClass('d-none');
+                $('.restaurant-data').removeClass('d-none');
+                $('.store-data').addClass('d-none');
             }
         });
 
         $(document).on('change', '#filer_status', function () {
             let _this = $(this);
             if (_this.is(':checked')) {
-                $('.restaurant_cash_amount_field').prop('disabled', false);
+                // $('.restaurant_cash_amount_field').prop('disabled', false);
             } else {
-                $('.restaurant_cash_amount_field').prop('disabled', true);
+                // $('.restaurant_cash_amount_field').prop('disabled', true);
             }
         });
 

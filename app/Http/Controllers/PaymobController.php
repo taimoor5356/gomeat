@@ -62,28 +62,27 @@ class PaymobController extends Controller
             Toastr::error('Paymob supports Rs currency only');
             return back();
         }
-
         $config = Helpers::get_business_settings('paymob_accept');
         try {
             $token = $this->getToken();
             if (!is_null($requestData)) {
-                $order = $this->createOrder($token, $requestData['order_id']);
+                $order = $this->createOrder($token, $requestData);
+                $paymentToken = $this->getPaymentToken($order, $token, $requestData);
+                if ($requestData['payment_method'] == 'card_payment') {
+                    return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+                } else if ($requestData['payment_method'] == 'jazz_cash' || $requestData['payment_method'] == 'easy_paisa') {
+                    return 'https://pakistan.paymob.com/iframe/' . $paymentToken;
+                }
             } else {
                 $order = $this->createOrder($token);
-            }
-            $paymentToken = $this->getPaymentToken($order, $token, $requestData['order_id']);
-            if (!is_null($requestData)) {
-                return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+                $paymentToken = $this->getPaymentToken($order, $token);
+                // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
+                return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
             }
         }catch (\Exception $exception){
             Toastr::error(translate('messages.country_permission_denied_or_misconfiguration'));
             return back();
         }
-        if (!is_null($requestData)) {
-            return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
-        }
-        // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
-        return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
     }
 
     public function getToken()
@@ -98,13 +97,11 @@ class PaymobController extends Controller
         return $response->token;
     }
 
-    public function createOrder($token, $orderId = null)
+    public function createOrder($token, $requestData = null)
     {
         $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
-        if (!is_null($orderId)) {
-            // if (empty(session('order_id'))) {
-                $order = Order::with(['details'])->where(['id' => $orderId])->first();
-            // }
+        if (!is_null($requestData)) {
+            $order = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
         }
         $items = [];
         foreach ($order->details as $detail) {
@@ -137,16 +134,21 @@ class PaymobController extends Controller
         return $response;
     }
 
-    public function getPaymentToken($order, $token, $orderId = null)
+    public function getPaymentToken($order, $token, $requestData = null)
     {
         $ord = Order::with(['details'])->where(['id' => session('order_id')])->first();
-        
-        if (!empty($orderId)) {
-            $ord = Order::with(['details'])->where(['id' => $orderId])->first();
-        }
-
-        $value = $ord->order_amount;
         $config = Helpers::get_business_settings('paymob_accept');
+        $integrationId = 130240;
+        // cash_on_delivery, card_payment, jazz_cash, easy_paisa, stripe, paypal, wallet, crypto, gomt, 
+        if (!is_null($requestData)) {
+            $ord = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
+            if ($requestData['payment_method'] == 'jazz_cash') {
+                $integrationId = 133977;
+            } else if ($requestData['payment_method'] == 'easy_paisa') {
+                $integrationId = 133980;
+            }
+        }
+        $value = $ord->order_amount;
         $billingData = [
             "apartment" => "not given",
             "email" => "not given",
@@ -169,7 +171,7 @@ class PaymobController extends Controller
             "order_id" => $order->id,
             "billing_data" => $billingData,
             "currency" => "PKR",
-            "integration_id" => $config['integration_id']
+            "integration_id" => $integrationId
         ];
 
         $response = $this->cURL(

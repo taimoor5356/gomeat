@@ -379,7 +379,7 @@ class ItemController extends Controller
             'name.*' => 'max:191',
             'category_id' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
-            'currency' => 'required',
+            // 'currency' => 'required',
             // 'weight' => 'required|numeric|between:.01,999999999999.99',
             'store_id' => 'required',
             'description' => 'array',
@@ -486,7 +486,7 @@ class ItemController extends Controller
 
         $item->variations = json_encode([]);
         // $item->price = $request->price;
-        $item->currency = $request->currency;
+        // $item->currency = $request->currency;
         $item->weight = isset($request->weight) ? $request->weight : '';
         $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
         $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
@@ -513,14 +513,14 @@ class ItemController extends Controller
         $item->sales_tax = $salesTax; // percentage
         $salesTaxAmount = 0;
 
-        if (empty($request->sales_tax)) {
-            $sales_Tax = 16; // percentage
-            $salesTaxAmount = ($request->price * $sales_Tax) / (100 + $request->sales_tax); // total tax amount after tax calculation
-        } else {
-            $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
-        }
-        $item->total_sales_tax_amount = $salesTaxAmount; // sales tax amount
-        $item->product_price = $request->price - $salesTaxAmount; // product price
+        // if (empty($request->sales_tax)) {
+        //     $sales_Tax = 16; // percentage
+        //     $salesTaxAmount = ($request->price * $sales_Tax) / (100 + $request->sales_tax); // total tax amount after tax calculation
+        // } else {
+        //     $salesTaxAmount = ($request->price * $request->sales_tax) / 100; // total tax amount after tax calculation
+        // }
+        // $item->total_sales_tax_amount = $salesTaxAmount; // sales tax amount
+        // $item->product_price = $request->price - $salesTaxAmount; // product price
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Accounts Ends
