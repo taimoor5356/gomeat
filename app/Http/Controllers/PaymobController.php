@@ -110,7 +110,7 @@ class PaymobController extends Controller
             array_push($items, [
                 'name' => isset($detail) ? $itemDetail->name : '',
                 'amount_cents' => round($detail['price'],2) * 100,
-                'description' => isset($detail) ? $itemDetail->description : '',
+                'description' => isset($detail) ? $itemDetail->description : 'NILL',
                 'quantity' => $detail['quantity']
             ]);
         }
