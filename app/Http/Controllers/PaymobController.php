@@ -67,8 +67,8 @@ class PaymobController extends Controller
             $token = $this->getToken();
             if (!is_null($requestData)) {
                 $order = $this->createOrder($token, $requestData);
+                dd($order);
                 $paymentToken = $this->getPaymentToken($order, $token, $requestData);
-                dd($order, $paymentToken);
                 if ($requestData['payment_method'] == 'card_payment') {
                     return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
                 } else if ($requestData['payment_method'] == 'jazz_cash' || $requestData['payment_method'] == 'easy_paisa') {
