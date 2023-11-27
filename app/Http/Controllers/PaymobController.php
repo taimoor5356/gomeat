@@ -108,10 +108,10 @@ class PaymobController extends Controller
         foreach ($order->details as $detail) {
             $itemDetail = json_decode($detail->item_details);
             array_push($items, [
-                'name' => isset($detail) ? $itemDetail->name : '',
-                'amount_cents' => round($detail['price'],2) * 100,
+                'name' => isset($detail) ? $itemDetail->name : 'NILL',
+                'amount_cents' => isset($detail) ? round($detail['price'],2) * 100 : 0.00,
                 'description' => isset($detail) ? $itemDetail->description : 'NILL',
-                'quantity' => $detail['quantity']
+                'quantity' => isset($detail) ? $detail['quantity'] : 0
             ]);
         }
         $data = [
