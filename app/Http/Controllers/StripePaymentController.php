@@ -84,15 +84,15 @@ class StripePaymentController extends Controller
         if (!isset($order)) {
             $order = Order::find($request['order_id']);
         }
-        $order->order_status='confirmed';
-        $order->payment_method='stripe';
+        $order->order_status = 'confirmed';
+        $order->payment_method = 'stripe';
         $transactionReference = session('transaction_ref');
         if (empty($transactionReference)) {
             $transactionReference = $request['transaction_reference'];
         }
-        $order->transaction_reference=$transactionReference;
-        $order->payment_status='paid';
-        $order->confirmed=now();
+        $order->transaction_reference = $transactionReference;
+        $order->payment_status = 'paid';
+        $order->confirmed = now();
         // return $order; 
         $order->save();
         try {
