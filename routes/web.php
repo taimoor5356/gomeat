@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JazzcashController;
 use App\Models\Country;
+use App\Models\CountryHasState;
 use Illuminate\Support\Facades\Route;
 use OpenSpout\Common\Entity\Row;
 
@@ -178,6 +179,78 @@ Route::get('/insert-data', function (){
         ]);
     }
     return 'done';
+});
+Route::get('insert-usa-states', function () {
+    $states = [
+        'AL' => 'Alabama',
+        // 'AK' => 'Alaska',
+        'AZ' => 'Arizona',
+        'AR' => 'Arkansas',
+        'CA' => 'California',
+        'CO' => 'Colorado',
+        'CT' => 'Connecticut',
+        'DE' => 'Delaware',
+        'FL' => 'Florida',
+        'GA' => 'Georgia',
+        'HI' => 'Hawaii',
+        'ID' => 'Idaho',
+        'IL' => 'Illinois',
+        'IN' => 'Indiana',
+        'IA' => 'Iowa',
+        'KS' => 'Kansas',
+        'KY' => 'Kentucky',
+        'LA' => 'Louisiana',
+        'ME' => 'Maine',
+        'MD' => 'Maryland',
+        'MA' => 'Massachusetts',
+        'MI' => 'Michigan',
+        'MN' => 'Minnesota',
+        'MS' => 'Mississippi',
+        'MO' => 'Missouri',
+        'MT' => 'Montana',
+        'NE' => 'Nebraska',
+        'NV' => 'Nevada',
+        'NH' => 'New Hampshire',
+        'NJ' => 'New Jersey',
+        'NM' => 'New Mexico',
+        'NY' => 'New York',
+        'NC' => 'North Carolina',
+        'ND' => 'North Dakota',
+        'OH' => 'Ohio',
+        'OK' => 'Oklahoma',
+        'OR' => 'Oregon',
+        'PA' => 'Pennsylvania',
+        'RI' => 'Rhode Island',
+        'SC' => 'South Carolina',
+        'SD' => 'South Dakota',
+        'TN' => 'Tennessee',
+        'TX' => 'Texas',
+        'UT' => 'Utah',
+        'VT' => 'Vermont',
+        'VA' => 'Virginia',
+        'WA' => 'Washington',
+        'WV' => 'West Virginia',
+        'WI' => 'Wisconsin',
+        'WY' => 'Wyoming',
+        'DC' => 'District of Columbia',
+        'AS' => 'American Samoa',
+        'GU' => 'Guam',
+        'MP' => 'Northern Mariana Islands',
+        'PR' => 'Puerto Rico',
+        'UM' => 'United States Minor Outlying Islands',
+        'VI' => 'Virgin Islands, U.S.',
+    ];
+    foreach ($states as $key => $state) {
+        CountryHasState::create([
+            'country_id' => 25,
+            'name' => $state,
+            'store_online_payment' => 0.00,
+            'store_cash_payment' => 0.00,
+            'restaurant_online_payment' => 0.00,
+            'restaurant_cash_payment' => 0.00,
+        ]);
+    }
+    return 'Done';
 });
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('custom-token-add', 'HomeController@add_token')->name('custom-token-add');
