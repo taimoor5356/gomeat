@@ -145,6 +145,7 @@
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
                                 <select name="unit" class="form-control">
+                                    <option value="">None</option>
                                     @foreach (\App\Models\Unit::all() as $unit)
                                         <option value="{{$unit->id}}">{{$unit->unit}}</option>
                                     @endforeach
