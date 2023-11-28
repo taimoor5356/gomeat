@@ -22,7 +22,8 @@ class CategoryController extends Controller
                 $query->module(config('module.current_module_data')['id']);
             })
             ->orderBy('priority','desc')->get();
-            return response()->json(Helpers::category_data_formatting($categories, true), 200);
+            return response()->json([], 200);
+            // return response()->json(Helpers::category_data_formatting($categories, true), 200);
         } catch (\Exception $e) {
             return response()->json([], 200);
         }

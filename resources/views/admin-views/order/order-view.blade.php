@@ -490,7 +490,7 @@
                                                 </div>
 
                                                 <div class="col col-md-2 align-self-center">
-                                                    <h6>{{ \App\CentralLogics\Helpers::format_currency($detail['price']) }}
+                                                    <h6>@isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{ $detail['price'] }}
                                                     </h6>
                                                 </div>
                                                 <div class="col col-md-2 align-self-center">
@@ -503,7 +503,7 @@
 
                                                 <div class="col col-md-3 align-self-center text-right">
                                                     @php($amount = $detail['price'] * $detail['quantity'])
-                                                    <h5>{{ \App\CentralLogics\Helpers::format_currency($amount) }}</h5>
+                                                    <h5>@isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{ $amount }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -575,7 +575,7 @@
                                                 </div>
 
                                                 <div class="col col-md-2 align-self-center">
-                                                    <h6>{{ \App\CentralLogics\Helpers::format_currency($detail['price']) }}
+                                                    <h6>@isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{ $detail['price'] }}
                                                     </h6>
                                                 </div>
                                                 <div class="col col-md-1 align-self-center">
@@ -584,7 +584,7 @@
 
                                                 <div class="col col-md-3 align-self-center text-right">
                                                     @php($amount = $detail['price'] * $detail['quantity'])
-                                                    <h5>{{ \App\CentralLogics\Helpers::format_currency($amount) }}</h5>
+                                                    <h5>@isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{ $amount }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -666,48 +666,48 @@
                                         <dd class="col-sm-6">
                                             
                                             {{-- {{ \App\CentralLogics\Helpers::format_currency($product_price + $total_addon_price) }} --}}
-                                            {{ \App\CentralLogics\Helpers::format_currency($order['sub_total']) }}
+                                            @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['sub_total'] }}
                                         </dd>
                                         {{-- <dt class="col-sm-6">{{ translate('messages.discount') }}:</dt>
                                         <dd class="col-sm-6">
-                                            - {{ \App\CentralLogics\Helpers::format_currency($store_discount_amount) }}
+                                            - {{ $store_discount_amount }}
                                         </dd> --}}
                                         
                                         <dt class="col-sm-6">{{ translate('messages.coupon') }}
                                             {{ translate('messages.discount') }}:</dt>
                                         <dd class="col-sm-6">
-                                                - {{ \App\CentralLogics\Helpers::format_currency($coupon_discount_amount) }}
+                                                - @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $coupon_discount_amount }}
                                         </dd>
                                         <dt class="col-sm-6">GOMT Discount %:</dt>
                                         <dd class="col-sm-6">
                                              {{ ($gomt_discount_percent==NULL ? '0.00': $gomt_discount_percent) }} % on 
-                                             {{ \App\CentralLogics\Helpers::format_currency($order['sub_total'] - $coupon_discount_amount) }}
+                                             @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['sub_total'] - $coupon_discount_amount }}
                                         </dd>
                                         <dt class="col-sm-6">GOMT Discount amount:</dt>
                                         <dd class="col-sm-6">
-                                             - {{ \App\CentralLogics\Helpers::format_currency($gomt_discount_amount) }}
+                                             - @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $gomt_discount_amount }}
                                         </dd>
                                         <dt class="col-sm-6">Total discount:</dt>
                                         <dd class="col-sm-6">
-                                             {{ \App\CentralLogics\Helpers::format_currency($total_discount_amount) }}
+                                             @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $total_discount_amount }}
                                         </dd>
                                         <dt class="col-sm-6">{{ translate('messages.Service') }}
                                             {{ translate('messages.fee') }} @ {{$order['service_fee_percent']}} %:</dt>
                                         <dd class="col-sm-6">
-                                            + {{ \App\CentralLogics\Helpers::format_currency($order['service_fee_amount']) }}
+                                            + @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['service_fee_amount'] }}
                                         </dd>
                                         <dt class="col-sm-6">{{ translate('messages.sales_tax') }}:</dt>
                                         <dd class="col-sm-6">
                                             {{-- + {{ \App\CentralLogics\Helpers::format_currency($total_tax_amount) }}</dd> --}}
-                                            + {{ \App\CentralLogics\Helpers::format_currency($order['sales_tax']) }}</dd>
+                                            + @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['sales_tax'] }}</dd>
                                         
                                         <dt class="col-sm-6">{{ translate('messages.driver_tips') }}</dt>
                                         <dd class="col-sm-6">
-                                            + {{ \App\CentralLogics\Helpers::format_currency($deliverman_tips) }}</dd>
+                                            + @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $deliverman_tips }}</dd>
                                         <dt class="col-sm-6">{{ translate('messages.delivery') }}
                                             {{ translate('messages.fee') }}:</dt>
                                         <dd class="col-sm-6">
-                                            + {{ \App\CentralLogics\Helpers::format_currency($del_c) }}
+                                            + @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $del_c }}
                                             <hr>
                                         </dd>
 
@@ -719,7 +719,7 @@
                                     <dt class="col-sm-6">{{ translate('messages.total') }}:</dt>
                                     <dd class="col-sm-6">
                                         
-                                        {{ \App\CentralLogics\Helpers::format_currency($product_price + $del_c + $order['service_fee_amount'] + $order['sales_tax'] + $total_addon_price + $deliverman_tips - $coupon_discount_amount - $store_discount_amount - $gomt_discount_amount) }}
+                                    @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ round(($product_price + $del_c + $order['service_fee_amount'] + $order['sales_tax'] + $total_addon_price + $deliverman_tips - $coupon_discount_amount - $store_discount_amount - $gomt_discount_amount), 2) }}
                                         <hr>
                                     
                                     </dd>
@@ -729,19 +729,19 @@
                                     <dt class="col-sm-6">{{ translate('messages.GoMeat') }}
                                         {{ translate('messages.Commission') }} @ {{ $order['gm_commission_percent'] }} %:</dt>
                                     <dd class="col-sm-6">
-                                        $ {{ $order['gm_commission'] }}
+                                    @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['gm_commission'] }}
                                     </dd>
 
                                     <dt class="col-sm-6">{{ translate('messages.GoMeat') }}
                                         {{ translate('messages.Revenue') }}:</dt>
                                     <dd class="col-sm-6">
-                                        {{ \App\CentralLogics\Helpers::format_currency($order['gomeat_revenue']) }}
+                                    @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['gomeat_revenue'] }}
                                     </dd>
 
                                     <dt class="col-sm-6">{{ translate('messages.net_to') }}
                                         {{ translate('messages.store') }}:</dt>
                                     <dd class="col-sm-6">
-                                        {{ \App\CentralLogics\Helpers::format_currency($order['net_to_store']) }}
+                                    @isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{ $order['net_to_store'] }}
                                     </dd>
                                 </dl>
                                 <!-- End Row -->

@@ -174,7 +174,7 @@ class OrderController extends Controller
 
     public function details(Request $request, $id)
     {
-        $order = Order::with(['details', 'store' => function ($query) {
+        $order = Order::with(['details', 'store.country', 'store' => function ($query) {
             return $query->withCount('orders');
         }, 'customer' => function ($query) {
             return $query->withCount('orders');
