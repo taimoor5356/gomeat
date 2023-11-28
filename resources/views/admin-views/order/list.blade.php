@@ -377,7 +377,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td>{{\App\CentralLogics\Helpers::format_currency($order['order_amount'])}}</td>
+                            <td>@isset($order->store)@if(!empty($order->store->country->currency_symbol)){{$order->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{$order['order_amount']}}</td>
                             <td class="text-capitalize">
                                 @if($order['order_status']=='pending')
                                     <span class="badge badge-soft-info ml-2 ml-sm-3">

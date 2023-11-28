@@ -42,7 +42,7 @@ class OrderController extends Controller
 
         Order::where(['checked' => 0])->update(['checked' => 1]);
 
-        $orders = Order::with(['customer', 'store'])
+        $orders = Order::with(['customer', 'store.country'])
             ->when(isset($module_id), function ($query) use ($module_id) {
                 return $query->module($module_id);
             })
