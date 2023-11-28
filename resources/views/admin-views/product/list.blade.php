@@ -250,7 +250,7 @@
 
                             <tbody id="set-rows">
                             @foreach($items as $key=>$item)
-                                <tr class="@if($item->currency == 'Rs') bg-success text-white @endif">
+                                <tr>
                                     <td>{{$key+$items->firstItem()}}</td>
                                     <td>
                                         <a class="media align-items-center" href="{{route('admin.item.view',[$item['id']])}}">
@@ -267,7 +267,7 @@
                                     <td>
                                     {{Str::limit($item->store?$item->store->name:translate('messages.store deleted!'), 20, '...')}}
                                     </td>
-                                    <td>{{$item->currency}}{{round($item->price, 2)}}</td>
+                                    <td>@isset($item->store)@if(!empty($item->store->country->currency_symbol)){{$item->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{round($item->price, 2)}}</td>
                                     <td>{{$item->weight}} @isset($item->unit){{$item->unit->unit}}@endisset</td>
                                     <td>{{$item['sales_tax']}}</td>
                                     <td>{{$item['order_count']}}</td>

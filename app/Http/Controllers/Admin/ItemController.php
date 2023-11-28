@@ -332,7 +332,7 @@ class ItemController extends Controller
 
     public function view($id)
     {
-        $product = Item::withoutGlobalScope(StoreScope::class)->where(['id' => $id])->first();
+        $product = Item::with('store.country')->withoutGlobalScope(StoreScope::class)->where(['id' => $id])->first();
         $reviews = Review::where(['item_id' => $id])->latest()->paginate(config('default_pagination'));
         return view('admin-views.product.view', compact('product', 'reviews'));
     }
@@ -737,7 +737,7 @@ class ItemController extends Controller
         $category_id = $request->query('category_id', 'all');
         // $module_id = $request->query('module_id', 'all');
         $type = $request->query('type', 'all');
-        $items = Item::withoutGlobalScope(StoreScope::class)
+        $items = Item::with('store.country')->withoutGlobalScope(StoreScope::class)
             // ->when($request->query('module_id', null), function ($query) use ($request) {
             //     return $query->module($request->query('module_id'));
             // })

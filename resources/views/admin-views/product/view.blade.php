@@ -142,13 +142,13 @@
                     <div class="col-sm-4 col-12 pt-2">
                         <h4 class="border-bottom">{{$product['name']}}</h4>
                         <span>{{translate('messages.price')}} :
-                            <span>{{\App\CentralLogics\Helpers::format_currency($product['price'])}}</span>
+                            <span>@isset($product->store)@if(!empty($product->store->country->currency_symbol)){{$product->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{$product['price']}}</span>
                         </span><br>
                         <!-- <span>{{translate('messages.tax')}} :
-                            <span>{{\App\CentralLogics\Helpers::format_currency(\App\CentralLogics\Helpers::tax_calculate($product,$product['price']))}}</span>
+                            <span>{{\App\CentralLogics\Helpers::tax_calculate($product,$product['price'])}}</span>
                         </span><br> -->
                         <span>{{translate('messages.discount')}} :
-                            <span>{{\App\CentralLogics\Helpers::format_currency(\App\CentralLogics\Helpers::discount_calculate($product,$product['price']))}}</span>
+                            <span>@isset($product->store)@if(!empty($product->store->country->currency_symbol)){{$product->store->country->currency_symbol}}@else $ @endif @else $ @endisset {{\App\CentralLogics\Helpers::discount_calculate($product,$product['price'])}}</span>
                         </span><br>
                         @if (config('module.'.$product->module->module_type)['item_available_time'])
                         <span>
@@ -167,7 +167,7 @@
                                 {{-- @dump($choice_options->title) --}}
                                 @foreach($choice_options->options as $option)
                                 <span class="text-capitalize">
-                                {{$option->type}} : {{\App\CentralLogics\Helpers::format_currency($option->price)}}
+                                {{$option->type}} : {{$option->price}}
                                 </span><br>
                                 @endforeach
                                 <br>
@@ -177,7 +177,7 @@
                         <h4 class="border-bottom mt-2"> {{translate('messages.addons')}} </h4>
                         @foreach(\App\Models\AddOn::whereIn('id',json_decode($product['add_ons'],true))->get() as $addon)
                             <span class="text-capitalize">
-                              {{$addon['name']}} : {{\App\CentralLogics\Helpers::format_currency($addon['price'])}}
+                              {{$addon['name']}} : {{$addon['
                             </span><br>
                         @endforeach
                         @endif --}}

@@ -53,7 +53,7 @@
                                 </thead>
 
                                 <tbody id="set-rows">
-                                @php($foods = \App\Models\Item::withoutGlobalScope(\App\Scopes\StoreScope::class)->where('store_id', $store->id)->latest()->paginate(25))
+                                @php($foods = \App\Models\Item::with(['store.country'])->withoutGlobalScope(\App\Scopes\StoreScope::class)->where('store_id', $store->id)->latest()->paginate(25))
                                 @foreach($foods as $key=>$food)
                                     
                                 <tr>
@@ -70,7 +70,7 @@
                                     <td>
                                     {{Str::limit($food->category?$food->category->name:translate('messages.category_deleted'),20,'...')}}
                                     </td>
-                                    <td>{{$food->currency}}{{round($food->price, 2)}}</td>
+                                    <td>@isset($food->store)@if(!empty($food->store->country->currency_symbol)){{$food->store->country->currency_symbol}}@else $ @endif @else $ @endisset{{round($food->price, 2)}}</td>
                                     <td>{{$food['sales_tax']}}</td>
                                     <td>{{$food['gm_commission']}}</td>
                                     <td>

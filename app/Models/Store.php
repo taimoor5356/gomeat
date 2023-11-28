@@ -190,8 +190,8 @@ class Store extends Model
         
     }
 
-    public function state()
+    public function country()
     {
-        return $this->belongsTo(CountryHasState::class, 'state_id', 'id');
+        return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 }
