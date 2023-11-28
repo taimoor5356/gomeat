@@ -76,6 +76,7 @@ class VendorController extends Controller
         $vendor['this_week_earning'] =(float)$vendor->this_week_earning()->sum('store_amount');
         $vendor['this_month_earning'] =(float)$vendor->this_month_earning()->sum('store_amount');
         $vendor["stores"] = $store;
+        $vendor["country"] = isset($store->country) ? $store->country->short_name : '';
         unset($vendor['orders']);
         unset($vendor['rating']);
         unset($vendor['todaysorders']);
