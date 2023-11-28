@@ -14,16 +14,24 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function get_categories()
+    public function get_categories(Request $request)
     {
         try {
             $categories = Category::where(['position'=>0,'status'=>1])
             ->when(config('module.current_module_data'), function($query){
                 $query->module(config('module.current_module_data')['id']);
             })
-            ->orderBy('priority','desc')->get();
-            return response()->json([], 200);
-            // return response()->json(Helpers::category_data_formatting($categories, true), 200);
+            ->orderBy('priority','desc');
+            if (!empty($request->header()) && $request->header('country') == 'PK') {
+                if ($request->header('moduleId') == '2') {
+                    return response()->json([], 200);
+                } else if ($request->header('moduleId') == '1') {
+                    $categories = $categories->where('id', '!=', 2)->get();
+                    return response()->json(Helpers::category_data_formatting($categories, true), 200);
+                }
+            }
+            return response()->json(Helpers::category_data_formatting($categories->get(), true), 200);
+            
         } catch (\Exception $e) {
             return response()->json([], 200);
         }
