@@ -194,4 +194,9 @@ class Store extends Model
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
+    
+    public function state()
+    {
+        return $this->belongsTo(CountryHasState::class, 'state_id', 'id');
+    }
 }
