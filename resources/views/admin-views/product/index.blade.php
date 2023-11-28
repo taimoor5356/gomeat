@@ -144,7 +144,7 @@
                         <div class="col-4" id="unit_input">
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
-                                <select name="unit" class="form-control">
+                                <select name="unit" class="form-control" id="weight-unit">
                                     <option value="">None</option>
                                     @foreach (\App\Models\Unit::all() as $unit)
                                         <option value="{{$unit->id}}">{{$unit->unit}}</option>
@@ -156,7 +156,7 @@
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Weight</label>
                                 <input type="number" value="0" name="weight" class="form-control"
-                                       placeholder="Ex : 100" >
+                                       placeholder="Ex : 100" id="weight-id" disabled>
                             </div>
                         </div>
                         <div class="col-4">
@@ -438,7 +438,14 @@
         var count = 0;
         // var countRow=0;
         $(document).ready(function() {
-
+            $(document).on('change', '#weight-unit', function() {
+                let _this = $(this);
+                if (_this.val() == '') {
+                    $('#weight-id').prop('disabled', true);
+                } else {
+                    $('#weight-id').prop('disabled', false);
+                }
+            });
             // $('#food_variation_section').hide();
             // $('#organic').hide();
             $("#add_new_option_button").click(function(e) {
