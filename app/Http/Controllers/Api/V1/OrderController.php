@@ -710,14 +710,14 @@ class OrderController extends Controller
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json([$e]);
+            return response()->json([$e], 403);
         }
 
         return response()->json([
             'errors' => [
                 ['code' => 'order_time', 'message' => translate('messages.failed_to_place_order')]
             ]
-        ]);
+        ], 403);
     }
 
     public function get_order_list(Request $request)

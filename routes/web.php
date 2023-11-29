@@ -16,6 +16,18 @@ use OpenSpout\Common\Entity\Row;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('mysuccesspage', function () {
+    return 'Successfull';
+});
+
+Route::get('myerrorpage', function () {
+    return 'Error';
+});
+
+
+
 Route::get('/insert-data', function (){
     $countries = [
         [
