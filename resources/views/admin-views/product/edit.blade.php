@@ -77,6 +77,8 @@
                         </div>
                     </div>
                     @endif
+                    <br>
+                    <hr>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -109,6 +111,12 @@
                                 <input type="number" value="{{$product['price']}}" min="0" max="999999999999.99" name="price"
                                        class="form-control" step="0.01"
                                        placeholder="Ex : 100" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3" id="sales_tax">
+                            <div class="form-group">
+                                <label class="input-label" for="sales_tax">Sales Tax %</label>                                
+                                <input type="number" class="form-control" name="sales_tax" value="{{$product->sales_tax}}" id="quantity">
                             </div>
                         </div>
                         <!-- <div class="col-md-3 col-6">
@@ -145,7 +153,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6" id="unit_input">
+                        <div class="col-4" id="unit_input">
                             <div class="form-group">
                                 <label class="input-label text-capitalize" for="unit">{{translate('messages.unit')}}</label>
                                 <select name="unit" class="form-control">
@@ -155,7 +163,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6" id="weight_input">
+                        <div class="col-4" id="weight_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">Weight</label>
                                 <input type="number" value="{{$product['weight']}}"
@@ -163,10 +171,7 @@
                                        placeholder="Ex : 100">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6" id="veg_input">
+                        <div class="col-4" id="veg_input">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('messages.item_type')}}</label>
                                 <select name="veg" class="form-control">
@@ -175,6 +180,9 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlSelect1">{{translate('messages.category')}}<span
@@ -334,6 +342,8 @@
                             </div>
                         </div>
                     </div>--}}
+
+<br>
 
                     <div class="form-group">
                         <label class="text-dark">{{translate('messages.item')}} {{translate('messages.thumbnail')}}</label><small style="color: red">* ( {{translate('messages.ratio')}} 1:1 )</small>

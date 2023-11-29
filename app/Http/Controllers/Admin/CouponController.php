@@ -30,6 +30,12 @@ class CouponController extends Controller
         //     'zone_ids' => 'required_if:coupon_type,zone_wise',
         //     'store_ids' => 'required_if:coupon_type,store_wise'
         // ]);
+
+        $coupons = Coupon::query();
+        if ($coupons->where('country_id', $request->region_id)->where('code', $request->code)->exists()) {
+            Toastr::error('Coupon code cannot be same for same country');
+            return back();
+        }
         $data  = '';
         if($request->coupon_type == 'zone_wise')
         {
@@ -39,8 +45,6 @@ class CouponController extends Controller
         {
             $data = $request->store_ids;
         }
-
-
 
         DB::table('coupons')->insert([
             'title' => $request->title,
@@ -84,6 +88,13 @@ class CouponController extends Controller
             // 'zone_ids' => 'required_if:coupon_type,zone_wise',
             // 'store_ids' => 'required_if:coupon_type,store_wise'
         ]);
+
+        $coupons = Coupon::query();
+
+        // if ($coupons->where('country_id', $request->region_id)->where('code', $request->code)->exists()) {
+        //     Toastr::error('Coupon code cannot be same for same country');
+        //     return back();
+        // }
         $data  = '';
         if($request->coupon_type == 'zone_wise')
         {
