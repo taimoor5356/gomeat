@@ -12,7 +12,7 @@ class CouponController extends Controller
 {
     public function add_new()
     {
-        $coupons = Coupon::with('module')->latest()->paginate(config('default_pagination'));
+        $coupons = Coupon::with(['module', 'country'])->latest()->paginate(config('default_pagination'));
         return view('admin-views.coupon.index', compact('coupons'));
     }
 
@@ -56,6 +56,7 @@ class CouponController extends Controller
             'status' => 1,
             'data' => json_encode($data),
             'module_id'=>$request->module_id,
+            'country_id'=>!empty($request->region_id) ? $request->region_id : null,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -79,9 +80,9 @@ class CouponController extends Controller
             'start_date' => 'required',
             'expire_date' => 'required',
             'discount' => 'required',
-            'module_id'=>'required',
-            'zone_ids' => 'required_if:coupon_type,zone_wise',
-            'store_ids' => 'required_if:coupon_type,store_wise'
+            // 'module_id'=>'required',
+            // 'zone_ids' => 'required_if:coupon_type,zone_wise',
+            // 'store_ids' => 'required_if:coupon_type,store_wise'
         ]);
         $data  = '';
         if($request->coupon_type == 'zone_wise')
@@ -106,6 +107,7 @@ class CouponController extends Controller
             'discount_type' => $request->discount_type??'',
             'data' => json_encode($data),
             'module_id'=>$request->module_id,
+            'country_id'=>!empty($request->region_id) ? $request->region_id : null,
             'updated_at' => now()
         ]);
 

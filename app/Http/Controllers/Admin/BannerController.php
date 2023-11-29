@@ -42,6 +42,7 @@ class BannerController extends Controller
         $banner = new Banner;
         $banner->title = $request->title;
         $banner->type = $request->banner_type;
+        $banner->country_id = !empty($request->region_id) ? $request->region_id : null;
         // $banner->zone_id = $request->zone_id;
         $banner->zone_id = 0;
         $banner->image = Helpers::upload('banner/', 'png', $request->file('image'));
@@ -99,6 +100,7 @@ class BannerController extends Controller
 
         $banner->title = $request->title;
         $banner->type = $request->banner_type;
+        $banner->country_id = !empty($request->region_id) ? $request->region_id : null;
         $banner->zone_id = 0;
         $banner->image = $request->has('image') ? Helpers::update('banner/', $banner->image, 'png', $request->file('image')) : $banner->image;
         $banner->data = 0;

@@ -28,6 +28,11 @@ class Coupon extends Model
     {
         return $query->where('module_id', $module_id);
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
     
     // protected static function booted()
     // {

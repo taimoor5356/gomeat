@@ -26,13 +26,27 @@
                                         <input type="text" name="title" class="form-control" placeholder="{{translate('messages.new_coupon')}}" required maxlength="191">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <!-- <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="input-label">{{translate('messages.module')}}</label>
                                         <select name="module_id" required class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_select">
                                                 <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
                                             @foreach(\App\Models\Module::notParcel()->get() as $module)
                                                 <option value="{{$module->id}}" >{{$module->module_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div> -->
+                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="input-label">Region</label>
+                                        {{-- <select name="region_id" required --}}
+                                        <select name="region_id" 
+                                                class="form-control js-select2-custom"  data-placeholder="Select Region" id="region_select">
+                                                <option value="" selected disabled>Select Region</option>
+                                            @foreach(\App\Models\Country::get() as $country)
+                                                <option value="{{$country->id}}">{{$country->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -173,7 +187,8 @@
                                 <th>{{translate('messages.#')}}</th>
                                 <th>{{translate('messages.title')}}</th>
                                 <th>{{translate('messages.code')}}</th>
-                                <th>{{translate('messages.module')}}</th>
+                                <!-- <th>{{translate('messages.module')}}</th> -->
+                                <th>Region</th>
                                 <th>{{translate('messages.type')}}</th>
                                 <th>{{translate('messages.total_uses')}}</th>
                                 <th>{{translate('messages.min')}} {{translate('messages.purchase')}}</th>
@@ -197,7 +212,7 @@
                                     </span>
                                     </td>
                                     <td>{{$coupon['code']}}</td>
-                                    <td>{{Str::limit($coupon->module->module_name, 15, '...')}}</td>
+                                    <td>@isset($coupon->country){{$coupon->country->name}}@endisset</td>
                                     <td>{{translate('messages.'.$coupon->coupon_type)}}</td>
                                     <td>{{$coupon->total_uses}}</td>
                                     <td>{{\App\CentralLogics\Helpers::format_currency($coupon['min_purchase'])}}</td>

@@ -43,8 +43,20 @@
                                         </select>
                                     </div>
 
+<div class="form-group">
+    <label class="input-label">Region</label>
+    {{-- <select name="region_id" required --}}
+    <select name="region_id" 
+            class="form-control js-select2-custom"  data-placeholder="Select Region" id="region_select">
+            <option value="" selected disabled>Select Region</option>
+        @foreach(\App\Models\Country::get() as $country)
+            <option value="{{$country->id}}">{{$country->name}}</option>
+        @endforeach
+    </select>
+</div>
+
                                     <div class="form-group">
-                                        <label class="input-label" for="title">{{translate('messages.zone')}}</label>
+                                        <label class="input-label" for="title">{{translate('messages.zone')}} (optional)</label>
                                         <select name="zone_id" id="zone" class="form-control js-select2-custom">
                                             <option disabled selected>---{{translate('messages.select')}}---</option>
                                             @php($zones=\App\Models\Zone::active()->get())
@@ -60,14 +72,14 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.banner')}} {{translate('messages.type')}}</label>
+                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.banner')}} {{translate('messages.type')}}  (optional)</label>
                                         <select name="banner_type" class="form-control" onchange="banner_type_change(this.value)">
                                             <option value="store_wise">{{translate('messages.store')}} {{translate('messages.wise')}}</option>
                                             <option value="item_wise">{{translate('messages.item')}} {{translate('messages.wise')}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group" id="store_wise">
-                                        <label class="input-label" for="exampleFormControlSelect1">{{translate('messages.store')}}<span
+                                        <label class="input-label" for="exampleFormControlSelect1">{{translate('messages.store')}} (optional)<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="store_id" class="js-data-example-ajax form-control"  title="Select Restaurant">
                                             

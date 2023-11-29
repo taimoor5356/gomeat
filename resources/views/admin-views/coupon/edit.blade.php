@@ -25,7 +25,7 @@
                                        placeholder="{{translate('messages.new_coupon')}}" required maxlength="191">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="input-label">{{translate('messages.module')}}</label>
                                 <select name="module_id" required class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_select">
@@ -34,7 +34,20 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="input-label">Region</label>
+                                        {{-- <select name="region_id" required --}}
+                                        <select name="region_id" 
+                                                class="form-control js-select2-custom"  data-placeholder="Select Region" id="region_select">
+                                                <option value="" selected disabled>Select Region</option>
+                                            @foreach(\App\Models\Country::get() as $country)
+                                                <option value="{{$country->id}}" {{$country->id==$coupon->country_id?'selected':''}}>{{$country->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
