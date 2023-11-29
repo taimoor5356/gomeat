@@ -26,7 +26,7 @@ class CategoryController extends Controller
                 if ($request->header('moduleId') == '2') {
                     return response()->json([], 200);
                 } else if ($request->header('moduleId') == '1') {
-                    $categories = $categories->whereIn('id', '!=',  [1, 2])->get();
+                    $categories = $categories->whereNotIn('id', [1, 2])->get();
                     return response()->json(Helpers::category_data_formatting($categories, true), 200);
                 }
             }
