@@ -710,6 +710,7 @@ class OrderController extends Controller
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
+            return $e->getMessage();
             return response()->json([$e], 403);
         }
 
