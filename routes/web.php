@@ -22,8 +22,8 @@ Route::get('mysuccesspage', function () {
     return 'Successfull';
 });
 
-Route::get('myerrorpage', function () {
-    return 'Error';
+Route::get('processing', function () {
+    return 'In Process';
 });
 
 
