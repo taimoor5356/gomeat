@@ -318,7 +318,10 @@ class OrderController extends Controller
 
         $order->order_amount = $request['order_amount']; // total amount
         $order->payment_status = $request['payment_method']=='wallet'?'paid':'unpaid';
-        $order->order_status = $request['payment_method']=='digital_payment'?'Waiting for Payment':($request->payment_method == 'wallet'?'confirmed':'pending');
+        // $order->order_status = $request['payment_method']=='digital_payment'?'Waiting for Payment':($request->payment_method == 'wallet'?'confirmed':'pending');
+        
+        $order->order_status = $request->payment_method == 'wallet' ? 'confirmed' : ($request->payment_method == 'cash_on_delivery' ? 'pending' : 'Waiting for Payment');
+
         $order->coupon_code = $request['coupon_code'];
         $order->payment_method = $request->payment_method;
         $order->transaction_reference = null;
