@@ -18,7 +18,7 @@ use OpenSpout\Common\Entity\Row;
 */
 
 
-Route::get('mysuccesspage', function () {
+Route::get('successful', function () {
     return 'Successfull';
 });
 
