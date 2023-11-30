@@ -256,6 +256,18 @@
                                             <i class="tio-android-phone-vs nav-icon"></i>
                                             {{translate('messages.phone')}} : {{$store->phone}}
                                         </li>
+                                        <li>
+                                            <i class="tio-file nav-icon"></i>
+                                            Filer Status : {{ucfirst($store->filer_status)}}
+                                        </li>
+                                        <li>
+                                            <i class="tio-file nav-icon"></i>
+                                            NTN Number : {{ucfirst($store->ntn_number)}}
+                                        </li>
+                                        <li>
+                                            <i class="tio-file nav-icon"></i>
+                                            STRN Number : {{ucfirst($store->strn_number)}}
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -315,18 +327,15 @@
                                         <li class="py-0 border-bottom">
                                             <small class="card-subtitle">{{translate('messages.bank_info')}}</small>
                                         </li>
-                                        @if($store->vendor->bank_name)
+                                        @if($store->bank_name)
                                         <li class="pb-1 pt-1">
-                                            {{translate('messages.bank_name')}}: {{$store->vendor->bank_name ? $store->vendor->bank_name : 'No Data found'}}
+                                            {{translate('messages.bank_name')}}: {{$store->bank_name ? $store->bank_name : 'No Data found'}}
                                         </li>
                                         <li class="pb-1 pt-1">
-                                            {{translate('messages.branch')}}  : {{$store->vendor->branch ? $store->vendor->branch : 'No Data found'}}
+                                            Account Title : {{$store->account_title ? $store->account_title : 'No Data found'}}
                                         </li>
                                         <li class="pb-1 pt-1">
-                                            {{translate('messages.holder_name')}} : {{$store->vendor->holder_name ? $store->vendor->holder_name : 'No Data found'}}
-                                        </li>
-                                        <li class="pb-1 pt-1">
-                                            {{translate('messages.account_no')}}  : {{$store->vendor->account_no ? $store->vendor->account_no : 'No Data found'}}
+                                            {{translate('messages.account_no')}}  : {{$store->bank_iban ? $store->bank_iban : 'No Data found'}}
                                         </li>
                                         @else
                                         <li class="my-auto">
