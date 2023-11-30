@@ -99,17 +99,6 @@
                     </div>
                     <div class="col-md-12 col-12">
                         <div class="row store-data d-none">
-                            <!-- <div class="form-group col-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label class="input-label" for="sales_tax_amount">Sales Tax %</label>
-                                        <div class="">
-                                            Filer
-                                            <input type="checkbox" name="filer_status" id="filer_status" value="active">
-                                        </div>
-                                    </div>
-                                    <input type="number" id="sales_tax_amount" name="sales_tax_amount" disabled class="form-control" placeholder="Enter Sales Tax % (If Filer)" value="{{old('sales_tax_amount')}}">
-                                </div> -->
-
                             <!-- Store -->
                             <div class="form-group col-6">
                                 <div class="form-group">
@@ -172,7 +161,6 @@
                                 </div>
                             </div>
                             <div class="col-6">
-
                                 <div class="form-group col-12 m-0 p-0">
                                     <label class="input-label" for="choice_zones">{{translate('messages.zone')}}<span class="input-label-secondary" title="{{translate('messages.select_zone_for_map')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.select_zone_for_map')}}"></span></label>
                                     <select name="zone_id" id="choice_zones" required class="form-control js-select2-custom" data-placeholder="{{translate('messages.select')}} {{translate('messages.zone')}}">
@@ -189,7 +177,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-6 d-flex justify-content-end" style="">
+                            <div class="col-md-6 col-6 d-flex justify-content-end">
                                 <div class="form-group" style="margin-bottom:0%;">
                                     <center>
                                         <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="{{asset('public/assets/admin/img/400x400/img2.jpg')}}" alt="{{translate('store_logo')}}" />
@@ -220,6 +208,7 @@
         --}}
 
     </div>
+    <hr>
     <div class="row">
         <div class="col-md-4 col-12">
             <div class="form-group">

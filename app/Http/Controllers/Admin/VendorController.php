@@ -469,14 +469,17 @@ class VendorController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit($id, $country = null)
     {
         if(env('APP_MODE')=='demo' && $id == 2)
         {
             Toastr::warning(translate('messages.you_can_not_edit_this_store_please_add_a_new_store_to_edit'));
             return back();
         }
-        $store = Store::findOrFail($id);
+        $store = Store::with('country', 'state')->findOrFail($id);
+        if (!is_null($country)) {
+            return view('admin-views.vendor.edit_pk', compact('store'));
+        }
         return view('admin-views.vendor.edit', compact('store'));
     }
 
@@ -537,8 +540,13 @@ class VendorController extends Controller
         $store->zone_id = $request->zone_id;
         $store->minimum_order = $request->minimum_order;
         // $store->tax = $request->tax;
+        $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
+        
         $store->gm_commission = $request->gm_commission;
         $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
+        $store->account_title = !empty($request->account_title) ? $request->account_title : '';
+        $store->bank_name = !empty($request->bank_name) ? $request->bank_name : '';
+        $store->bank_iban = !empty($request->bank_iban) ? $request->bank_iban : '';
         $store->save();
         Toastr::success(translate('messages.store').translate('messages.updated_successfully'));
         return redirect('admin/vendor/list');
@@ -621,7 +629,7 @@ class VendorController extends Controller
          (isset($request->zone_id) && $request->zone_id=='all'))
         {
             $stores = Store::
-            with('vendor','module')->type($type)->latest()->paginate(config('default_pagination'));
+            with('vendor','module', 'country')->type($type)->latest()->paginate(config('default_pagination'));
         }
         else if((isset($request->module_id) && $request->module_id =='all') &&
          (isset($request->zone_id) && $request->zone_id!='all'))
@@ -630,7 +638,7 @@ class VendorController extends Controller
             when(is_numeric($zone_id), function($query)use($zone_id){
                 return $query->where('zone_id', $zone_id);
             })
-            ->with('vendor','module')->type($type)->latest()->paginate(config('default_pagination'));
+            ->with('vendor','module', 'country')->type($type)->latest()->paginate(config('default_pagination'));
         }
         else
         {
@@ -640,7 +648,7 @@ class VendorController extends Controller
             ->when($request->query('module_id', null), function($query)use($request){
                 return $query->module($request->query('module_id'));
             })
-            ->with('vendor','module')->type($type)->latest()->paginate(config('default_pagination'));
+            ->with('vendor','module', 'country')->type($type)->latest()->paginate(config('default_pagination'));
 
         }
         

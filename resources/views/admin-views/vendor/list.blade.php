@@ -166,9 +166,15 @@
                                         <a class="btn btn-sm btn-white"
                                             href="{{route('admin.vendor.view',[$store['id']])}}" title="{{translate('messages.view')}} {{translate('messages.store')}}"><i class="tio-visible text-success"></i>
                                         </a>
+                                        @if (isset($store->country) && $store->country->short_name == 'PK')
+                                        <a class="btn btn-sm btn-white"
+                                            href="{{route('admin.vendor.edit',[$store['id'], 'pk'])}}" title="{{translate('messages.edit')}} {{translate('messages.store')}}"><i class="tio-edit text-primary"></i>
+                                        </a>
+                                        @else 
                                         <a class="btn btn-sm btn-white"
                                             href="{{route('admin.vendor.edit',[$store['id']])}}" title="{{translate('messages.edit')}} {{translate('messages.store')}}"><i class="tio-edit text-primary"></i>
                                         </a>
+                                        @endif
                                         <a class="btn btn-sm btn-white" href="javascript:"
                                         onclick="form_alert('vendor-{{$store['id']}}','{{translate('You want to remove this store')}}')" title="{{translate('messages.delete')}} {{translate('messages.store')}}"><i class="tio-delete-outlined text-danger"></i>
                                         </a>

@@ -116,7 +116,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         });
 
         Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:banner']], function () {
-        // Route::group(['prefix' => 'banner', 'as' => 'banner'], function () {
             Route::get('add-new', 'BannerController@index')->name('add-new');
             Route::post('store', 'BannerController@store')->name('store');
             Route::get('edit/{banner}', 'BannerController@edit')->name('edit');
@@ -183,7 +182,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('clone', 'VendorController@indexClone')->name('clone');
                 Route::post('store/{country?}', 'VendorController@store')->name('store');
                 Route::post('store-clone', 'VendorController@storeClone')->name('store-clone');
-                Route::get('edit/{id}', 'VendorController@edit')->name('edit');
+                Route::get('edit/{id}/{country?}', 'VendorController@edit')->name('edit');
                 Route::post('update/{store}', 'VendorController@update')->name('update');
                 Route::post('discount/{store}', 'VendorController@discountSetup')->name('discount');
                 Route::post('update-settings/{store}', 'VendorController@updateStoreSettings')->name('update-settings');
