@@ -34,26 +34,26 @@ class LoginController extends Controller
         ]);
 
         $recaptcha = Helpers::get_business_settings('recaptcha');
-        if (isset($recaptcha) && $recaptcha['status'] == 1) {
-            $request->validate([
-                'g-recaptcha-response' => [
-                    function ($attribute, $value, $fail) {
-                        $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-                        $response = $value;
-                        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-                        $response = \file_get_contents($url);
-                        $response = json_decode($response);
-                        if (!$response->success) {
-                            $fail(translate('messages.ReCAPTCHA Failed'));
-                        }
-                    },
-                ],
-            ]);
-        } else if(strtolower(session('six_captcha')) != strtolower($request->custome_recaptcha))
-        {
-            Toastr::error(translate('messages.ReCAPTCHA Failed'));
-            return back();
-        }
+        // if (isset($recaptcha) && $recaptcha['status'] == 1) {
+        //     $request->validate([
+        //         'g-recaptcha-response' => [
+        //             function ($attribute, $value, $fail) {
+        //                 $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
+        //                 $response = $value;
+        //                 $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
+        //                 $response = \file_get_contents($url);
+        //                 $response = json_decode($response);
+        //                 if (!$response->success) {
+        //                     $fail(translate('messages.ReCAPTCHA Failed'));
+        //                 }
+        //             },
+        //         ],
+        //     ]);
+        // } else if(strtolower(session('six_captcha')) != strtolower($request->custome_recaptcha))
+        // {
+        //     Toastr::error(translate('messages.ReCAPTCHA Failed'));
+        //     return back();
+        // }
 
         $vendor = Vendor::where('email', $request->email)->first();
         if($vendor)
