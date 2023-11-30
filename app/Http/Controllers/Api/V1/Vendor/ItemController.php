@@ -404,6 +404,7 @@ class ItemController extends Controller
         } 
 
         $p->variations = json_encode($variations);
+        $p->weight = !empty($request->weight) ? $request->weight : '0.00';
         $p->price = $request->price;
         $p->image = $request->has('image') ? Helpers::update('product/', $p->image, 'png', $request->file('image')) : $p->image;
         $p->available_time_starts = $request->available_time_starts;

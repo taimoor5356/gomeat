@@ -125,9 +125,6 @@ class ItemController extends Controller
         return response()->json($data, 200);
     }
 
-
-    
-
     public function get_popular_products(Request $request)
     {
         if (!$request->hasHeader('zoneId')) {
