@@ -16,7 +16,7 @@ class ProductLogic
         ->where('id', $id)->first();
     }
 
-    public static function get_latest_products($limit, $offset, $store_id, $category_id, $type, $request)
+    public static function get_latest_products($limit, $offset, $store_id, $category_id, $type, $request = null)
     {
         $paginator = Item::with('store.state')->active()->type($type)
         ->when($category_id != 0, function($q)use($category_id){
@@ -113,7 +113,7 @@ class ProductLogic
         
     }
 
-    public static function most_reviewed_products($zone_id, $limit = null, $offset = null, $type = 'all', $request)
+    public static function most_reviewed_products($zone_id, $limit = null, $offset = null, $type = 'all', $request = null)
     {
         if($limit != null && $offset != null)
         {
