@@ -6,9 +6,15 @@
             </div>
             <div class="col-6">
                 @if($store->vendor->status)
+                @if (!empty($store->country->short_name) && $store->country->short_name == 'PK')
+                <a href="{{route('admin.vendor.edit',[$store['id'], 'pk'])}}" class="btn btn-primary float-right">
+                    <i class="tio-edit"></i> {{translate('messages.edit')}} {{translate('messages.store')}}
+                </a>
+                @else
                 <a href="{{route('admin.vendor.edit',[$store->id])}}" class="btn btn-primary float-right">
                     <i class="tio-edit"></i> {{translate('messages.edit')}} {{translate('messages.store')}}
                 </a>
+                @endif
                 @else
                     @if(!isset($store->vendor->status))
                     <a class="btn btn-danger text-capitalize font-weight-bold float-right" 
