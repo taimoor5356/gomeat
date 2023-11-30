@@ -124,14 +124,14 @@
                                                 <input type="checkbox" name="filer_status" id="filer_status" value="active" @if($store->filer_status == 'active') checked @endif>
                                             </div>
                                         </div>
-                                        <input type="number" disabled id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="{{$store->state->restaurant_online_payment}}">
+                                        <input type="number" disabled id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="@isset($store->state){{$store->state->restaurant_online_payment}}@endisset">
                                     </div>
                                 </div>
 
                                 <div class="form-group col-6">
                                     <div class="form-group">
                                         <label class="input-label" for="sales_tax_amount">Restaurant Cash Payment %</label>
-                                        <input type="number" disabled id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="{{$store->state->restaurant_cash_payment}}">
+                                        <input type="number" disabled id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="@isset($store->state){{$store->state->restaurant_cash_payment}}@endisset">
                                     </div>
                                 </div>
                                 <!-- Restaurant -->
