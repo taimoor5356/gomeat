@@ -205,7 +205,7 @@ class ItemController extends Controller
 
         $module_id = $request->header('moduleId');
         $zone_id= $request->header('zoneId');
-        $items = ProductLogic::most_reviewed_products($zone_id, $request['limit'], $request['offset'], $type);
+        $items = ProductLogic::most_reviewed_products($zone_id, $request['limit'], $request['offset'], $type, $request);
         $lat = $request->header('lat');
         $long = $request->header('long');
         $itemData=[];

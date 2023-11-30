@@ -113,7 +113,7 @@ class ProductLogic
         
     }
 
-    public static function most_reviewed_products($zone_id, $limit = null, $offset = null, $type = 'all')
+    public static function most_reviewed_products($zone_id, $limit = null, $offset = null, $type = 'all', $request)
     {
         if($limit != null && $offset != null)
         {
@@ -130,12 +130,30 @@ class ProductLogic
             ->withCount('reviews')->active()->type($type)
             ->orderBy('reviews_count','desc')
             ->paginate($limit, ['*'], 'page', $offset);
-
+            $items = $paginator->items();
+            if (($request->header('country') == 'PK') && ($request->header('moduleId') == 2)) {
+                foreach ($items as $key => $item) {
+                    if ($item->store) {
+                        if ($item->store->filer_status == 'active') {
+                            if (isset($item->store->state)) {
+                                $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
+                                $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
+                            } else {
+                                $items[$key]['cod_tax'] = 0.00;
+                            }
+                        } else {
+                            $items[$key]['cod_tax'] = 0.00;
+                        }
+                    } else {
+                        $items[$key]['cod_tax'] = 0.00;
+                    }
+                }
+            }
             return [
                 'total_size' => $paginator->total(),
                 'limit' => $limit,
                 'offset' => $offset,
-                'products' => $paginator->items()
+                'products' => $items
             ];
         }
         $paginator = Item::active()->type($type)
