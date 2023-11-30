@@ -31,7 +31,7 @@ class ItemController extends Controller
 
         $type = $request->query('type', 'all'); 
 
-        $items = ProductLogic::get_latest_products($request['limit']+10, $request['offset'], $request['store_id'], $request['category_id'], $type, $request);
+        $items = ProductLogic::get_latest_products($request['limit'], $request['offset'], $request['store_id'], $request['category_id'], $type, $request);
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
     }

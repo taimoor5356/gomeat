@@ -31,9 +31,17 @@ class ProductLogic
         $items = $paginator->items();
         if (($request->header('country') == 'PK') && ($request->header('moduleId') == 2)) {
             foreach ($items as $key => $item) {
-                if (isset($item->store->state)) {
-                    $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
-                    $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
+                if ($item->store) {
+                    if ($item->store->filer_status == 'active') {
+                        if (isset($item->store->state)) {
+                            $items[$key]['sales_tax'] = $item->store->state->restaurant_online_payment;
+                            $items[$key]['cod_tax'] = $item->store->state->restaurant_cash_payment;
+                        } else {
+                            $items[$key]['cod_tax'] = 0.00;
+                        }
+                    } else {
+                        $items[$key]['cod_tax'] = 0.00;
+                    }
                 } else {
                     $items[$key]['cod_tax'] = 0.00;
                 }
