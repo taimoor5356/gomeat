@@ -65,14 +65,29 @@ class PaymobController extends Controller
         $config = Helpers::get_business_settings('paymob_accept');
         try {
             $token = $this->getToken();
+            if ($token['status'] == false) {
+                return response()->json([
+                    'status' => false,
+                    'url' => ''
+                ]);
+            } else {
+                $token = $token['data'];
+            }
             if (!is_null($requestData)) {
                 $order = $this->createOrder($token, $requestData);
-                // dd($order);
                 $paymentToken = $this->getPaymentToken($order, $token, $requestData);
                 if ($requestData['payment_method'] == 'card_payment') {
-                    return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+                    return response()->json([
+                        'status' => true,
+                        'url' => 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken
+                    ]);
+                    // return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
                 } else if ($requestData['payment_method'] == 'jazz_cash' || $requestData['payment_method'] == 'easy_paisa') {
-                    return 'https://pakistan.paymob.com/iframe/' . $paymentToken;
+                    return response()->json([
+                        'status' => true,
+                        'url' => 'https://pakistan.paymob.com/iframe/' . $paymentToken
+                    ]);
+                    // return 'https://pakistan.paymob.com/iframe/' . $paymentToken;
                 }
             } else {
                 $order = $this->createOrder($token);
@@ -81,6 +96,7 @@ class PaymobController extends Controller
                 return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
             }
         }catch (\Exception $exception){
+            return response()->json($exception);
             Toastr::error(translate('messages.country_permission_denied_or_misconfiguration'));
             return back();
         }
@@ -88,98 +104,110 @@ class PaymobController extends Controller
 
     public function getToken()
     {
-        $config = Helpers::get_business_settings('paymob_accept');
-        $response = $this->cURL(
-            // 'https://accept.paymobsolutions.com/api/auth/tokens',
-            'https://pakistan.paymob.com/api/auth/tokens',
-            ['api_key' => $config['api_key']]
-        );
-
-        return $response->token;
+        try {
+            $config = Helpers::get_business_settings('paymob_accept');
+            $response = $this->cURL(
+                // 'https://accept.paymobsolutions.com/api/auth/tokens',
+                'https://pakistan.paymob.com/api/auth/tokens',
+                ['api_key' => $config['api_key']]
+            );
+            if (!empty($response->error)) {
+                return ['status' => false, 'msg' => 'Too many attempts', 'data' => NULL];
+            }
+            return ['status' => true, 'msg' => 'Too many attempts', 'data' => $response->token];
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     public function createOrder($token, $requestData = null)
     {
-        $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
-        if (!is_null($requestData)) {
-            $order = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
-        }
-        $items = [];
-        foreach ($order->details as $detail) {
-            if (isset($detail)) {
-                $itemDetail = json_decode($detail->item_details);
-                array_push($items, [
-                    'name' => !empty($itemDetail->name) ? $itemDetail->name : 'NILL',
-                    'amount_cents' => !empty($detail['price']) ? round($detail['price'],2) * 100 : 0.00,
-                    'description' => !empty($itemDetail->description) ? $itemDetail->description : 'NILL',
-                    'quantity' => !empty($detail['quantity']) ? $detail['quantity'] : 0
-                ]);
+        try {
+            $order = Order::with(['details'])->where(['id' => session('order_id')])->first();
+            if (!is_null($requestData)) {
+                $order = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
             }
+            $items = [];
+            foreach ($order->details as $detail) {
+                if (isset($detail)) {
+                    $itemDetail = json_decode($detail->item_details);
+                    array_push($items, [
+                        'name' => !empty($itemDetail->name) ? $itemDetail->name : 'NILL',
+                        'amount_cents' => !empty($detail['price']) ? round($detail['price'],2) * 100 : 0.00,
+                        'description' => !empty($itemDetail->description) ? $itemDetail->description : 'NILL',
+                        'quantity' => !empty($detail['quantity']) ? $detail['quantity'] : 0
+                    ]);
+                }
+            }
+            $data = [
+                "auth_token" => $token,
+                "delivery_needed" => "false",
+                "amount_cents" => round($order->order_amount,2) * 100,
+                "currency" => "PKR",
+                "items" => $items,
+    
+            ];
+            $response = $this->cURL(
+                // 'https://accept.paymob.com/api/ecommerce/orders',
+                'https://pakistan.paymob.com/api/ecommerce/orders',
+                $data
+            );
+            return $response;
+        } catch (\Exception $e) {
+            return response()->json($e);
         }
-        $data = [
-            "auth_token" => $token,
-            "delivery_needed" => "false",
-            "amount_cents" => round($order->order_amount,2) * 100,
-            "currency" => "PKR",
-            "items" => $items,
-
-        ];
-        $response = $this->cURL(
-            // 'https://accept.paymob.com/api/ecommerce/orders',
-            'https://pakistan.paymob.com/api/ecommerce/orders',
-            $data
-        );
-
-        return $response;
     }
 
     public function getPaymentToken($order, $token, $requestData = null)
     {
-        $ord = Order::with(['details'])->where(['id' => session('order_id')])->first();
-        $config = Helpers::get_business_settings('paymob_accept');
-        $integrationId = 130240;
-        // cash_on_delivery, card_payment, jazz_cash, easy_paisa, stripe, paypal, wallet, crypto, gomt, 
-        if (!is_null($requestData)) {
-            $ord = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
-            if ($requestData['payment_method'] == 'jazz_cash') {
-                $integrationId = 133977;
-            } else if ($requestData['payment_method'] == 'easy_paisa') {
-                $integrationId = 133980;
+        try {
+            $ord = Order::with(['details'])->where(['id' => session('order_id')])->first();
+            $config = Helpers::get_business_settings('paymob_accept');
+            $integrationId = 130240;
+            // cash_on_delivery, card_payment, jazz_cash, easy_paisa, stripe, paypal, wallet, crypto, gomt, 
+            if (!is_null($requestData)) {
+                $ord = Order::with(['details'])->where(['id' => $requestData['order_id']])->first();
+                if ($requestData['payment_method'] == 'jazz_cash') {
+                    $integrationId = 133977;
+                } else if ($requestData['payment_method'] == 'easy_paisa') {
+                    $integrationId = 133980;
+                }
             }
+            $value = $ord->order_amount;
+            $billingData = [
+                "apartment" => "not given",
+                "email" => "not given",
+                "floor" => "not given",
+                "first_name" => "not given",
+                "street" => "not given",
+                "building" => "not given",
+                "phone_number" => "not given",
+                "shipping_method" => "PKG",
+                "postal_code" => "not given",
+                "city" => "not given",
+                "country" => "not given",
+                "last_name" => "not given",
+                "state" => "not given",
+            ];
+            $data = [
+                "auth_token" => $token,
+                "amount_cents" => round($value,2) * 100,
+                "expiration" => 3600,
+                "order_id" => $order->id,
+                "billing_data" => $billingData,
+                "currency" => "PKR",
+                "integration_id" => $integrationId
+            ];
+    
+            $response = $this->cURL(
+                // 'https://accept.paymob.com/api/acceptance/payment_keys',
+                'https://pakistan.paymob.com/api/acceptance/payment_keys',
+                $data
+            );
+            return $response->token;
+        } catch (\Exception $e) {
+            return response()->json($e);
         }
-        $value = $ord->order_amount;
-        $billingData = [
-            "apartment" => "not given",
-            "email" => "not given",
-            "floor" => "not given",
-            "first_name" => "not given",
-            "street" => "not given",
-            "building" => "not given",
-            "phone_number" => "not given",
-            "shipping_method" => "PKG",
-            "postal_code" => "not given",
-            "city" => "not given",
-            "country" => "not given",
-            "last_name" => "not given",
-            "state" => "not given",
-        ];
-        $data = [
-            "auth_token" => $token,
-            "amount_cents" => round($value,2) * 100,
-            "expiration" => 3600,
-            "order_id" => $order->id,
-            "billing_data" => $billingData,
-            "currency" => "PKR",
-            "integration_id" => $integrationId
-        ];
-
-        $response = $this->cURL(
-            // 'https://accept.paymob.com/api/acceptance/payment_keys',
-            'https://pakistan.paymob.com/api/acceptance/payment_keys',
-            $data
-        );
-
-        return $response->token;
     }
 
     public function callback(Request $request)
