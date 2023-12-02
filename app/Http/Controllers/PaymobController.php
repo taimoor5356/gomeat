@@ -77,23 +77,37 @@ class PaymobController extends Controller
                 $order = $this->createOrder($token, $requestData);
                 $paymentToken = $this->getPaymentToken($order, $token, $requestData);
                 if ($requestData['payment_method'] == 'card_payment') {
-                    return response()->json([
-                        'status' => true,
-                        'url' => 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken
-                    ]);
-                    // return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+                    if (strpos($paymentToken, 'HTTP')) {
+                        return response()->json([
+                            'status' => false,
+                            'url' => ''
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status' => true,
+                            'url' => 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken
+                        ]);
+                        // return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
+                    }
                 } else if ($requestData['payment_method'] == 'jazz_cash' || $requestData['payment_method'] == 'easy_paisa') {
-                    return response()->json([
-                        'status' => true,
-                        'url' => 'https://pakistan.paymob.com/iframe/' . $paymentToken
-                    ]);
-                    // return 'https://pakistan.paymob.com/iframe/' . $paymentToken;
+                    if (strpos($paymentToken, 'HTTP')) {
+                        return response()->json([
+                            'status' => false,
+                            'url' => ''
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status' => true,
+                            'url' => 'https://pakistan.paymob.com/iframe/' . $paymentToken
+                        ]);
+                        // return 'https://pakistan.paymob.com/iframe/' . $paymentToken;
+                    }
                 }
             } else {
                 $order = $this->createOrder($token);
                 $paymentToken = $this->getPaymentToken($order, $token);
-                // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
                 return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
+                // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
             }
         }catch (\Exception $exception){
             return response()->json($exception);
