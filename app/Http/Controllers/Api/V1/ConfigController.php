@@ -44,7 +44,7 @@ class ConfigController extends Controller
 
         if (!empty($request['country_code']) && $request['country_code'] == "PK") {
             $pakLocation = '{"lat":"40.0583238","lng":"-74.4056612"}';
-            $default_location=json_decode($pakLocation);
+            $default_location=json_decode($pakLocation, true);
         } else {
             $default_location=isset($settings['default_location'])?json_decode($settings['default_location'], true):0;
         }
