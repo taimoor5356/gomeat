@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\CentralLogics\BannerLogic;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class BannerController extends Controller
@@ -21,17 +22,23 @@ class BannerController extends Controller
         //     ], 403);
         // }
         // $zone_id= $request->header('zoneId');
+        $countryName = $request->header('country');
+        $country = Country::where('short_name', '=', $countryName)->first();
+        $countryId = NULL;
+        if (isset($country)) {
+            $countryId = $country->id;
+        }
         $zone_id= 0;
         // $banners = BannerLogic::get_banners($zone_id, $request->query('featured'));
 
         if($request->featured)
         {
 
-            $banners = Banner::where('status',1)->where('featured',1)->get();
+            $banners = Banner::where('status',1)->where('featured',1)->where('country_id', $countryId)->get();
         }
         else
         {
-            $banners = Banner::where('status',1)->get();
+            $banners = Banner::where('status',1)->where('country_id', $countryId)->get();
         }
 
         $campaigns = [];
