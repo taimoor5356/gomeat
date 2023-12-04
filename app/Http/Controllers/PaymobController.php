@@ -128,7 +128,7 @@ class PaymobController extends Controller
             if (!empty($response->error)) {
                 return ['status' => false, 'msg' => 'Too many attempts', 'data' => NULL];
             }
-            return ['status' => true, 'msg' => 'Too many attempts', 'data' => $response->token];
+            return ['status' => true, 'msg' => 'Successful', 'data' => $response->token];
         } catch (\Exception $e) {
             return response()->json($e);
         }
