@@ -115,8 +115,8 @@ class ProductLogic
 
     public static function most_reviewed_products($zone_id, $limit = null, $offset = null, $type = 'all', $request = null)
     {
-        if($limit != null && $offset != null)
-        {
+        // if($limit != null && $offset != null)
+        // {
             $paginator = Item::
             whereHas('store', function($q)use($zone_id){
                 $q->when(config('module.current_module_data'), function($query)use($zone_id){
@@ -155,7 +155,7 @@ class ProductLogic
                 'offset' => $offset,
                 'products' => $items
             ];
-        }
+        // }
         $paginator = Item::active()->type($type)
         ->whereHas('store', function($q)use($zone_id){
             $q->when(config('module.current_module_data'), function($query)use($zone_id){
