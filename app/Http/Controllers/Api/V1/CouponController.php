@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\CouponLogic;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Store;
@@ -15,32 +16,33 @@ class CouponController extends Controller
 {
     public function list(Request $request)
     {
-        if (!$request->hasHeader('zoneId')) {
-            $errors = [];
-            array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
-        }
-
+        // if (!$request->hasHeader('zoneId')) {
+        //     $errors = [];
+        //     array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
+        //     return response()->json([
+        //         'errors' => $errors
+        //     ], 403);
+        // }
         $zone_id= $request->header('zoneId');
+        $countryName = $request->header('country');
+        $country = Country::where('short_name', '=', $countryName)->first();
+        $countryId = NULL;
+        if (isset($country)) {
+            $countryId = $country->id;
+        }
         $data = [];
         // try {
-            $coupons = Coupon::active()
-            ->when(config('module.current_module_data'), function($query){
-                $query->module(config('module.current_module_data')['id']);
-            })
-            ->whereDate('expire_date', '>=', date('Y-m-d'))->whereDate('start_date', '<=', date('Y-m-d'))->get();
+            $coupons = Coupon::where('country_id', $countryId)->get();
             foreach($coupons as $key=>$coupon)
             {
                 if($coupon->coupon_type == 'store_wise')
                 {
                     $temp = Store::active()
-                    ->when(config('module.current_module_data'), function($query)use($zone_id){
-                        if(!config('module.current_module_data')['all_zone_service']) {
-                            $query->whereIn('zone_id', json_decode($zone_id, true));
-                        }
-                    })
+                    // ->when(config('module.current_module_data'), function($query)use($zone_id){
+                    //     if(!config('module.current_module_data')['all_zone_service']) {
+                    //         $query->whereIn('zone_id', json_decode($zone_id, true));
+                    //     }
+                    // })
                     ->whereIn('id', json_decode($coupon->data, true))->first();
                     if($temp)
                     {
