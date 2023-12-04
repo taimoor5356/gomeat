@@ -584,7 +584,7 @@ class OrderController extends Controller
 
         //DM TIPS
         // $order->order_amount = $order->order_amount + $order->dm_tips;
-        if($request->payment_method == 'wallet' && $request->user()->wallet_balance < $order->order_amount)
+        if($request->payment_method == 'wallet' && $request->user()->wallet_balance < $request->wallet_amount)
         {
             return response()->json([
                 'errors' => [
