@@ -623,7 +623,7 @@ class OrderController extends Controller
             $customer = $request->user();
             $customer->zone_id = $order->zone_id;
             $customer->save();
-            if($request->payment_method == 'wallet') {
+            if($request->wallet_amount > 0) {
                 CustomerLogic::create_wallet_transaction($order->user_id, $request->wallet_amount, 'order_place', $order->id);
             }
             // if($request->payment_method == 'wallet') CustomerLogic::create_wallet_transaction($order->user_id, $order->order_amount, 'order_place', $order_id);
