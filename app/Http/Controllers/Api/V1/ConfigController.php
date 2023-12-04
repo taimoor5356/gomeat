@@ -41,7 +41,13 @@ class ConfigController extends Controller
         }
         $cod = json_decode($settings['cash_on_delivery'], true);
         $digital_payment = json_decode($settings['digital_payment'], true);
-        $default_location=isset($settings['default_location'])?json_decode($settings['default_location'], true):0;
+
+        if (!empty($request['country_code']) && $request['country_code'] == "PK") {
+            $pakLocation = '{"lat":"40.0583238","lng":"-74.4056612"}';
+            $default_location=json_decode($pakLocation);
+        } else {
+            $default_location=isset($settings['default_location'])?json_decode($settings['default_location'], true):0;
+        }
         $free_delivery_over = $settings['free_delivery_over'];
         $free_delivery_over = $free_delivery_over?(float)$free_delivery_over:$free_delivery_over;
         $module = null;
