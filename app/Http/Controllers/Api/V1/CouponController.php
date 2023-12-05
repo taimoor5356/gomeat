@@ -32,7 +32,7 @@ class CouponController extends Controller
         }
         $data = [];
         // try {
-            $coupons = Coupon::where('country_id', $countryId)->get();
+            $coupons = Coupon::where('country_id', $countryId)->where('status', 1)->get();
             foreach($coupons as $key=>$coupon)
             {
                 if($coupon->coupon_type == 'store_wise')
