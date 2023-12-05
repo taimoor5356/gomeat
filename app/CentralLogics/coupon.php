@@ -34,12 +34,12 @@ class CouponLogic
 
         $today = Carbon::now();
 
-        $module_id = isset($module_id)?$module_id:config('module.current_module_data')['id'];
+        // $module_id = isset($module_id)?$module_id:config('module.current_module_data')['id'];
 
-        if(isset($module_id) && $coupon->module_id != $module_id)
-        {
-            return 404;
-        }
+        // if(isset($module_id) && $coupon->module_id != $module_id)
+        // {
+        //     return 404;
+        // }
 
         if($start_date->format('Y-m-d') > $today->format('Y-m-d') || $expire_date->format('Y-m-d') < $today->format('Y-m-d'))
         {

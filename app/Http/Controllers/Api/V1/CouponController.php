@@ -83,7 +83,7 @@ class CouponController extends Controller
         try {
             $coupon = Coupon::active()->where(['code' => $request['code']])->first();
             if (isset($coupon)) {
-                $staus = CouponLogic::is_valide($coupon, $request->user()->id ,$request['store_id']);
+                $staus = CouponLogic::is_valide($coupon, !empty($request->user()->id)?$request->user()->id:$request['user_id'] ,$request['store_id']);
 
                 switch ($staus) {
                 case 200:
