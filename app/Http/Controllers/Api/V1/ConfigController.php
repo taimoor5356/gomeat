@@ -43,7 +43,7 @@ class ConfigController extends Controller
         $digital_payment = json_decode($settings['digital_payment'], true);
 
         if (!empty($request['country_code']) && $request['country_code'] == "PK") {
-            $pakLocation = '{"lat":"40.0583238","lng":"-74.4056612"}';
+            $pakLocation = '{"lat":"31.369488375023646","lng":"74.17684134095907"}';
             $default_location=json_decode($pakLocation, true);
         } else {
             $default_location=isset($settings['default_location'])?json_decode($settings['default_location'], true):0;
