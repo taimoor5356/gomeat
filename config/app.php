@@ -178,6 +178,7 @@ return [
         App\Providers\ConfigServiceProvider::class,
         Laravelpkg\Laravelchk\LaravelchkServiceProvider::class,
         FruitCake\Cors\CorsServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

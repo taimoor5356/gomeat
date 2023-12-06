@@ -55,7 +55,7 @@ class DashboardController extends Controller
         ->get();
         $data['top_sell'] = $top_sell;
         $data['most_rated_items'] = $most_rated_items;
-
+        // return view('store_owner_views.dashboard', compact('data', 'earning', 'commission', 'params'));
         return view('vendor-views.dashboard', compact('data', 'earning', 'commission', 'params'));
     }
 

@@ -13,6 +13,7 @@ class RestaurantController extends Controller
     public function view()
     {
         $shop = Helpers::get_store_data();
+        return view('store_owner_views.store.index', compact('shop'));
         return view('vendor-views.shop.shopInfo', compact('shop'));
     }
 

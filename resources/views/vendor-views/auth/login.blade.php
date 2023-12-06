@@ -291,20 +291,6 @@
         // $('#employee_login_form').hide();
         // $('#vendor_login_form').hide();
     });
-    // $('#owner_sign_in').on('click', function(){
-    //     $('.signIn').hide();
-    //     $('#employee_login_form').hide();
-    //     $(this).hide();
-    //     $('#employee_sign_in').show();
-    //     $('#vendor_login_form').show();
-    // });
-    // $('#employee_sign_in').on('click', function(){
-    //     $('.signIn').hide();
-    //     $('#employee_login_form').show();
-    //     $(this).hide();
-    //     $('#owner_sign_in').show();
-    //     $('#vendor_login_form').hide();
-    // });
 </script>
 
 {{-- recaptcha scripts start --}}
@@ -326,14 +312,6 @@
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback2&render=explicit" async defer></script>
     <script>
-        // $("#vendor_login_form").on('submit',function(e) {
-        //     var response = grecaptcha.getResponse(0);
-
-        //     if (response.length === 0) {
-        //         e.preventDefault();
-        //         toastr.error("{{translate('messages.Please check the recaptcha')}}");
-        //     }
-        // });
 
         $("#employee_login_form").on('submit',function(e) {
             var response = grecaptcha.getResponse(1);
