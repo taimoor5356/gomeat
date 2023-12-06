@@ -19,6 +19,7 @@ Route::post('get-payment-tokens', 'PaymentController@getPaymentTokens');
 Route::post('set-order-status', 'PaymentController@setOrderStatus');
 
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
+    Route::post('sub-category/create', 'CategoryController@createSubCategory');
 
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         
