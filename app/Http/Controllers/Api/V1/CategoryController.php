@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\CentralLogics\CategoryLogic;
 use App\CentralLogics\Helpers;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\StoreCatMap;
 use App\Models\Store;
+use App\Models\Translation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -385,8 +387,6 @@ class CategoryController extends Controller
     }
     
 
-
-
     public function get_all_products($id,Request $request)
     {
         if (!$request->hasHeader('zoneId')) {
@@ -402,6 +402,58 @@ class CategoryController extends Controller
             return response()->json(Helpers::product_data_formatting(CategoryLogic::all_products($id, $zone_id), true, false, app()->getLocale()), 200);
         } catch (\Exception $e) {
             return response()->json([], 200);
+        }
+    }
+
+
+    public function createSubCategory(Request $request)
+    {
+        // $request->validate([
+        //     'name' => 'required|max:100',
+        // ], [
+        //     'name.required' => translate('messages.Name is required!'),
+        // ]);
+        try {
+            $category = new Category(); 
+            // $lang = ['en'];
+            $category->name = $request->name;
+            // $category->image = Helpers::upload('category/', 'png', $request->file('image'));
+            $category->parent_id = $request->parent_id == null ? 0 : $request->parent_id;
+            // $category->sales_tax = $request->sales_tax == null ? 0 : $request->sales_tax;
+            // $category->gm_commission = $request->gm_commission == null ? 0 : $request->gm_commission;
+            $category->position = 1;
+            $category->module_id = isset($request->parent_id)?Category::where('id', $request->parent_id)->first('module_id')->module_id:$request->module_id;
+            $category->save();
+    
+            // $data = [];
+            // foreach($request->lang as $index=>$key)
+            // {
+            //     if($request->name[$index] && $key != 'en')
+            //     {
+            //         array_push($data, Array(
+            //             'translationable_type'  => 'App\Models\Category',
+            //             'translationable_id'    => $category->id,
+            //             'locale'                => $key,
+            //             'key'                   => 'name',
+            //             'value'                 => $request->name[$index],
+            //         ));
+            //     }
+            // }
+            // if(count($data))
+            // {
+            //     Translation::insert($data);
+            // }
+            return response()->json([
+                'status' => true,
+                'msg' => 'Successfully created',
+                'category' => $category
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Something went wrong',
+                'category' => []
+            ]);
         }
     }
 }
