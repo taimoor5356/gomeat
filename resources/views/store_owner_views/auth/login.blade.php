@@ -1,5 +1,5 @@
 @extends('store_owner_views.auth.app')
-@section('page_title', 'Dashboard Login - GoMeat')
+@section('page_title', 'Login - GoMeat')
 @section('content')
 <!-- Content -->
 <div class="container-xxl">

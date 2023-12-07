@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/vendor/css/pages/page-auth.css')}}" />
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/vendor/libs/apex-charts/apex-charts.css')}}" />
+  <link rel="stylesheet" href="{{asset('public/assets/store_owner/css/select2.css')}}" />
 
   <!-- Page CSS -->
 
@@ -70,6 +71,7 @@
   <script src="{{asset('public/assets/store_owner/vendor/js/bootstrap.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/js/menu.js')}}"></script>
+  <script src="{{asset('public/assets/store_owner/js/select2.js')}}"></script>
 
   <!-- endbuild -->
 
@@ -85,7 +87,11 @@
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   @yield('scripts')
-
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2();
+  });
+  </script>
 </body>
 
 </html>

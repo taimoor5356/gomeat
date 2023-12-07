@@ -13,7 +13,7 @@
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="{{asset('public/assets/store_owner/img/favicon/favicon.ico')}}" />
+  <link rel="icon" type="image/x-icon" href="{{asset('public/assets/store_owner/img/logo/logo.png')}}" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,6 +39,7 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="{{asset('public/assets/store_owner/js/config.js')}}"></script>
+  @yield('styles')
 </head>
 
 <body>
