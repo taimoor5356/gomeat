@@ -107,6 +107,12 @@ class PaymobController extends Controller
             } else {
                 $order = $this->createOrder($token);
                 $paymentToken = $this->getPaymentToken($order, $token);
+                if (Str::contains($paymentToken, 'HTTP')) {
+                    return response()->json([
+                        'status' => false,
+                        'url' => 'Something went wrong'
+                    ]);
+                }
                 return \Redirect::away('https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
                 // return \Redirect::away('https://portal.weaccept.co/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken);
             }
