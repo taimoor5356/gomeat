@@ -7,6 +7,7 @@ use App\CentralLogics\OrderLogic;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PaymobController extends Controller
 {
@@ -77,7 +78,7 @@ class PaymobController extends Controller
                 $order = $this->createOrder($token, $requestData);
                 $paymentToken = $this->getPaymentToken($order, $token, $requestData);
                 if ($requestData['payment_method'] == 'card_payment') {
-                    if (strpos($paymentToken, 'HTTP')) {
+                    if (Str::contains($paymentToken, 'HTTP')) {
                         return response()->json([
                             'status' => false,
                             'url' => ''
@@ -90,7 +91,7 @@ class PaymobController extends Controller
                         // return 'https://pakistan.paymob.com/api/acceptance/iframes/' . $config['iframe_id'] . '?payment_token=' . $paymentToken;
                     }
                 } else if ($requestData['payment_method'] == 'jazz_cash' || $requestData['payment_method'] == 'easy_paisa') {
-                    if (strpos($paymentToken, 'HTTP')) {
+                    if (Str::contains($paymentToken, 'HTTP')) {
                         return response()->json([
                             'status' => false,
                             'url' => ''
