@@ -40,7 +40,7 @@
                 GoMeat <br><small style="font-size: 11px; font-weight: normal">Management System</small>
             </span>
         </a>
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
     </div>
@@ -54,8 +54,8 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text" data-i18n="Dashboard">Dashboard</span>
         </li>
-        <li class="menu-item active">
-            <a href="#" class="menu-link">
+        <li class="menu-item">
+            <a href="{{route('vendor.dashboard')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Boxicons">Dashboard</div>
             </a>
@@ -111,7 +111,7 @@
             <ul class="menu-sub">
                 <!-- All Orders -->
                 <li class="menu-item">
-                    <a href="#" target="_blank" class="menu-link">
+                    <a href="{{route('vendor.order.list',['all'])}}" target="_blank" class="menu-link">
                         <div data-i18n="All Orders">All Orders</div>
                     </a>
                 </li>

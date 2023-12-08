@@ -84,7 +84,15 @@ class OrderController extends Controller
         ->paginate(config('default_pagination'));
 
         $status = translate('messages.'.$status);
+        return view('store_owner_views.orders.index', compact('orders', 'status'));
         return view('vendor-views.order.list', compact('orders', 'status'));
+    }
+
+    public function getOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            
+        }
     }
 
     public function search(Request $request){

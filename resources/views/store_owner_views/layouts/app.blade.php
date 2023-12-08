@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/vendor/css/pages/page-auth.css')}}" />
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/vendor/libs/apex-charts/apex-charts.css')}}" />
   <link rel="stylesheet" href="{{asset('public/assets/store_owner/css/select2.css')}}" />
-
+  <link rel="stylesheet" href="{{asset('public/assets/store_owner/css/datatable.css')}}">
   <!-- Page CSS -->
 
   <!-- Helpers -->
@@ -69,6 +69,7 @@
   <script src="{{asset('public/assets/store_owner/vendor/libs/jquery/jquery.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/libs/popper/popper.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/js/bootstrap.js')}}"></script>
+  <script src="{{asset('public/assets/store_owner/js/datatable.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/vendor/js/menu.js')}}"></script>
   <script src="{{asset('public/assets/store_owner/js/select2.js')}}"></script>
