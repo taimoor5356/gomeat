@@ -87,16 +87,18 @@ class PaymentController extends Controller
             if ($request->payment_method == 'stripe') {
                 $stripePayment = app(StripePaymentController::class);
                 $stripeURL = $stripePayment->payment_process_3d($request->all());
-                return response()->json([
-                    'url' => $stripeURL
-                ]);
+                return $stripeURL;
+                // return response()->json([
+                //     'url' => $stripeURL
+                // ]);
             } else if ($request->payment_method == 'paypal') {
                 $paypalPayment = app(PaypalPaymentController::class);
                 $paypalToken = $paypalPayment->payWithpaypal($request->all());
-                return response()->json([
-                    'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $paypalToken,
-                    'alert' => 'Remember we are using the live paypal credentials'
-                ]);
+                return $paypalToken;
+                // return response()->json([
+                //     'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $paypalToken,
+                //     'alert' => 'Remember we are using the live paypal credentials'
+                // ]);
             } else if ($request->payment_method == 'card_payment' || $request->payment_method == 'jazz_cash' || $request->payment_method == 'easy_paisa') {
                 $paymobPayment = app(PaymobController::class);
                 $paymobURL = $paymobPayment->credit($request->all());

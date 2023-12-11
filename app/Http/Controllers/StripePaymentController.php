@@ -69,6 +69,10 @@ class StripePaymentController extends Controller
 
         if (!empty($request['payment_method'])) {
             if ($request['payment_method'] == 'stripe') {
+                return response()->json([
+                    'status' => true,
+                    'url' => $checkout_session->url
+                ]);
                 return $checkout_session->url;
             }
         }
