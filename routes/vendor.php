@@ -159,6 +159,7 @@ Route::group(['namespace' => 'Vendor', 'as' => 'vendor.'], function () {
 
         Route::group(['prefix' => 'order', 'as' => 'order.' , 'middleware' => ['module:order']], function () {
             Route::get('list/{status}', 'OrderController@list')->name('list');
+            Route::get('get-vendor-orders', 'OrderController@getVendorOrders')->name('get_vendor_orders');
             Route::put('status-update/{id}', 'OrderController@status')->name('status-update');
             Route::post('search', 'OrderController@search')->name('search');
             Route::post('add-to-cart', 'OrderController@add_to_cart')->name('add-to-cart');

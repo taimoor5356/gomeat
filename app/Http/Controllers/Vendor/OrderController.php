@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
 use App\Models\Order;
+use App\Models\Vendor;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -84,15 +85,27 @@ class OrderController extends Controller
         ->paginate(config('default_pagination'));
 
         $status = translate('messages.'.$status);
+        dd($orders);
         return view('store_owner_views.orders.index', compact('orders', 'status'));
         return view('vendor-views.order.list', compact('orders', 'status'));
     }
 
-    public function getOrders(Request $request)
+    public function getVendorOrders(Request $request)
     {
-        if ($request->ajax()) {
-            
-        }
+        // if ($request->ajax()) {
+            $vendor = auth('vendor');
+            if (isset($vendor)) {
+                $orders = Order::whereHas('store.vendor', function($query) use($vendor){
+                    $query->where('id', 2936);
+                })
+                ->with('customer')
+                ->Notpos()
+                ->orderBy('schedule_at', 'desc')
+                ->get();
+                $orders= Helpers::order_data_formatting($orders, true);
+                dd($orders);
+            }
+        // }
     }
 
     public function search(Request $request){
