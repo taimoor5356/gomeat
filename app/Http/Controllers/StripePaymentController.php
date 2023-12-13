@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CentralLogics\CustomerLogic;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
 use App\Models\Order;
@@ -87,6 +88,9 @@ class StripePaymentController extends Controller
         $order = Order::find(session('order_id'));
         if (!isset($order)) {
             $order = Order::find($request['order_id']);
+        }
+        if ($order->wallet_amount > 0) {
+            CustomerLogic::create_wallet_transaction($order->user_id, $order->wallet_amount, 'order_place', $order->id);
         }
         $order->order_status = 'confirmed';
         $order->payment_method = 'stripe';

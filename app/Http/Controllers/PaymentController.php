@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\CentralLogics\CustomerLogic;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -124,6 +125,9 @@ class PaymentController extends Controller
                     $transactionReference = 'stripe_tran-'.$request->transaction_reference;
                 } else if ($request->payment_method == 'paypal') {
                     $transactionReference = 'paypal_tran-'.$request->transaction_reference;
+                }
+                if ($order->wallet_amount > 0) {
+                    CustomerLogic::create_wallet_transaction($order->user_id, $order->wallet_amount, 'order_place', $order->id);
                 }
                 $order->order_status = 'confirmed';
                 $order->payment_method = $request->payment_method;
