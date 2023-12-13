@@ -418,7 +418,7 @@ class CategoryController extends Controller
             if ($categories->exists()) {
                 return response()->json([
                     'status' => false,
-                    'msg' => 'Already have a category',
+                    'msg' => 'Sub category already exists',
                     'category' => []
                 ]);
             }
