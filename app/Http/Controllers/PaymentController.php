@@ -106,7 +106,8 @@ class PaymentController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json([
-                'url' => $e
+                'status' => false,
+                'url' => ""
             ]);
         }
     }
