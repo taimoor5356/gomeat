@@ -94,6 +94,10 @@ class PaypalPaymentController extends Controller
             $payment->create($this->_api_context);
 
             if ($getValues['payment_method'] == 'paypal') {
+                return response()->json([
+                    'status' => true,
+                    'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$payment->getToken()
+                ]);
                 return $payment->getToken();
             }
             // dd($payment);
