@@ -116,20 +116,49 @@
                 </div>
             </div>
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
+                <form action="#" method="get"
+                    enctype="multipart/form-data" id="change-form-action">
+                    @php($name = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'business_name')->first())
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-9 col-lg-9 mb-3 mb-lg-2">
+                                <select id="country_id" class="form-control  js-select2-custom">
+                                    <option value="">Select Country</option>
+                                    @php ($countries = \App\Models\Country::get())
+                                    @foreach($countries as $country)
+                                    <option value="{{$country->id}}" @if($country_id==$country->id) selected @endif >{{$country->name}}</option>
+                                    @endforeach
+                                </select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3 mb-3 mb-lg-2">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+            <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
                 <form action="{{ route('admin.business-settings.update-setup') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
-                    @php($name = \App\Models\BusinessSetting::where('key', 'business_name')->first())
+                    <input type="hidden" name="country_id" value="{{$country_id}}">
+                    @php($name = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'business_name')->first())
+                    @php($countryData = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'country')->first())
                     <div class="form-group">
-                        <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.business') }}
-                            {{ translate('messages.name') }}</label>
-                        <input type="text" name="store_name" value="{{ $name->value ?? '' }}" class="form-control"
-                            placeholder="{{ translate('messages.new_business') }}" required>
+                        <label class="input-label text-capitalize d-inline"
+                            for="country">{{ translate('messages.country') }}</label>
+                            <input type="text" class="form-control" name="country" value="{{$countryData->value ?? ''}}">
+                            <!-- <select name="country" id="country" class="form-control  js-select2-custom">
+                                <option value="">Select Country</option>
+                                @php ($countries = \App\Models\Country::get())
+                                @foreach($countries as $country)
+                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                @endforeach
+                            </select> -->
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-12">
-                            @php($currency_code = \App\Models\BusinessSetting::where('key', 'currency')->first())
+                            @php($currency_code = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'currency')->first())
                             <div class="form-group">
                                 <label class="input-label"
                                     for="exampleFormControlInput1">{{ translate('messages.currency') }}</label>
@@ -145,7 +174,7 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-12">
-                            @php($currency_symbol_position = \App\Models\BusinessSetting::where('key', 'currency_symbol_position')->first())
+                            @php($currency_symbol_position = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'currency_symbol_position')->first())
                             <div class="form-group">
                                 <label class="input-label text-capitalize"
                                     for="currency_symbol_position">{{ translate('messages.currency_symbol_positon') }}</label>
@@ -167,259 +196,10 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label class="input-label text-capitalize d-inline"
-                                    for="country">{{ translate('messages.country') }}</label>
-                                <select id="country" name="country" class="form-control  js-select2-custom">
-                                    <option value="AF">Afghanistan</option>
-                                    <option value="AX">Åland Islands</option>
-                                    <option value="AL">Albania</option>
-                                    <option value="DZ">Algeria</option>
-                                    <option value="AS">American Samoa</option>
-                                    <option value="AD">Andorra</option>
-                                    <option value="AO">Angola</option>
-                                    <option value="AI">Anguilla</option>
-                                    <option value="AQ">Antarctica</option>
-                                    <option value="AG">Antigua and Barbuda</option>
-                                    <option value="AR">Argentina</option>
-                                    <option value="AM">Armenia</option>
-                                    <option value="AW">Aruba</option>
-                                    <option value="AU">Australia</option>
-                                    <option value="AT">Austria</option>
-                                    <option value="AZ">Azerbaijan</option>
-                                    <option value="BS">Bahamas</option>
-                                    <option value="BH">Bahrain</option>
-                                    <option value="BD">Bangladesh</option>
-                                    <option value="BB">Barbados</option>
-                                    <option value="BY">Belarus</option>
-                                    <option value="BE">Belgium</option>
-                                    <option value="BZ">Belize</option>
-                                    <option value="BJ">Benin</option>
-                                    <option value="BM">Bermuda</option>
-                                    <option value="BT">Bhutan</option>
-                                    <option value="BO">Bolivia, Plurinational State of</option>
-                                    <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-                                    <option value="BA">Bosnia and Herzegovina</option>
-                                    <option value="BW">Botswana</option>
-                                    <option value="BV">Bouvet Island</option>
-                                    <option value="BR">Brazil</option>
-                                    <option value="IO">British Indian Ocean Territory</option>
-                                    <option value="BN">Brunei Darussalam</option>
-                                    <option value="BG">Bulgaria</option>
-                                    <option value="BF">Burkina Faso</option>
-                                    <option value="BI">Burundi</option>
-                                    <option value="KH">Cambodia</option>
-                                    <option value="CM">Cameroon</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="CV">Cape Verde</option>
-                                    <option value="KY">Cayman Islands</option>
-                                    <option value="CF">Central African Republic</option>
-                                    <option value="TD">Chad</option>
-                                    <option value="CL">Chile</option>
-                                    <option value="CN">China</option>
-                                    <option value="CX">Christmas Island</option>
-                                    <option value="CC">Cocos (Keeling) Islands</option>
-                                    <option value="CO">Colombia</option>
-                                    <option value="KM">Comoros</option>
-                                    <option value="CG">Congo</option>
-                                    <option value="CD">Congo, the Democratic Republic of the</option>
-                                    <option value="CK">Cook Islands</option>
-                                    <option value="CR">Costa Rica</option>
-                                    <option value="CI">Côte d'Ivoire</option>
-                                    <option value="HR">Croatia</option>
-                                    <option value="CU">Cuba</option>
-                                    <option value="CW">Curaçao</option>
-                                    <option value="CY">Cyprus</option>
-                                    <option value="CZ">Czech Republic</option>
-                                    <option value="DK">Denmark</option>
-                                    <option value="DJ">Djibouti</option>
-                                    <option value="DM">Dominica</option>
-                                    <option value="DO">Dominican Republic</option>
-                                    <option value="EC">Ecuador</option>
-                                    <option value="EG">Egypt</option>
-                                    <option value="SV">El Salvador</option>
-                                    <option value="GQ">Equatorial Guinea</option>
-                                    <option value="ER">Eritrea</option>
-                                    <option value="EE">Estonia</option>
-                                    <option value="ET">Ethiopia</option>
-                                    <option value="FK">Falkland Islands (Malvinas)</option>
-                                    <option value="FO">Faroe Islands</option>
-                                    <option value="FJ">Fiji</option>
-                                    <option value="FI">Finland</option>
-                                    <option value="FR">France</option>
-                                    <option value="GF">French Guiana</option>
-                                    <option value="PF">French Polynesia</option>
-                                    <option value="TF">French Southern Territories</option>
-                                    <option value="GA">Gabon</option>
-                                    <option value="GM">Gambia</option>
-                                    <option value="GE">Georgia</option>
-                                    <option value="DE">Germany</option>
-                                    <option value="GH">Ghana</option>
-                                    <option value="GI">Gibraltar</option>
-                                    <option value="GR">Greece</option>
-                                    <option value="GL">Greenland</option>
-                                    <option value="GD">Grenada</option>
-                                    <option value="GP">Guadeloupe</option>
-                                    <option value="GU">Guam</option>
-                                    <option value="GT">Guatemala</option>
-                                    <option value="GG">Guernsey</option>
-                                    <option value="GN">Guinea</option>
-                                    <option value="GW">Guinea-Bissau</option>
-                                    <option value="GY">Guyana</option>
-                                    <option value="HT">Haiti</option>
-                                    <option value="HM">Heard Island and McDonald Islands</option>
-                                    <option value="VA">Holy See (Vatican City State)</option>
-                                    <option value="HN">Honduras</option>
-                                    <option value="HK">Hong Kong</option>
-                                    <option value="HU">Hungary</option>
-                                    <option value="IS">Iceland</option>
-                                    <option value="IN">India</option>
-                                    <option value="ID">Indonesia</option>
-                                    <option value="IR">Iran, Islamic Republic of</option>
-                                    <option value="IQ">Iraq</option>
-                                    <option value="IE">Ireland</option>
-                                    <option value="IM">Isle of Man</option>
-                                    <option value="IL">Israel</option>
-                                    <option value="IT">Italy</option>
-                                    <option value="JM">Jamaica</option>
-                                    <option value="JP">Japan</option>
-                                    <option value="JE">Jersey</option>
-                                    <option value="JO">Jordan</option>
-                                    <option value="KZ">Kazakhstan</option>
-                                    <option value="KE">Kenya</option>
-                                    <option value="KI">Kiribati</option>
-                                    <option value="KP">Korea, Democratic People's Republic of</option>
-                                    <option value="KR">Korea, Republic of</option>
-                                    <option value="KW">Kuwait</option>
-                                    <option value="KG">Kyrgyzstan</option>
-                                    <option value="LA">Lao People's Democratic Republic</option>
-                                    <option value="LV">Latvia</option>
-                                    <option value="LB">Lebanon</option>
-                                    <option value="LS">Lesotho</option>
-                                    <option value="LR">Liberia</option>
-                                    <option value="LY">Libya</option>
-                                    <option value="LI">Liechtenstein</option>
-                                    <option value="LT">Lithuania</option>
-                                    <option value="LU">Luxembourg</option>
-                                    <option value="MO">Macao</option>
-                                    <option value="MK">Macedonia, the former Yugoslav Republic of</option>
-                                    <option value="MG">Madagascar</option>
-                                    <option value="MW">Malawi</option>
-                                    <option value="MY">Malaysia</option>
-                                    <option value="MV">Maldives</option>
-                                    <option value="ML">Mali</option>
-                                    <option value="MT">Malta</option>
-                                    <option value="MH">Marshall Islands</option>
-                                    <option value="MQ">Martinique</option>
-                                    <option value="MR">Mauritania</option>
-                                    <option value="MU">Mauritius</option>
-                                    <option value="YT">Mayotte</option>
-                                    <option value="MX">Mexico</option>
-                                    <option value="FM">Micronesia, Federated States of</option>
-                                    <option value="MD">Moldova, Republic of</option>
-                                    <option value="MC">Monaco</option>
-                                    <option value="MN">Mongolia</option>
-                                    <option value="ME">Montenegro</option>
-                                    <option value="MS">Montserrat</option>
-                                    <option value="MA">Morocco</option>
-                                    <option value="MZ">Mozambique</option>
-                                    <option value="MM">Myanmar</option>
-                                    <option value="NA">Namibia</option>
-                                    <option value="NR">Nauru</option>
-                                    <option value="NP">Nepal</option>
-                                    <option value="NL">Netherlands</option>
-                                    <option value="NC">New Caledonia</option>
-                                    <option value="NZ">New Zealand</option>
-                                    <option value="NI">Nicaragua</option>
-                                    <option value="NE">Niger</option>
-                                    <option value="NG">Nigeria</option>
-                                    <option value="NU">Niue</option>
-                                    <option value="NF">Norfolk Island</option>
-                                    <option value="MP">Northern Mariana Islands</option>
-                                    <option value="NO">Norway</option>
-                                    <option value="OM">Oman</option>
-                                    <option value="PK">Pakistan</option>
-                                    <option value="PW">Palau</option>
-                                    <option value="PS">Palestinian Territory, Occupied</option>
-                                    <option value="PA">Panama</option>
-                                    <option value="PG">Papua New Guinea</option>
-                                    <option value="PY">Paraguay</option>
-                                    <option value="PE">Peru</option>
-                                    <option value="PH">Philippines</option>
-                                    <option value="PN">Pitcairn</option>
-                                    <option value="PL">Poland</option>
-                                    <option value="PT">Portugal</option>
-                                    <option value="PR">Puerto Rico</option>
-                                    <option value="QA">Qatar</option>
-                                    <option value="RE">Réunion</option>
-                                    <option value="RO">Romania</option>
-                                    <option value="RU">Russian Federation</option>
-                                    <option value="RW">Rwanda</option>
-                                    <option value="BL">Saint Barthélemy</option>
-                                    <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
-                                    <option value="KN">Saint Kitts and Nevis</option>
-                                    <option value="LC">Saint Lucia</option>
-                                    <option value="MF">Saint Martin (French part)</option>
-                                    <option value="PM">Saint Pierre and Miquelon</option>
-                                    <option value="VC">Saint Vincent and the Grenadines</option>
-                                    <option value="WS">Samoa</option>
-                                    <option value="SM">San Marino</option>
-                                    <option value="ST">Sao Tome and Principe</option>
-                                    <option value="SA">Saudi Arabia</option>
-                                    <option value="SN">Senegal</option>
-                                    <option value="RS">Serbia</option>
-                                    <option value="SC">Seychelles</option>
-                                    <option value="SL">Sierra Leone</option>
-                                    <option value="SG">Singapore</option>
-                                    <option value="SX">Sint Maarten (Dutch part)</option>
-                                    <option value="SK">Slovakia</option>
-                                    <option value="SI">Slovenia</option>
-                                    <option value="SB">Solomon Islands</option>
-                                    <option value="SO">Somalia</option>
-                                    <option value="ZA">South Africa</option>
-                                    <option value="GS">South Georgia and the South Sandwich Islands</option>
-                                    <option value="SS">South Sudan</option>
-                                    <option value="ES">Spain</option>
-                                    <option value="LK">Sri Lanka</option>
-                                    <option value="SD">Sudan</option>
-                                    <option value="SR">Suriname</option>
-                                    <option value="SJ">Svalbard and Jan Mayen</option>
-                                    <option value="SZ">Swaziland</option>
-                                    <option value="SE">Sweden</option>
-                                    <option value="CH">Switzerland</option>
-                                    <option value="SY">Syrian Arab Republic</option>
-                                    <option value="TW">Taiwan, Province of China</option>
-                                    <option value="TJ">Tajikistan</option>
-                                    <option value="TZ">Tanzania, United Republic of</option>
-                                    <option value="TH">Thailand</option>
-                                    <option value="TL">Timor-Leste</option>
-                                    <option value="TG">Togo</option>
-                                    <option value="TK">Tokelau</option>
-                                    <option value="TO">Tonga</option>
-                                    <option value="TT">Trinidad and Tobago</option>
-                                    <option value="TN">Tunisia</option>
-                                    <option value="TR">Turkey</option>
-                                    <option value="TM">Turkmenistan</option>
-                                    <option value="TC">Turks and Caicos Islands</option>
-                                    <option value="TV">Tuvalu</option>
-                                    <option value="UG">Uganda</option>
-                                    <option value="UA">Ukraine</option>
-                                    <option value="AE">United Arab Emirates</option>
-                                    <option value="GB">United Kingdom</option>
-                                    <option value="US">United States</option>
-                                    <option value="UM">United States Minor Outlying Islands</option>
-                                    <option value="UY">Uruguay</option>
-                                    <option value="UZ">Uzbekistan</option>
-                                    <option value="VU">Vanuatu</option>
-                                    <option value="VE">Venezuela, Bolivarian Republic of</option>
-                                    <option value="VN">Viet Nam</option>
-                                    <option value="VG">Virgin Islands, British</option>
-                                    <option value="VI">Virgin Islands, U.S.</option>
-                                    <option value="WF">Wallis and Futuna</option>
-                                    <option value="EH">Western Sahara</option>
-                                    <option value="YE">Yemen</option>
-                                    <option value="ZM">Zambia</option>
-                                    <option value="ZW">Zimbabwe</option>
-                                </select>
+                                <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.business') }}
+                                    {{ translate('messages.name') }}</label>
+                                <input type="text" name="store_name" value="{{ $name->value ?? '' }}" class="form-control"
+                                    placeholder="{{ translate('messages.new_business') }}" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-12">
@@ -575,7 +355,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-12">
-                            @php($tz = \App\Models\BusinessSetting::where('key', 'timezone')->first())
+                            @php($tz = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'timezone')->first())
                             @php($tz = $tz ? $tz->value : 0)
                             <div class="form-group">
                                 <label class="input-label d-inline text-capitalize">{{ translate('messages.time_zone') }}</label>
@@ -763,7 +543,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-12">
-                            @php($tf = \App\Models\BusinessSetting::where('key', 'timeformat')->first())
+                            @php($tf = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'timeformat')->first())
                             @php($tf = $tf ? $tf->value : '24')
                             <div class="form-group">
                                 <label
@@ -780,7 +560,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-4 col-12">
-                            @php($schedule_order = \App\Models\BusinessSetting::where('key', 'schedule_order')->first())
+                            @php($schedule_order = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'schedule_order')->first())
                             @php($schedule_order = $schedule_order ? $schedule_order->value : 0)
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.scheduled') }}
@@ -814,7 +594,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-12">
-                            @php($order_confirmation_model = \App\Models\BusinessSetting::where('key', 'order_confirmation_model')->first())
+                            @php($order_confirmation_model = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'order_confirmation_model')->first())
                             @php($order_confirmation_model = $order_confirmation_model ? $order_confirmation_model->value : 'deliveryman')
                             <div class="form-group">
                                 <label
@@ -853,7 +633,7 @@
                         </div>
 
                         <div class="col-sm-4 col-12">
-                            @php($dm_tips_status = \App\Models\BusinessSetting::where('key', 'dm_tips_status')->first())
+                            @php($dm_tips_status = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'dm_tips_status')->first())
                             @php($dm_tips_status = $dm_tips_status ? $dm_tips_status->value : 'deliveryman')
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('dm_tips_status') }}</label><small
@@ -893,7 +673,7 @@
 
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            @php($canceled_by_store = \App\Models\BusinessSetting::where('key', 'canceled_by_store')->first())
+                            @php($canceled_by_store = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'canceled_by_store')->first())
                             @php($canceled_by_store = $canceled_by_store ? $canceled_by_store->value : 0)
                             <div class="form-group">
                                 <label
@@ -930,7 +710,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12">
-                            @php($canceled_by_deliveryman = \App\Models\BusinessSetting::where('key', 'canceled_by_deliveryman')->first())
+                            @php($canceled_by_deliveryman = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'canceled_by_deliveryman')->first())
                             @php($canceled_by_deliveryman = $canceled_by_deliveryman ? $canceled_by_deliveryman->value : 0)
                             <div class="form-group">
                                 <label
@@ -967,7 +747,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12">
-                            @php($show_dm_earning = \App\Models\BusinessSetting::where('key', 'show_dm_earning')->first())
+                            @php($show_dm_earning = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'show_dm_earning')->first())
                             @php($show_dm_earning = $show_dm_earning ? $show_dm_earning->value : 0)
                             <div class="form-group">
                                 <label
@@ -1008,7 +788,7 @@
 
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            @php($admin_order_notification = \App\Models\BusinessSetting::where('key', 'admin_order_notification')->first())
+                            @php($admin_order_notification = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'admin_order_notification')->first())
                             @php($admin_order_notification = $admin_order_notification ? $admin_order_notification->value : 0)
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.admin') }}
@@ -1042,7 +822,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12">
-                            @php($ev = \App\Models\BusinessSetting::where('key', 'customer_verification')->first())
+                            @php($ev = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'customer_verification')->first())
                             @php($ev = $ev ? $ev->value : 0)
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.customer') }}
@@ -1076,7 +856,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12">
-                            @php($odc = \App\Models\BusinessSetting::where('key', 'order_delivery_verification')->first())
+                            @php($odc = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'order_delivery_verification')->first())
                             @php($odc = $odc ? $odc->value : 0)
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.order') }}
@@ -1112,7 +892,7 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            @php($vnv = \App\Models\BusinessSetting::where('key', 'toggle_veg_non_veg')->first())
+                            @php($vnv = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'toggle_veg_non_veg')->first())
                             @php($vnv = $vnv ? $vnv->value : 0)
                             <div class="form-group">
                                 <label
@@ -1148,7 +928,7 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            @php($store_self_registration = \App\Models\BusinessSetting::where('key', 'toggle_store_registration')->first())
+                            @php($store_self_registration = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'toggle_store_registration')->first())
                             @php($store_self_registration = $store_self_registration ? $store_self_registration->value : 0)
                             <div class="form-group">
                                 <label
@@ -1186,7 +966,7 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            @php($dm_self_registration = \App\Models\BusinessSetting::where('key', 'toggle_dm_registration')->first())
+                            @php($dm_self_registration = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'toggle_dm_registration')->first())
                             @php($dm_self_registration = $dm_self_registration ? $dm_self_registration->value : 0)
                             <div class="form-group">
                                 <label
@@ -1227,7 +1007,7 @@
 
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            @php($schedule_order_slot_duration = \App\Models\BusinessSetting::where('key', 'schedule_order_slot_duration')->first())
+                            @php($schedule_order_slot_duration = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'schedule_order_slot_duration')->first())
                             <div class="form-group p-2">
                                 <label class="input-label text-capitalize"
                                     for="schedule_order_slot_duration">{{ translate('messages.Schedule order slot duration') }}
@@ -1240,7 +1020,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($digit_after_decimal_point = \App\Models\BusinessSetting::where('key', 'digit_after_decimal_point')->first())
+                            @php($digit_after_decimal_point = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'digit_after_decimal_point')->first())
                             <div class="form-group p-2">
                                 <label class="input-label text-capitalize"
                                     for="digit_after_decimal_point">{{ translate('messages.Digit after decimal point') }}</label>
@@ -1252,7 +1032,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($service_fee = \App\Models\BusinessSetting::where('key', 'service_fee')->first())
+                            @php($service_fee = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'service_fee')->first())
                             <div class="form-group p-2">
                                 <label class="input-label text-capitalize"
                                     for="service_fee">GoMeat Service Fee</label>
@@ -1262,7 +1042,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($gomt_discount = \App\Models\BusinessSetting::where('key', 'gomt_discount')->first())
+                            @php($gomt_discount = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'gomt_discount')->first())
                             <div class="form-group p-2">
                                 <label class="input-label text-capitalize"
                                     for="gomt_discount">GOMT Discount %</label>
@@ -1272,7 +1052,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($free_delivery_over = \App\Models\BusinessSetting::where('key', 'free_delivery_over')->first())
+                            @php($free_delivery_over = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'free_delivery_over')->first())
                             <div class="form-group p-2 border">
                                 <label class="input-label d-inline text-capitalize"
                                     for="free_delivery_over">{{ translate('messages.free_delivery_over') }}
@@ -1290,7 +1070,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($minimum_shipping_charge = \App\Models\BusinessSetting::where('key', 'minimum_shipping_charge')->first())
+                            @php($minimum_shipping_charge = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'minimum_shipping_charge')->first())
                             <div class="form-group">
                                 <label class="input-label d-inline text-capitalize"
                                     for="minimum_shipping_charge">{{ translate('messages.minimum_shipping_charge') }}</label>
@@ -1300,7 +1080,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            @php($per_km_shipping_charge = \App\Models\BusinessSetting::where('key', 'per_km_shipping_charge')->first())
+                            @php($per_km_shipping_charge = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'per_km_shipping_charge')->first())
                             <div class="form-group">
                                 <label class="input-label d-inline text-capitalize"
                                     for="per_km_shipping_charge">{{ translate('messages.per_km_shipping_charge') }}</label>
@@ -1311,7 +1091,7 @@
                         </div>
 
                         <div class="col-md-6 col-12">
-                            @php($dm_maximum_orders = \App\Models\BusinessSetting::where('key', 'dm_maximum_orders')->first())
+                            @php($dm_maximum_orders = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'dm_maximum_orders')->first())
                             <div class="form-group">
                                 <label class="input-label d-inline text-capitalize"
                                     for="dm_maximum_orders">{{ translate('messages.dm_maximum_order') }}</label><small
@@ -1326,7 +1106,7 @@
                     </div>
 
                     <div class="row">
-                        @php($phone = \App\Models\BusinessSetting::where('key', 'phone')->first())
+                        @php($phone = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'phone')->first())
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label class="input-label d-inline"
@@ -1335,7 +1115,7 @@
                                     placeholder="" required>
                             </div>
                         </div>
-                        @php($email = \App\Models\BusinessSetting::where('key', 'email_address')->first())
+                        @php($email = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'email_address')->first())
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label class="input-label d-inline"
@@ -1348,15 +1128,15 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            @php($address = \App\Models\BusinessSetting::where('key', 'address')->first())
+                            @php($address = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'address')->first())
                             <div class="form-group">
                                 <label class="input-label d-inline"
                                     for="exampleFormControlInput1">{{ translate('messages.address') }}</label>
                                 <textarea type="text" id="address" name="address" class="form-control" placeholder="" rows="1"
                                     required>{{ $address->value ?? '' }}</textarea>
                             </div>
-                            @php($default_location = \App\Models\BusinessSetting::where('key', 'default_location')->first())
-                            @php($default_location = $default_location->value ? json_decode($default_location->value, true) : 0)
+                            @php($default_location = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'default_location')->first())
+                            @php($default_location = isset($default_location) ? ($default_location->value ? json_decode($default_location->value, true) : 0) : '')
                             <div class="form-group">
                                 <label class="input-label text-capitalize d-inline"
                                     for="latitude">{{ translate('messages.latitude') }}<span class="input-label-secondary"
@@ -1365,7 +1145,7 @@
                                             alt="{{ translate('messages.click_on_the_map_select_your_defaul_location') }}"></span></label>
                                 <input type="text" id="latitude" name="latitude" class="form-control d-inline"
                                     placeholder="Ex : -94.22213"
-                                    value="{{ $default_location ? $default_location['lat'] : 0 }}" required readonly>
+                                    value="{{ !empty($default_location) ? $default_location['lat'] : 0 }}" required readonly>
                             </div>
                             <div class="form-group">
                                 <label class="input-label d-inline text-capitalize"
@@ -1374,7 +1154,7 @@
                                             src="{{ asset('/public/assets/admin/img/info-circle.svg') }}"
                                             alt="{{ translate('messages.click_on_the_map_select_your_defaul_location') }}"></span></label>
                                 <input type="text" name="longitude" class="form-control" placeholder="Ex : 103.344322"
-                                    id="longitude" value="{{ $default_location ? $default_location['lng'] : 0 }}" required
+                                    id="longitude" value="{{ !empty($default_location) ? $default_location['lng'] : 0 }}" required
                                     readonly>
                             </div>
                         </div>
@@ -1387,7 +1167,7 @@
                     </div>
 
                     <div class="row">
-                        @php($footer_text = \App\Models\BusinessSetting::where('key', 'footer_text')->first())
+                        @php($footer_text = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'footer_text')->first())
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="input-label d-inline"
@@ -1401,7 +1181,7 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            @php($logo = \App\Models\BusinessSetting::where('key', 'logo')->first())
+                            @php($logo = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'logo')->first())
                             @php($logo = $logo->value ?? '')
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.logo') }}</label><small
@@ -1420,7 +1200,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            @php($icon = \App\Models\BusinessSetting::where('key', 'icon')->first())
+                            @php($icon = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'icon')->first())
                             @php($icon = $icon->value ?? '')
                             <div class="form-group">
                                 <label class="input-label d-inline">{{ translate('messages.Fav Icon') }}</label><small
@@ -1453,7 +1233,7 @@
 
 @push('script_2')
     <script>
-        @php($language = \App\Models\BusinessSetting::where('key', 'language')->first())
+        @php($language = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'language')->first())
         @php($language = $language->value ?? null)
         let language = <?php echo $language; ?>;
         $('[id=language]').val(language);
@@ -1519,13 +1299,13 @@
     <script>
         function initAutocomplete() {
             var myLatLng = {
-                lat: {{ $default_location ? $default_location['lat'] : '-33.8688' }},
-                lng: {{ $default_location ? $default_location['lng'] : '151.2195' }}
+                lat: {{ !empty($default_location) ? $default_location['lat'] : '31.369488375023646' }},
+                lng: {{ !empty($default_location) ? $default_location['lng'] : '74.17684134095907' }}
             };
             const map = new google.maps.Map(document.getElementById("location_map_canvas"), {
                 center: {
-                    lat: {{ $default_location ? $default_location['lat'] : '-33.8688' }},
-                    lng: {{ $default_location ? $default_location['lng'] : '151.2195' }}
+                    lat: {{ !empty($default_location) ? $default_location['lat'] : '31.369488375023646' }},
+                    lng: {{ !empty($default_location) ? $default_location['lng'] : '74.17684134095907' }}
                 },
                 zoom: 13,
                 mapTypeId: "roadmap",
@@ -1612,10 +1392,16 @@
         };
         $(document).on('ready', function() {
             initAutocomplete();
-            @php($country = \App\Models\BusinessSetting::where('key', 'country')->first())
+            $(document).on('change', '#country_id', function () {
+                let _this = $(this);
+                let _url = "{{ route('admin.business-settings.business-setup', [':id']) }}";
+                _url = _url.replace(':id', _this.val());
+                $('#change-form-action').attr('action', _url);
+            });
+            @php($country = \App\Models\BusinessSetting::where('country_id', $country_id)->where('key', 'country')->first())
 
             @if ($country)
-                $("#country option[value='{{ $country->value }}']").attr('selected', 'selected').change();
+                // $("#country option[value='{{ $country->value }}']").attr('selected', 'selected').change();
             @endif
 
 
