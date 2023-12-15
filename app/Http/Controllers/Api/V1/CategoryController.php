@@ -414,6 +414,14 @@ class CategoryController extends Controller
         //     'name.required' => translate('messages.Name is required!'),
         // ]);
         try {
+            $categories = Category::where('name', '=', $request->name)->where('parent_id', '=', $request->parent_id);
+            if ($categories->exists()) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Subcategory already exists',
+                    'category' => []
+                ]);
+            }
             $category = new Category(); 
             // $lang = ['en'];
             $category->name = $request->name;

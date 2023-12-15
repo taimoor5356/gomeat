@@ -68,7 +68,7 @@
                                             class="input-label-secondary"></span></label>
                                     <select name="store_ids[]" class="js-data-example-ajax form-control"  title="Select Restaurant">
                                     @if($coupon->coupon_type == 'store_wise')
-                                    @php($store=\App\Models\Store::find(json_decode($coupon->data)[0]))
+                                    @php($store=\App\Models\Store::find(!empty(json_decode($coupon->data)[0]) ?? ''))
                                         @if($store)
                                         <option value="{{$store->id}}">{{$store->name}}</option>
                                         @endif

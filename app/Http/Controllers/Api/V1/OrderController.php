@@ -350,6 +350,11 @@ class OrderController extends Controller
         $order->created_at = now();
         $order->updated_at = now();
         $order->charge_payer = $request->charge_payer;
+        if($request->wallet_amount > 0) {
+            $order->wallet_amount = $request->wallet_amount;
+        } else {
+            $order->wallet_amount = 0.00;
+        }
 
         //Added DM TIPS
         $dm_tips_manage_status = BusinessSetting::where('key', 'dm_tips_status')->first()->value;
@@ -623,7 +628,7 @@ class OrderController extends Controller
             $customer = $request->user();
             $customer->zone_id = $order->zone_id;
             $customer->save();
-            if($request->wallet_amount > 0) {
+            if($request->wallet_amount > 0 && ($request->payment_method == 'wallet' || $request->payment_method == 'cash_on_delivery')) {
                 CustomerLogic::create_wallet_transaction($order->user_id, $request->wallet_amount, 'order_place', $order->id);
             }
             // if($request->payment_method == 'wallet') CustomerLogic::create_wallet_transaction($order->user_id, $order->order_amount, 'order_place', $order_id);

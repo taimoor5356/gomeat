@@ -544,7 +544,7 @@ class OrderController extends Controller
     public function add_payment_ref_code(Request $request, $id)
     {
         $request->validate([
-            'transaction_reference' => 'max:30'
+            'transaction_reference' => 'max:60'
         ]);
         Order::where(['id' => $id])->update([
             'transaction_reference' => $request['transaction_reference']

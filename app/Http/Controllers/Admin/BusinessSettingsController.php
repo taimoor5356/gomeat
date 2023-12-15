@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Mail;
 
 class BusinessSettingsController extends Controller
 {
-    public function business_index()
+    public function business_index($country_id = null)
     {
-        return view('admin-views.business-settings.business-index');
+        return view('admin-views.business-settings.business-index', compact('country_id'));
     }
 
     public function business_setup(Request $request)
@@ -23,16 +23,29 @@ class BusinessSettingsController extends Controller
             Toastr::info(translate('messages.update_option_is_disable_for_demo'));
             return back();
         }
+        DB::table('business_settings')->updateOrInsert(
+            [ 
+                'country_id' => $request['country_id'],
+                'key' => 'business_name'
+            ], 
+            [
+                'country_id' => $request['country_id'],
+                'value' => $request['store_name'], 
+            ]
+        );
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'business_name'], [
-            'value' => $request['store_name']
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'country'], [
+            'country_id' => $request['country_id'],
+            'value' => $request['country']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'currency'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'currency'], [
+            'country_id' => $request['country_id'],
             'value' => $request['currency']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'timezone'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'timezone'], [
+            'country_id' => $request['country_id'],
             'value' => $request['timezone']
         ]);
 
@@ -43,7 +56,8 @@ class BusinessSettingsController extends Controller
             $image_name = $curr_logo['value'];
         }
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'logo'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'logo'], [
+            'country_id' => $request['country_id'],
             'value' => $image_name
         ]);
 
@@ -54,85 +68,101 @@ class BusinessSettingsController extends Controller
             $image_name = $fav_icon['value'];
         }
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'icon'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'icon'], [
+            'country_id' => $request['country_id'],
             'value' => $image_name
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'phone'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'phone'], [
+            'country_id' => $request['country_id'],
             'value' => $request['phone']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'email_address'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'email_address'], [
+            'country_id' => $request['country_id'],
             'value' => $request['email']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'address'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'address'], [
+            'country_id' => $request['country_id'],
             'value' => $request['address']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'footer_text'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'footer_text'], [
+            'country_id' => $request['country_id'],
             'value' => $request['footer_text']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'customer_verification'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'customer_verification'], [
+            'country_id' => $request['country_id'],
             'value' => $request['customer_verification']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_delivery_verification'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_delivery_verification'], [
+            'country_id' => $request['country_id'],
             'value' => $request['odc']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'minimum_shipping_charge'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'minimum_shipping_charge'], [
+            'country_id' => $request['country_id'],
             'value' => $request['minimum_shipping_charge']
         ]);
-        DB::table('business_settings')->updateOrInsert(['key' => 'per_km_shipping_charge'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'per_km_shipping_charge'], [
+            'country_id' => $request['country_id'],
             'value' => $request['per_km_shipping_charge']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'currency_symbol_position'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'currency_symbol_position'], [
+            'country_id' => $request['country_id'],
             'value' => $request['currency_symbol_position']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'schedule_order'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'schedule_order'], [
+            'country_id' => $request['country_id'],
             'value' => $request['schedule_order']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_confirmation_model'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_confirmation_model'], [
+            'country_id' => $request['country_id'],
             'value' => $request['order_confirmation_model']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'dm_tips_status'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'dm_tips_status'], [
+            'country_id' => $request['country_id'],
             'value' => $request['dm_tips_status']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'tax'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'tax'], [
+            'country_id' => $request['country_id'],
             'value' => $request['tax']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'service_fee'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'service_fee'], [
+            'country_id' => $request['country_id'],
             'value' => $request['service_fee']
         ]);
-        // DB::table('business_settings')->updateOrInsert(['key' => 'admin_commission'], [
-        //     'value' => $request['admin_commission']
+        // DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'admin_commission'], [
+        // 'country_id' => $request['country_id'],     
+        // 'value' => $request['admin_commission']
         // ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'country'], [
-            'value' => $request['country']
-        ]);
-
-        DB::table('business_settings')->updateOrInsert(['key' => 'default_location'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'default_location'], [
+            'country_id' => $request['country_id'],
             'value' => json_encode(['lat' => $request['latitude'], 'lng' => $request['longitude']])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'admin_order_notification'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'admin_order_notification'], [
+            'country_id' => $request['country_id'],
             'value' => $request['admin_order_notification']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'free_delivery_over'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'free_delivery_over'], [
+            'country_id' => $request['country_id'],
             'value' => $request['free_delivery_over_status'] ? $request['free_delivery_over'] : null
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'dm_maximum_orders'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'dm_maximum_orders'], [
+            'country_id' => $request['country_id'],
             'value' => $request['dm_maximum_orders']
         ]);
 
@@ -143,47 +173,58 @@ class BusinessSettingsController extends Controller
         }
         array_unshift($languages, 'en');
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'language'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'language'], [
+            'country_id' => $request['country_id'],
             'value' => json_encode($languages),
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'timeformat'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'timeformat'], [
+            'country_id' => $request['country_id'],
             'value' => $request['time_format']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'canceled_by_store'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'canceled_by_store'], [
+            'country_id' => $request['country_id'],
             'value' => $request['canceled_by_store']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'canceled_by_deliveryman'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'canceled_by_deliveryman'], [
+            'country_id' => $request['country_id'],
             'value' => $request['canceled_by_deliveryman']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'show_dm_earning'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'show_dm_earning'], [
+            'country_id' => $request['country_id'],
             'value' => $request['show_dm_earning']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'toggle_veg_non_veg'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'toggle_veg_non_veg'], [
+            'country_id' => $request['country_id'],
             'value' => $request['vnv']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'toggle_dm_registration'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'toggle_dm_registration'], [
+            'country_id' => $request['country_id'],
             'value' => $request['dm_self_registration']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'toggle_store_registration'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'toggle_store_registration'], [
+            'country_id' => $request['country_id'],
             'value' => $request['store_self_registration']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'schedule_order_slot_duration'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'schedule_order_slot_duration'], [
+            'country_id' => $request['country_id'],
             'value' => $request['schedule_order_slot_duration']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'digit_after_decimal_point'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'digit_after_decimal_point'], [
+            'country_id' => $request['country_id'],
             'value' => $request['digit_after_decimal_point']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'gomt_discount'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'gomt_discount'], [
+            'country_id' => $request['country_id'],
             'value' => $request['gomt_discount']
         ]);
 
@@ -464,7 +505,7 @@ class BusinessSettingsController extends Controller
                 ]
             );
         } elseif ($name == 'paymob_accept') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'paymob_accept'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'paymob_accept'], [
                 'value' => json_encode([
                     'status' => $request['status'],
                     'api_key' => $request['api_key'],
@@ -475,7 +516,7 @@ class BusinessSettingsController extends Controller
                 'updated_at' => now()
             ]);
         } elseif ($name == 'liqpay') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'liqpay'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'liqpay'], [
                 'value' => json_encode([
                     'status' => $request['status'],
                     'public_key' => $request['public_key'],
@@ -484,7 +525,7 @@ class BusinessSettingsController extends Controller
                 'updated_at' => now()
             ]);
         } elseif ($name == 'paytm') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'paytm'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'paytm'], [
                 'value' => json_encode([
                     'status' => $request['status'],
                     'paytm_merchant_key' => $request['paytm_merchant_key'],
@@ -495,7 +536,7 @@ class BusinessSettingsController extends Controller
                 'updated_at' => now()
             ]);
         } elseif ($name == 'bkash') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'bkash'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'bkash'], [
                 'value' => json_encode([
                     'status' => $request['status'],
                     'api_key' => $request['api_key'],
@@ -506,7 +547,7 @@ class BusinessSettingsController extends Controller
                 'updated_at' => now()
             ]);
         } elseif ($name == 'paytabs') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'paytabs'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'paytabs'], [
                 'value' => json_encode([
                     'status' => $request['status'],
                     'profile_id' => $request['profile_id'],
@@ -532,19 +573,19 @@ class BusinessSettingsController extends Controller
             Toastr::info(translate('messages.update_option_is_disable_for_demo'));
             return back();
         }
-        DB::table('business_settings')->updateOrInsert(['key' => 'app_minimum_version_android'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'app_minimum_version_android'], [
             'value' => $request['app_minimum_version_android']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'app_minimum_version_ios'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'app_minimum_version_ios'], [
             'value' => $request['app_minimum_version_ios']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'app_url_android'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'app_url_android'], [
             'value' => $request['app_url_android']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'app_url_ios'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'app_url_ios'], [
             'value' => $request['app_url_ios']
         ]);
         Toastr::success(translate('messages.app_settings_updated'));
@@ -580,7 +621,7 @@ class BusinessSettingsController extends Controller
         }
 
         if ($tab == 'text') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'landing_page_text'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'landing_page_text'], [
                 'value' => json_encode([
                     'header_title_1' => $request['header_title_1'],
                     'header_title_2' => $request['header_title_2'],
@@ -598,7 +639,7 @@ class BusinessSettingsController extends Controller
             ]);
             Toastr::success(translate('messages.landing_page_text_updated'));
         } else if ($tab == 'links') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'landing_page_links'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'landing_page_links'], [
                 'value' => json_encode([
                     'app_url_android_status' => $request['app_url_android_status'],
                     'app_url_android' => $request['app_url_android'],
@@ -625,7 +666,7 @@ class BusinessSettingsController extends Controller
                 'title' => $request->speciality_title
             ]);
 
-            DB::table('business_settings')->updateOrInsert(['key' => 'speciality'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'speciality'], [
                 'value' => json_encode($data)
             ]);
             Toastr::success(translate('messages.landing_page_speciality_updated'));
@@ -646,7 +687,7 @@ class BusinessSettingsController extends Controller
                 'feature_description' => $request->feature_description
             ]);
 
-            DB::table('business_settings')->updateOrInsert(['key' => 'feature'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'feature'], [
                 'value' => json_encode($data)
             ]);
             Toastr::success(translate('messages.landing_page_feature_updated'));
@@ -668,7 +709,7 @@ class BusinessSettingsController extends Controller
                 'detail' => $request->review,
             ]);
 
-            DB::table('business_settings')->updateOrInsert(['key' => 'testimonial'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'testimonial'], [
                 'value' => json_encode($data)
             ]);
             Toastr::success(translate('messages.landing_page_testimonial_updated'));
@@ -711,12 +752,12 @@ class BusinessSettingsController extends Controller
                 $request->mobile_app_section_image->move(public_path('assets/landing/image'), $imageName);
                 $data['mobile_app_section_image'] = $imageName;
             }
-            DB::table('business_settings')->updateOrInsert(['key' => 'landing_page_images'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'landing_page_images'], [
                 'value' => json_encode($data)
             ]);
             Toastr::success(translate('messages.landing_page_image_updated'));
         } else if ($tab == 'background-change') {
-            DB::table('business_settings')->updateOrInsert(['key' => 'backgroundChange'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'backgroundChange'], [
                 'value' => json_encode([
                     'header-bg' => $request['header-bg'],
                     'footer-bg' => $request['footer-bg'],
@@ -747,7 +788,7 @@ class BusinessSettingsController extends Controller
                 $request->mobile_app_section_image->move(public_path('assets/landing/image'), $imageName);
                 $data['mobile_app_section_image'] = $imageName;
             }
-            DB::table('business_settings')->updateOrInsert(['key' => 'web_app_landing_page_settings'], [
+            DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'web_app_landing_page_settings'], [
                 'value' => json_encode($data)
             ]);
             Toastr::success(translate('messages.web_app_landing_page_settings'));
@@ -899,11 +940,11 @@ class BusinessSettingsController extends Controller
 
     public function update_fcm(Request $request)
     {
-        DB::table('business_settings')->updateOrInsert(['key' => 'fcm_project_id'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'fcm_project_id'], [
             'value' => $request['fcm_project_id']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'push_notification_key'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'push_notification_key'], [
             'value' => $request['push_notification_key']
         ]);
 
@@ -913,70 +954,70 @@ class BusinessSettingsController extends Controller
 
     public function update_fcm_messages(Request $request)
     {
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_pending_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_pending_message'], [
             'value' => json_encode([
                 'status' => $request['pending_status'] == 1 ? 1 : 0,
                 'message' => $request['pending_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_confirmation_msg'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_confirmation_msg'], [
             'value' => json_encode([
                 'status' => $request['confirm_status'] == 1 ? 1 : 0,
                 'message' => $request['confirm_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_processing_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_processing_message'], [
             'value' => json_encode([
                 'status' => $request['processing_status'] == 1 ? 1 : 0,
                 'message' => $request['processing_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'out_for_delivery_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'out_for_delivery_message'], [
             'value' => json_encode([
                 'status' => $request['out_for_delivery_status'] == 1 ? 1 : 0,
                 'message' => $request['out_for_delivery_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_delivered_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_delivered_message'], [
             'value' => json_encode([
                 'status' => $request['delivered_status'] == 1 ? 1 : 0,
                 'message' => $request['delivered_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'delivery_boy_assign_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'delivery_boy_assign_message'], [
             'value' => json_encode([
                 'status' => $request['delivery_boy_assign_status'] == 1 ? 1 : 0,
                 'message' => $request['delivery_boy_assign_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'delivery_boy_delivered_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'delivery_boy_delivered_message'], [
             'value' => json_encode([
                 'status' => $request['delivery_boy_delivered_status'] == 1 ? 1 : 0,
                 'message' => $request['delivery_boy_delivered_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_handover_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_handover_message'], [
             'value' => json_encode([
                 'status' => $request['order_handover_message_status'] == 1 ? 1 : 0,
                 'message' => $request['order_handover_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_cancled_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_cancled_message'], [
             'value' => json_encode([
                 'status' => $request['order_cancled_message_status'] == 1 ? 1 : 0,
                 'message' => $request['order_cancled_message']
             ])
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'order_refunded_message'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'order_refunded_message'], [
             'value' => json_encode([
                 'status' => $request['order_refunded_message_status'] == 1 ? 1 : 0,
                 'message' => $request['order_refunded_message']
@@ -1011,11 +1052,11 @@ class BusinessSettingsController extends Controller
 
     public function config_update(Request $request)
     {
-        DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'map_api_key'], [
             'value' => $request['map_api_key']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key_server'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'map_api_key_server'], [
             'value' => $request['map_api_key_server']
         ]);
 
@@ -1073,7 +1114,7 @@ class BusinessSettingsController extends Controller
 
     public function recaptcha_update(Request $request)
     {
-        DB::table('business_settings')->updateOrInsert(['key' => 'recaptcha'], [
+        DB::table('business_settings')->updateOrInsert(['country_id' => $request['country_id'], 'key' => 'recaptcha'], [
             'key' => 'recaptcha',
             'value' => json_encode([
                 'status' => $request['status'],

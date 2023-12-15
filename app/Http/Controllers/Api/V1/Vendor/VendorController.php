@@ -39,7 +39,12 @@ class VendorController extends Controller
                 unset($temp);
                 foreach($sub_categories as $sub_category)
                 {
-                    $temp[]= Category::where('id',$sub_category->category_id)->first();
+                    $checkItem = Item::withoutGlobalScope('translate')->type('all')
+                    ->where('category_id',$sub_category->category_id)
+                    ->where('store_id', $request['vendor']->stores[0]->id);
+                    if ($checkItem->exists()) {
+                        $temp[]= Category::where('id',$sub_category->category_id)->first();
+                    }
                 }
                 $final['category']=Category::where('id',$parent_categories[$i]['parent_id'])->first();
                 $final['subcategory']=$temp;

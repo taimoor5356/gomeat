@@ -541,6 +541,27 @@ class VendorController extends Controller
         $store->minimum_order = $request->minimum_order;
         // $store->tax = $request->tax;
         $store->legal_business_name = !empty($request->legal_business_name) ? $request->legal_business_name : '' ;
+        $store->fbr_registration_status = !empty($request->fbr_registration_status) ? 'active' : 'in_active' ;
+
+        // Country and State Data
+        $store->country_id = !empty($request->country_id) ? $request->country_id : '';
+        $store->state_id = !empty($request->state_id) ? $request->state_id : '';
+        if (!empty($request->fbr_registration_status)) {
+            $store->fbr_registration_status = !empty($request->fbr_registration_status) ? $request->fbr_registration_status : '' ;
+            $store->ntn_number = !empty($request->ntn_number) ? $request->ntn_number : '' ;
+            $store->strn_number = !empty($request->strn_number) ? $request->strn_number : '' ;
+        }
+        
+        if (empty($request->fbr_registration_status)) {
+            $store->ntn_number = '' ;
+            $store->strn_number = '' ;
+        }
+        if (!empty($request->filer_status)) {
+            $store->filer_status = !empty($request->filer_status) ? 'active' : 'in_active';
+        } else {
+            $store->filer_status = 'in_active';
+        }
+
         
         $store->gm_commission = $request->gm_commission;
         $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;

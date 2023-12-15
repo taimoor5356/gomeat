@@ -17,6 +17,7 @@ class CreateCountriesTable extends Migration
             $table->id();
             $table->string('name')->nullable()->unique();
             $table->string('short_name')->nullable();
+            $table->string('phone_code')->nullable();
             $table->string('currency_name')->nullable();
             $table->string('currency_symbol')->nullable();
             $table->string('gst')->nullable();

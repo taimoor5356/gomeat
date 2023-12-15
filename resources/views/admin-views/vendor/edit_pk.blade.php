@@ -85,12 +85,12 @@
                                     <input type="checkbox" name="fbr_registration_status" id="fbr_registration_status" @if($store->fbr_registration_status == 'active') checked @endif value="active">
                                 </div>
                             </div>
-                            <input type="number" id="ntn_number" name="ntn_number" disabled class="form-control strn_ntn_number" placeholder="Enter NTN number" value="{{$store->ntn_number}}">
+                            <input type="number" id="ntn_number" name="ntn_number" class="form-control strn_ntn_number" placeholder="Enter NTN number" value="{{$store->ntn_number}}">
                         </div>
                         <div class="form-group col-3">
                             <div class="form-group">
                                 <label class="input-label" for="strn_number">Enter STRN</label>
-                                <input type="number" id="strn_number" name="strn_number" class="form-control strn_ntn_number" disabled placeholder="Enter STRN" value="{{$store->strn_number}}">
+                                <input type="number" id="strn_number" name="strn_number" class="form-control strn_ntn_number" placeholder="Enter STRN" value="{{$store->strn_number}}">
                             </div>
                         </div>
                     </div>
@@ -124,14 +124,14 @@
                                                 <input type="checkbox" name="filer_status" id="filer_status" value="active" @if($store->filer_status == 'active') checked @endif>
                                             </div>
                                         </div>
-                                        <input type="number" disabled id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="@isset($store->state){{$store->state->restaurant_online_payment}}@endisset">
+                                        <input type="number" id="restaurant_online_payment" name="restaurant_online_payment" class="form-control restaurant_cash_amount_field" placeholder="" @if($store->filer_status == 'active') value="@isset($store->state){{$store->state->restaurant_online_payment}}@endisset" @else value="0" @endif>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-6">
                                     <div class="form-group">
                                         <label class="input-label" for="sales_tax_amount">Restaurant Cash Payment %</label>
-                                        <input type="number" disabled id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" disabled placeholder="" value="@isset($store->state){{$store->state->restaurant_cash_payment}}@endisset">
+                                        <input type="number" id="restaurant_cash_payment" name="restaurant_cash_payment" class="form-control restaurant_cash_amount_field" placeholder="" @if($store->filer_status == 'active') value="@isset($store->state){{$store->state->restaurant_cash_payment}}@endisset" @else value="0" @endif>
                                     </div>
                                 </div>
                                 <!-- Restaurant -->
@@ -520,6 +520,24 @@
             });
         }
         $(document).on('ready', function (){
+
+            $(document).on('click', '#fbr_registration_status', function () {
+                if ($(this).is(':checked')) {
+                    $('.strn_ntn_number').attr('readonly', false);
+                } else {
+                    $('.strn_ntn_number').attr('readonly', true);
+                    $('.strn_ntn_number').val('');
+                }
+            });
+
+            $(document).on('change', '#filer_status', function () {
+                let _this = $(this);
+                if (_this.is(':checked')) {
+                    // $('.restaurant_cash_amount_field').prop('disabled', false);
+                } else {
+                    // $('.restaurant_cash_amount_field').prop('disabled', true);
+                }
+            });
 
             $(document).on('change', '#country_id', function () {
                 $('#store_cash_payment').val(0);

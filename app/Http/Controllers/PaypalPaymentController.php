@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CentralLogics\CustomerLogic;
 use App\CentralLogics\Helpers;
 use App\Models\Order;
 use Brian2694\Toastr\Facades\Toastr;
@@ -151,8 +152,13 @@ class PaypalPaymentController extends Controller
         /**Execute the payment **/
         $result = $payment->execute($execution, $this->_api_context);
         $order = Order::where('transaction_reference', $payment_id)->first();
+        if (!isset($order)) {
+            $order = Order::find($request['order_id']);
+        }
         if ($result->getState() == 'approved') {
-
+            if ($order->wallet_amount > 0) {
+                CustomerLogic::create_wallet_transaction($order->user_id, $order->wallet_amount, 'order_place', $order->id);
+            }
             $order->transaction_reference = $payment_id;
             $order->payment_method = 'paypal';
             $order->payment_status = 'paid';

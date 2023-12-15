@@ -308,7 +308,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         });
 
         Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.', 'middleware' => ['module:settings','actch']], function () {
-            Route::get('business-setup', 'BusinessSettingsController@business_index')->name('business-setup');
+            Route::get('business-setup/{country_id?}', 'BusinessSettingsController@business_index')->name('business-setup');
             Route::get('config-setup', 'BusinessSettingsController@config_setup')->name('config-setup');
             Route::post('config-update', 'BusinessSettingsController@config_update')->name('config-update');
             Route::post('update-setup', 'BusinessSettingsController@business_setup')->name('update-setup');

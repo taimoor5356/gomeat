@@ -76,7 +76,7 @@ class CouponLogic
         if ($coupon['limit'] == null) {
             return 200;
         } else {
-            $total = Order::where(['user_id' => $user_id, 'coupon_code' => $coupon['code']])->count();
+            $total = Order::where(['user_id' => $user_id, 'coupon_code' => $coupon['code']])->where('payment_status', 'paid')->count();
             if ($total < $coupon['limit']) {
                 return 200;
             }else{
