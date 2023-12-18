@@ -145,7 +145,7 @@ class ConfigController extends Controller
             'landing_page_links'=>isset($settings['landing_page_links'])?json_decode($settings['landing_page_links']):[],
             //Added Business Setting
             'dm_tips_status' => (int)(isset($settings['dm_tips_status']) ? $settings['dm_tips_status'] : 0),
-            'loyalty_point_exchange_rate' => (float)(isset($settings['loyalty_point_exchange_rate']) ? $settings['loyalty_point_exchange_rate'] : 0),
+            'loyalty_point_exchange_rate' => (float)(isset($settings['loyalty_point_exchange_rate']) ? $settings['loyalty_point_exchange_rate'] : 0.1),
             'loyalty_point_item_purchase_point' => (float)(isset($settings['loyalty_point_item_purchase_point']) ? $settings['loyalty_point_item_purchase_point'] : 0.0),
             'loyalty_point_status' => (int)(isset($settings['loyalty_point_status']) ? $settings['loyalty_point_status'] : 0),
             'loyalty_point_minimum_point'=> (int)(isset($settings['loyalty_point_minimum_point']) ? $settings['loyalty_point_minimum_point'] : 0),
@@ -275,7 +275,7 @@ class ConfigController extends Controller
             'landing_page_links'=>isset($settings['landing_page_links'])?json_decode($settings['landing_page_links']):[],
             //Added Business Setting
             'dm_tips_status' => (int)(isset($settings['dm_tips_status']) ? $settings['dm_tips_status'] : 0),
-            'loyalty_point_exchange_rate' => (double)(isset($settings['loyalty_point_exchange_rate']) ? $settings['loyalty_point_exchange_rate'] : 0), //TODO: change it in production
+            'loyalty_point_exchange_rate' => (double)(isset($settings['loyalty_point_exchange_rate']) ? $settings['loyalty_point_exchange_rate'] : 0.1), //TODO: change it in production
             'loyalty_point_item_purchase_point' => (float)(isset($settings['loyalty_point_item_purchase_point']) ? $settings['loyalty_point_item_purchase_point'] : 0.0),
             'loyalty_point_status' => (int)(isset($settings['loyalty_point_status']) ? $settings['loyalty_point_status'] : 0),
             'loyalty_point_minimum_point'=> (int)(isset($settings['loyalty_point_minimum_point']) ? $settings['loyalty_point_minimum_point'] : 0),
