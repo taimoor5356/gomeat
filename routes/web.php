@@ -3,6 +3,7 @@
 use App\Http\Controllers\JazzcashController;
 use App\Models\Country;
 use App\Models\CountryHasState;
+use AmrShawky\LaravelCurrency\Facade\Currency as CurrencyConverter;
 use Illuminate\Support\Facades\Route;
 use OpenSpout\Common\Entity\Row;
 
@@ -25,7 +26,10 @@ Route::get('successful', function () {
 Route::get('processing', function () {
     return 'In Process';
 });
-
+Route::get('currency-conversion', function () {
+    $data = CurrencyConverter::convert()->from('USD')->to('PKR')->amount(1)->get();
+    return 'Here'.$data;
+});
 
 
 Route::get('/insert-data', function () {

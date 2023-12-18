@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
+        "amrshawky/laravel-currency": "^6.0",
         "apitoolkit/apitoolkit-php": "^0.0.2",
         "barryvdh/laravel-cors": "^2.0",
         "brian2694/laravel-toastr": "^5.54",
