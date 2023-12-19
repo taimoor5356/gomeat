@@ -31,7 +31,7 @@
                                         <label class="input-label">{{translate('messages.module')}}</label>
                                         <select name="module_id" class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_select">
                                                 <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
-                                                <option value="">ALL</option>
+                                                <option value="">All</option>
                                             @foreach(\App\Models\Module::notParcel()->get() as $module)
                                                 <option value="{{$module->id}}" >{{$module->module_name}}</option>
                                             @endforeach
