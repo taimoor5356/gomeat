@@ -104,7 +104,7 @@ class CoinbasePaymentController extends Controller
 
         // sleep(10);
         // if ($order->callback != null) {
-            // return redirect('https://dashboard.gomeat.io?order_id='.session('order_id') . '&status=success');
+            // return redirect(env(APP_URL).'?order_id='.session('order_id') . '&status=success');
         // }
 
         // return \redirect()->route('payment-success');
