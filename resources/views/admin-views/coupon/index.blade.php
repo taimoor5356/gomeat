@@ -26,17 +26,17 @@
                                         <input type="text" name="title" class="form-control" placeholder="{{translate('messages.new_coupon')}}" required maxlength="191">
                                     </div>
                                 </div>
-                                <!-- <div class="col-sm-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="input-label">{{translate('messages.module')}}</label>
-                                        <select name="module_id" required class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_select">
+                                        <select name="module_id" class="form-control js-select2-custom"  data-placeholder="{{translate('messages.select')}} {{translate('messages.module')}}" id="module_select">
                                                 <option value="" selected disabled>{{translate('messages.select')}} {{translate('messages.module')}}</option>
                                             @foreach(\App\Models\Module::notParcel()->get() as $module)
                                                 <option value="{{$module->id}}" >{{$module->module_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div> -->
+                                </div>
                                 
                                 <div class="col-sm-6">
                                     <div class="form-group">
