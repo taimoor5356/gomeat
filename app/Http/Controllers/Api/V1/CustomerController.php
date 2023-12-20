@@ -361,24 +361,25 @@ class CustomerController extends Controller
 
     public function deleteUserAccount(Request $request)
     {
-        $email = $request->email;
+        $phone = $request->phone;
         $password = $request->password;
-        $user = User::where('email', $email)->first();
+        $user = User::where('phone', $phone)->first();
         if (isset($user)) {
-            if (!(Hash::check($password, $user->password))) {
-                return redirect()->back()->with('error', 'Password is incorrect');
+            if (($user->phone == $phone) && (Hash::check($password, $user->password))) {
+                if(Order::where('user_id', $user->id)->whereIn('order_status', ['pending','accepted','confirmed','processing','handover','picked_up'])->count())
+                {
+                    return redirect()->back()->with('error', 'Something went wrong');
+                }
+                $user_ref = RefUsers::where('reference_number', $user->phone)->delete();
+                if (!is_null($user->token())) {
+                    $user->token()->revoke();
+                }
+                $user->delete();
+            
+                return redirect()->back()->with('success', 'Account deleted');
+            } else {
+                return redirect()->back()->with('error', 'Credentials not match');
             }
-            if(Order::where('user_id', $user->id)->whereIn('order_status', ['pending','accepted','confirmed','processing','handover','picked_up'])->count())
-            {
-                return redirect()->back()->with('error', 'Something went wrong');
-            }
-            $user_ref = RefUsers::where('reference_number', $user->phone)->delete();
-            if (!is_null($user->token())) {
-                $user->token()->revoke();
-            }
-            $user->delete();
-        
-            return redirect()->back()->with('success', 'Account deleted');
         } else {
             return redirect()->back()->with('error', 'User not found');
         }
