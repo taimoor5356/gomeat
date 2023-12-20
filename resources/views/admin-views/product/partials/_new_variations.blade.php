@@ -58,10 +58,10 @@
                                 </span>
                             </label>
                         </div>
-                        <div class="optional_variant my-0">
+                        <div class="optional my-0">
                             <label class="form-check form--check mr-2 mr-md-4">
                                 <input class="form-check-input" type="checkbox" value="1"
-                                name="optional_variant[{{ $key }}][optional_variant]" id="optional_variant{{ $key }}" @if(!empty($item['optional_variant'])) {{ $item['optional_variant'] == 1 ? 'checked' : '' }} @endif>
+                                name="optional[{{ $key }}][optional]" id="optional{{ $key }}" @if(!empty($item['optional'])) {{ $item['optional'] == 1 ? 'checked' : '' }} @endif>
                                 <span class="form-check-label">
                                     Optional
                                 </span>

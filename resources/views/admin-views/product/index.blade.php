@@ -507,10 +507,10 @@
                                                 </span>
                                             </label>
                                         </div>
-                                        <div class="optional_variant my-0">
+                                        <div class="optional my-0">
                                             <label class="form-check form--check mr-2 mr-md-4">
                                                 <input class="form-check-input" type="checkbox" value="1"
-                                                name="optional_variant[` + count + `][optional_variant]" id="optional_variant` + count +
+                                                name="optional[` + count + `][optional]" id="optional` + count +
                                             `"  onchange=""
                                                 >
                                                 <span class="form-check-label">

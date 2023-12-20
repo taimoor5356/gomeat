@@ -117,7 +117,7 @@ class ItemController extends Controller
                 $attr = Attribute::where('id',$attributes[$attr_count])->first();
                 $variant['title'] = $attr->name;
                 $variant['multiselect'] = $choice_option['type']=='single'?0:1;
-                $variant['optional_variant'] = (!empty($request['optional_variant'][$numCount]['optional_variant']) ? ($request['optional_variant'][$numCount]['optional_variant']=='1'?1:0):0);
+                $variant['optional'] = (!empty($request['optional'][$numCount]['optional']) ? ($request['optional'][$numCount]['optional']=='1'?1:0):0);
     
                 // dd($variant);
                 // $variant['options'] = [];
@@ -455,7 +455,7 @@ class ItemController extends Controller
                 $attr = Attribute::where('id',$attributes[$attr_count])->first();
                 $choice_option['title'] = $attr->name;
                 $choice_option['multiselect'] = !(empty($choice_option['multiselect'])) ? (is_string($choice_option['multiselect'])?intval($choice_option['multiselect']):$choice_option['multiselect']) : 0;
-                $choice_option['optional_variant'] = (!empty($request['optional_variant'][$numCount]['optional_variant']) ? ($request['optional_variant'][$numCount]['optional_variant']=='1'?1:0):0);
+                $choice_option['optional'] = (!empty($request['optional'][$numCount]['optional']) ? ($request['optional'][$numCount]['optional']=='1'?1:0):0);
                 // dd($choice_option);
 
                 foreach($choice_option['options'] as $opt)
