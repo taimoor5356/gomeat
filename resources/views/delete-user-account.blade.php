@@ -10,7 +10,7 @@
 
 <body>
     <div class="container my-5">
-        <h4 class="text-center">GoMeat</h4>
+        <h4 class="text-center">GoMeat - Delete your Account</h4>
         <form method="POST" action="{{route('delete_user_account')}}">
             @csrf
             <div class="form-group">
