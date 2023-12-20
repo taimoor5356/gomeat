@@ -109,7 +109,7 @@ class ItemController extends Controller
             $attr_count = 0;
     
     
-            foreach($request['options'] as $choice_option)
+            foreach($request['options'] as $numCount => $choice_option)
             {
                 // dd($choice_option);
                 $options=[];
@@ -117,6 +117,7 @@ class ItemController extends Controller
                 $attr = Attribute::where('id',$attributes[$attr_count])->first();
                 $variant['title'] = $attr->name;
                 $variant['multiselect'] = $choice_option['type']=='single'?0:1;
+                $variant['optional_variant'] = (!empty($request['optional_variant'][$numCount]['optional_variant']) ? ($request['optional_variant'][$numCount]['optional_variant']=='1'?1:0):0);
     
                 // dd($variant);
                 // $variant['options'] = [];
@@ -136,7 +137,6 @@ class ItemController extends Controller
             }
             
         }
-
         // dd($choice_options);
         $item->choice_options = $request->has('attribute_id') ? json_encode($choice_options) : json_encode([]);
 
@@ -187,7 +187,6 @@ class ItemController extends Controller
         //     }
         // }
         //combinations end
-
         $img_names = [];
         $images = [];
         if (!empty($request->file('item_images'))) {
@@ -449,13 +448,14 @@ class ItemController extends Controller
     
             $attr_count = 0;
     
-            foreach($request->choice_options as $choice_option)
+            foreach($request->choice_options as $numCount => $choice_option)
             {
                 $options=[];
                 $choice_option['name'] = 'choice_'.$attributes[$attr_count];
                 $attr = Attribute::where('id',$attributes[$attr_count])->first();
                 $choice_option['title'] = $attr->name;
-                $choice_option['multiselect'] = is_string($choice_option['multiselect'])?intval($choice_option['multiselect']):$choice_option['multiselect'];
+                $choice_option['multiselect'] = !(empty($choice_option['multiselect'])) ? (is_string($choice_option['multiselect'])?intval($choice_option['multiselect']):$choice_option['multiselect']) : 0;
+                $choice_option['optional_variant'] = (!empty($request['optional_variant'][$numCount]['optional_variant']) ? ($request['optional_variant'][$numCount]['optional_variant']=='1'?1:0):0);
                 // dd($choice_option);
 
                 foreach($choice_option['options'] as $opt)
@@ -472,7 +472,6 @@ class ItemController extends Controller
             }
             
         }
-        // dd(json_encode($choice_options));
         
         $item->choice_options = $request->has('attribute_id') ? json_encode($choice_options) : json_encode([]);
         
