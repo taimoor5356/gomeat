@@ -545,7 +545,7 @@ class DeliverymanController extends Controller
             $data['created_at'] = Carbon::parse($at['created_at'])->format('Y-m-d'.config('timeformat'));
         }
         return response()->json([
-            'data' => $data
+            $data
         ]);
     }
 
