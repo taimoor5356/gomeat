@@ -7,12 +7,14 @@ ini_set('memory_limit', '-1');
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
 use App\Http\Controllers\Controller;
+use App\Models\AccountTransaction;
 use App\Models\DeliveryHistory;
 use App\Models\DeliveryMan;
 use App\Models\Order;
 use App\Models\DeliveryManWallet;
 use App\Models\Notification;
 use App\Models\UserNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -528,6 +530,23 @@ class DeliverymanController extends Controller
         }
         $dm->delete();
         return response()->json([]);
+    }
+
+    public function paymentHistory(Request $request)
+    {
+        $data = [];
+        $account_transaction = AccountTransaction::get();
+        foreach ($account_transaction as $at) {
+            $data['id'] = $at['id'];
+            $data['cashInHand'] = \App\CentralLogics\Helpers::format_currency($at->from_type == 'store' ? ($at->store ? $at->store->vendor->wallet->collected_cash : 0): ($at->deliveryman ? $at->deliveryman->wallet->collected_cash : 0));
+            $data['method'] = 'cash';
+            $data['handover'] = $at['amount'];
+            $data['reference'] = $at['ref'];
+            $data['created_at'] = Carbon::parse($at['created_at'])->format('Y-m-d'.config('timeformat'));
+        }
+        return response()->json([
+            'data' => $data
+        ]);
     }
 
 }

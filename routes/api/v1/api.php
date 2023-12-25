@@ -85,6 +85,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::put('update-payment-status', 'DeliverymanController@order_payment_status_update');
             Route::get('order-details', 'DeliverymanController@get_order_details');
             Route::put('update-fcm-token', 'DeliverymanController@update_fcm_token');
+            Route::get('payment-history', 'DeliverymanController@paymentHistory');
             //Remove account
             Route::delete('remove-account', 'DeliverymanController@remove_account');
         });
