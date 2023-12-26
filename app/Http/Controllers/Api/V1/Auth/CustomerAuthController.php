@@ -256,10 +256,14 @@ class CustomerAuthController extends Controller
                             'errors' => $errors
                         ], 405);
                     // return response()->json(['errors'=>['code'=>'ref_code','message'=>'Referral code already used']]);
-                } 
-                // $ref_code_exchange_amt = BusinessSetting::where('key', 'ref_earning_exchange_rate')->first()->value;
+                } else if (strtoupper($request->ref_code) == 'GOMT' || strtoupper($request->ref_code) == 'DGMT') {
+                    // $ref_code_exchange_amt = BusinessSetting::where('key', 'ref_earning_exchange_rate')->first()->value;
+                    $ref_code_exchange_amt = 100;
+    
+                    $refer_wallet_transaction = CustomerLogic::create_wallet_transaction($user->id, $ref_code_exchange_amt, 'referrer', $user->phone);
 
-                // $refer_wallet_transaction = CustomerLogic::create_wallet_transaction($referar_user->id, $ref_code_exchange_amt, 'referrer', $user->phone);
+                    return response()->json($refer_wallet_transaction, 'inside the function');
+                }
                 //dd($refer_wallet_transaction);
 
                 $ref_data_insert = new RefUsers;

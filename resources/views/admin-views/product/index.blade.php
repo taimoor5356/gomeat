@@ -485,9 +485,8 @@
                                     <div>
                                         <label class="input-label text-capitalize d-flex align-items-center"><span class="line--limit-1">Selection Type</span>
                                         </label>
-                                        <div class="resturant-type-group px-0">
-                                            
-
+                                        <div class="resturant-type-group d-flex px-0">
+                                        <div class="selection_variants">
                                             <label class="form-check form--check mr-2 mr-md-4">
                                                 <input class="form-check-input" type="radio" value="single"
                                                 name="options[` + count + `][type]" id="type` + count +
@@ -498,7 +497,7 @@
                                                 </span>
                                             </label>
 
-                                            <label class="form-check form--check mr-2 mr-md-4">
+                                            <label class="form-check form--check mr-2 mr-md-4 my-0">
                                                 <input class="form-check-input" type="radio" value="multi"
                                                 name="options[` + count + `][type]" id="type` + count +
                     `"  onchange="show_min_max(` + count + `)"
@@ -507,6 +506,18 @@
                                                     Multiple Selection
                                                 </span>
                                             </label>
+                                        </div>
+                                        <div class="optional my-0">
+                                            <label class="form-check form--check mr-2 mr-md-4">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                name="optional[` + count + `][optional]" id="optional` + count +
+                                            `"  onchange=""
+                                                >
+                                                <span class="form-check-label">
+                                                    Optional
+                                                </span>
+                                            </label>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>

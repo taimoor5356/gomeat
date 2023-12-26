@@ -1,8 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\JazzcashController;
 use App\Models\Country;
 use App\Models\CountryHasState;
+use App\Models\Order;
+use App\Models\RefUsers;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use OpenSpout\Common\Entity\Row;
 
@@ -26,7 +32,10 @@ Route::get('processing', function () {
     return 'In Process';
 });
 
-
+Route::post('deleteuseraccount', [CustomerController::class, 'deleteUserAccount'])->name('delete_user_account');
+Route::get('/delete-user-account', function (Request $request) {
+    return view('delete-user-account');
+});
 
 Route::get('/insert-data', function () {
     // All countries

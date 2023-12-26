@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
 use App\Models\BusinessSetting;
 use App\CentralLogics\StoreLogic;
 use App\CentralLogics\SMS_module;
+use App\Models\Store;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
@@ -1779,6 +1780,20 @@ class Helpers
             $user_id = $user_id * pow(10, ((10 - $uid_length) - strlen($user_name)));
         }
         return $user_name . $user_id;
+    }
+
+    public static function setTimeZone($storeId)
+    {
+        $nowTime = now();
+        $storeData = Store::with('country')->where('id',$storeId)->first();
+        if (isset($storeData)) {
+            if (isset($storeData->country)) {
+                if ($storeData->country->short_name == 'PK') {
+                    $nowTime = Carbon::now('Asia/Karachi');
+                }
+            }
+        }
+        return $nowTime;
     }
 
 }

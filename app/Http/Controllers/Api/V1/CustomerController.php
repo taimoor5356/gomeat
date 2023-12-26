@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Zone;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Illuminate\Support\Facades\Hash;
+
 class CustomerController extends Controller
 {
     public function address_list(Request $request)
@@ -356,6 +358,32 @@ class CustomerController extends Controller
 
         return response()->json([]);
     }    
+
+    public function deleteUserAccount(Request $request)
+    {
+        $phone = $request->phone;
+        $password = $request->password;
+        $user = User::where('phone', $phone)->first();
+        if (isset($user)) {
+            if (($user->phone == $phone) && (Hash::check($password, $user->password))) {
+                if(Order::where('user_id', $user->id)->whereIn('order_status', ['pending','accepted','confirmed','processing','handover','picked_up'])->count())
+                {
+                    return redirect()->back()->with('error', 'Something went wrong');
+                }
+                $user_ref = RefUsers::where('reference_number', $user->phone)->delete();
+                if (!is_null($user->token())) {
+                    $user->token()->revoke();
+                }
+                $user->delete();
+            
+                return redirect()->back()->with('success', 'Account deleted');
+            } else {
+                return redirect()->back()->with('error', 'Credentials not match');
+            }
+        } else {
+            return redirect()->back()->with('error', 'User not found');
+        }
+    }
 
 
     public function setPopUpUserMap(Request $request)

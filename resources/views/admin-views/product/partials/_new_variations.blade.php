@@ -37,27 +37,36 @@
                     <label class="input-label text-capitalize d-flex alig-items-center"><span
                             class="line--limit-1">Selcetion Type</span>
                     </label>
-                    <div class="resturant-type-group ">
-                        
+                    <div class="resturant-type-group d-flex px-0">
+                        <div class="selection_variants">
+                            <label class="form-check form--check mr-2 mr-md-4">
+                                <input class="form-check-input" type="radio" value="0"
+                                    {{ $item['multiselect'] == 0 ? 'checked' : '' }} name="choice_options[{{ $key }}][multiselect]"
+                                    id="multiselect{{ $key }}" >
+                                <span class="form-check-label">
+                                    Single Selection
+                                </span>
+                            </label>
 
-                        <label class="form-check form--check mr-2 mr-md-4">
-                            <input class="form-check-input" type="radio" value="0"
-                                {{ $item['multiselect'] == 0 ? 'checked' : '' }} name="choice_options[{{ $key }}][multiselect]"
-                                id="multiselect{{ $key }}" >
-                            <span class="form-check-label">
-                                Single Selection
-                            </span>
-                        </label>
-
-                        <label class="form-check form--check mr-2 mr-md-4">
-                            <input class="form-check-input" type="radio" value="1"
-                                name="choice_options[{{ $key }}][multiselect]" id="multiselect{{ $key }}"
-                                {{ $item['multiselect'] == 1 ? 'checked' : '' }}
-                                >
-                            <span class="form-check-label">
-                                Multiple Selection
-                            </span>
-                        </label>
+                            <label class="form-check form--check mr-2 mr-md-4">
+                                <input class="form-check-input" type="radio" value="1"
+                                    name="choice_options[{{ $key }}][multiselect]" id="multiselect{{ $key }}"
+                                    {{ $item['multiselect'] == 1 ? 'checked' : '' }}
+                                    >
+                                <span class="form-check-label">
+                                    Multiple Selection
+                                </span>
+                            </label>
+                        </div>
+                        <div class="optional my-0">
+                            <label class="form-check form--check mr-2 mr-md-4">
+                                <input class="form-check-input" type="checkbox" value="1"
+                                name="optional[{{ $key }}][optional]" id="optional{{ $key }}" @if(!empty($item['optional'])) {{ $item['optional'] == 1 ? 'checked' : '' }} @endif>
+                                <span class="form-check-label">
+                                    Optional
+                                </span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

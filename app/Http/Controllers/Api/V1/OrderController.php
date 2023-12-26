@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\CentralLogics\ProductLogic;
 use App\CentralLogics\CustomerLogic;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -77,11 +78,11 @@ class OrderController extends Controller
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
 
-
+        $timeNow = Helpers::setTImeZone($request->store_id);
 
         $coupon = null;
         $delivery_charge = null;
-        $schedule_at = $request->schedule_at ? \Carbon\Carbon::parse($request->schedule_at) : now();
+        $schedule_at = $request->schedule_at ? \Carbon\Carbon::parse($request->schedule_at) : $timeNow;
         $store = null;
         $free_delivery_by = null;
 
@@ -121,7 +122,7 @@ class OrderController extends Controller
 
         //*********************** validating store, coupon, schedule, delivery charges(parcel or order) ********/ 
         if ($request->order_type !== 'parcel') {
-            if ($request->schedule_at && $schedule_at < now()) {
+            if ($request->schedule_at && $schedule_at < $timeNow) {
                 return response()->json([
                     'errors' => [
                         ['code' => 'order_time', 'message' => translate('messages.you_can_not_schedule_a_order_in_past')]
@@ -342,13 +343,13 @@ class OrderController extends Controller
         $order->receiver_details = json_decode($request->receiver_details);
         if($request['payment_method']=='wallet')
         {
-            $order->confirmed = now();
+            $order->confirmed = $timeNow;
         }
-        $order->pending = now();
+        $order->pending = $timeNow;
         $order->order_attachment = $request->has('order_attachment') ? Helpers::upload('order/', 'png', $request->file('order_attachment')) : null;
         $order->distance = $request->distance;
-        $order->created_at = now();
-        $order->updated_at = now();
+        $order->created_at = $timeNow;
+        $order->updated_at = $timeNow;
         $order->charge_payer = $request->charge_payer;
         if($request->wallet_amount > 0) {
             $order->wallet_amount = $request->wallet_amount;
@@ -413,8 +414,8 @@ class OrderController extends Controller
                             // 'add_ons' => json_encode($addon_data['addons']),
                             'add_ons' => json_encode([]),
                             'total_add_on_price' => 0,//$addon_data['total_add_on_price'],
-                            'created_at' => now(),
-                            'updated_at' => now()
+                            'created_at' => $timeNow,
+                            'updated_at' => $timeNow
                         ];
                         $order_details[] = $or_d;
                         // $total_addon_price += $or_d['total_add_on_price'];
@@ -492,8 +493,8 @@ class OrderController extends Controller
                             'add_ons' => json_encode([]),
                             // 'total_add_on_price' => round($addon_data['total_add_on_price'], config('round_up_to_digit')),
                             'total_add_on_price' => 0,
-                            'created_at' => now(),
-                            'updated_at' => now()
+                            'created_at' => $timeNow,
+                            'updated_at' => $timeNow
                         ];
                         $total_addon_price += $or_d['total_add_on_price'];
                         // $product_price += $request['sub_total'] ;//* $or_d['quantity'];
@@ -835,6 +836,7 @@ class OrderController extends Controller
                 ]
             ], 401);
         } else if ($order->order_status == 'pending') {
+            $timeNow = Helpers::setTImeZone($order->store_id);
             if (config('module.' . $order->module->module_type)['stock']) {
                 foreach($order->details as $detail) {
                     $variant = json_decode($detail['variation'], true);
@@ -846,7 +848,7 @@ class OrderController extends Controller
                 }
             }
             $order->order_status = 'canceled';
-            $order->canceled = now();
+            $order->canceled = $timeNow;
             $order->save();
             Helpers::send_order_notification($order);
             return response()->json(['message' => translate('messages.order_canceled_successfully')], 200);
@@ -868,9 +870,9 @@ class OrderController extends Controller
                 ]
             ], 401);
         } else if ($order->order_status == 'delivered') {
-
+            $timeNow = Helpers::setTImeZone($order->store_id);
             $order->order_status = 'refund_requested';
-            $order->refund_requested = now();
+            $order->refund_requested = $timeNow;
             $order->save();
             return response()->json(['message' => translate('messages.refund_request_placed_successfully')], 200);
         }
@@ -893,8 +895,9 @@ class OrderController extends Controller
         }
         $order = Order::where(['user_id' => $request->user()->id, 'id' => $request['order_id']])->Notpos()->first();
         if ($order) {
+            $timeNow = Helpers::setTImeZone($order->store_id);
             Order::where(['user_id' => $request->user()->id, 'id' => $request['order_id']])->update([
-                'payment_method' => 'cash_on_delivery', 'order_status' => 'pending', 'pending' => now()
+                'payment_method' => 'cash_on_delivery', 'order_status' => 'pending', 'pending' => $timeNow
             ]);
 
             $fcm_token = $request->user()->cm_firebase_token;
@@ -912,8 +915,8 @@ class OrderController extends Controller
                     DB::table('user_notifications')->insert([
                         'data' => json_encode($data),
                         'user_id' => $request->user()->id,
-                        'created_at' => now(),
-                        'updated_at' => now()
+                        'created_at' => $timeNow,
+                        'updated_at' => $timeNow
                     ]);
                 }
                 if ($order->order_type == 'delivery' && !$order->scheduled) {
