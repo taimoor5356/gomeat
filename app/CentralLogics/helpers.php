@@ -1109,7 +1109,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => $value,
                     'order_id' => $order->id,
-                    'image' => 'order-confirmed.png',
+                    'image' => 'order-delivered.png',
                     'type' => 'order_status',
                 ];
                 // return $order->customer->one_signal_id;
@@ -1139,7 +1139,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => 'Order Canceled',
                     'order_id' => $order->id,
-                    'image' => 'order-cancelled.png',
+                    'image' => 'order-canceled.png',
                     'type' => 'canceled',
                 ];
                 self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1159,7 +1159,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => $value,
                     'order_id' => $order->id,
-                    'image' => 'order-confirmed.png',
+                    'image' => 'order-handover.png',
                     'type' => 'order_status',
                 ];
                 self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1179,7 +1179,7 @@ class Helpers
                         'title' => translate('messages.order_push_title'),
                         'description' => translate('messages.new_order_push_description'),
                         'order_id' => $order->id,
-                        'image' => 'order-confirmed.png',
+                        'image' => 'order-pending.png',
                         'type' => 'new_order',
                     ];
                     self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1218,7 +1218,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => translate('messages.new_order_push_description'),
                     'order_id' => $order->id,
-                    'image' => 'order-confirmed.png',
+                    'image' => 'order-pending.png',
                     'type' => 'new_order',
                 ];
                 self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1238,7 +1238,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => translate('messages.new_order_push_description'),
                     'order_id' => $order->id,
-                    'image' => 'order-confirmed.png',
+                    'image' => 'order-pending.png',
                     'type' => 'new_order',
                 ];
                 self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1268,7 +1268,7 @@ class Helpers
                         'title' => translate('messages.order_push_title'),
                         'description' => translate('messages.new_order_push_description'),
                         'order_id' => $order->id,
-                        'image' => 'order-confirmed.png',
+                        'image' => 'order-pending.png',
                         'type' => 'new_order',
                     ];
                     self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
@@ -1303,7 +1303,7 @@ class Helpers
                     'title' => translate('messages.order_push_title'),
                     'description' => $order->order_status == 'processing' ? translate('messages.Proceed_for_cooking') : translate('messages.ready_for_delivery'),
                     'order_id' => $order->id,
-                    'image' => 'order-confirmed.png',
+                    'image' => $order->order_status == 'processing' ? 'order-processing.png' : 'order-handover.png',
                     'type' => 'order_status'
                 ];
                 self::send_push_notif_to_device($order->delivery_man->fcm_token, $data);
