@@ -1,0 +1,50 @@
+{
+  "name": "apitoolkit/apitoolkit-laravel",
+  "description": "A PHP/Laravel SDK Wrapper for APIToolkit. It monitors incoming traffic, gathers the requests and sends the request to the apitoolkit servers.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Edinyanga O. Ottoho",
+      "email": "elzucky@gmail.com"
+    },
+    {
+      "name": "apitoolkitio",
+      "email": "hello@apitoolkit.io"
+    },
+    {
+      "name": "Michael Trojan Okoh",
+      "email": "michael@okoh.co.uk"
+    },
+    {
+      "name": "Anthony Alaribe",
+      "email": "anthonyalaribe@gmail.com"
+    }
+  ],
+  "prefer-stable": true,
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "APIToolkit\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "APIToolkit\\Provider\\APIToolkitServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "google/cloud-pubsub": "^1.35",
+    "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
+    "illuminate/http": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "galbar/jsonpath": "^3.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^8.10",
+    "mockery/mockery": "^1.6"
+  }
+}
